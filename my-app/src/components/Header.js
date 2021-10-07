@@ -30,7 +30,7 @@ const styles = {
     },
     itemHeader: {
         marginRight: 50,
-        marginRight: 50,
+        marginLeft: 50,
         color: 'black',
     }
 }
@@ -62,9 +62,13 @@ export default class Header extends React.Component {
                     </Link>
                 </div>
                 <div>
-                    <Icon name='bell outline' />
-                    <Icon name='user circle outline' />
-                    Login
+                    <Link to="/notification">
+                        <Icon name='bell outline'/>
+                    </Link>
+                    <button onClick={this.props.onLogin} style={{border: 0, backgroundColor: 'transparent', cursor:'pointer'}}>
+                        <Icon name='user circle outline' size='large' style={{ marginLeft:10 }}/>
+                        Login
+                    </button>
                 </div>
           </div>
       );
