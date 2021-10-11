@@ -19,7 +19,7 @@ curl 'https://sigpos-api-prod.d2d.ic.unicamp.br/api/secure/external/students?pag
 
 data = {'page': 1, 'size': 1}
 response = requests.get(
-    "https://sigpos-api-prod.d2d.ic.unicamp.br/api/secure/external/students/actives", headers=header, data=data)
+    "https://sigpos-api-prod.d2d.ic.unicamp.br/api/secure/external/students/actives", headers=header, data=data)  # noqa 501
 
 print(response.status_code)
 print(response.text)

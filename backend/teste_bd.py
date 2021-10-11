@@ -1,7 +1,7 @@
 import pandas as pd
 import pymysql
 import logging
-from pymysql import connections
+# from pymysql import connections
 import sshtunnel
 from sshtunnel import SSHTunnelForwarder
 
