@@ -89,6 +89,9 @@ export default class ProjectSummary extends React.Component {
                   <Link to="/" style={styles.authorLink}>{this.props.author}</Link>,
                   <Link to="/" style={styles.authorLink}> {this.props.author}</Link>
                 </div>
+                <div style={styles.tagsContainer}>
+                  <div style={styles.tag}>{this.props.tag1}</div>
+                </div>
           </div>
       );
     }
