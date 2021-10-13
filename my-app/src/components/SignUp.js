@@ -28,8 +28,7 @@ export default class SignUp extends React.Component {
                     minHeight: '90%'
                 }}>
                     <button onClick={this.props.handleClose} style={{alignSelf:'end', border: 0, backgroundColor: 'transparent', cursor:'pointer'}}> X </button>
-                        <p style={{fontSize:25}}> Cadastro </p>
-                        <hr size="3" width="90%" color="#0070A8"/> 
+                    <p style={{'border-bottom': '2px solid #0070A8','padding-bottom': '2.1vh', fontSize:25, width: '100%', textAlign: 'center'}}> Cadastro </p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Nome completo:
                         <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
@@ -51,7 +50,7 @@ export default class SignUp extends React.Component {
                     </button>
                     ou
                     <button style={{ borderRadius: 5, width:300, height:30, backgroundColor: 'white', cursor:'pointer' }}>
-                        <img src={google} alt="google"  style={{ width: 20, marginRight: 15 }} />
+                        <img src={google} alt="google"  style={{ width: 14, marginRight: 15 }} />
                         Cadastrar com o Google
                     </button>
                     <div style={{fontSize:10, textAlign:'center'}}>

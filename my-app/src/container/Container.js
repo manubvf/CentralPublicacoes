@@ -25,12 +25,13 @@ export default class Main extends React.Component {
 
     render() {
       const {login, signup} = this.state;
+      const {currentPage} = this.props;
 
       return (
         <div>
           {login && <Login handleClose={this.handleLogin} openSignUp={this.handleSignUp}/>}
           {signup && <SignUp handleClose={this.handleSignUp} openLogin={this.handleLogin}/>}
-          <Header onLogin={() => this.setState({login: true})}/>
+          <Header currentPage={currentPage} onLogin={() => this.setState({login: true})}/>
           <div style={styles.content}>
             {this.props.children}
           </div>
