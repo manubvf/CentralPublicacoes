@@ -11,7 +11,7 @@ class Pesquisa:
         self.status = status
         self.apoiadores = []
 
-    @property
+    @property 
     def autores(self):
         return self.autores
 
