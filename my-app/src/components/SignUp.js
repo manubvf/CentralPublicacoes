@@ -30,27 +30,27 @@ export default class SignUp extends React.Component {
                     <button onClick={this.props.handleClose} style={{alignSelf:'end', border: 0, backgroundColor: 'transparent', cursor:'pointer'}}> X </button>
                     <p style={{'border-bottom': '2px solid #0070A8','padding-bottom': '2.1vh', fontSize:25, width: '100%', textAlign: 'center'}}> Cadastro </p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        Nome completo:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
+                        Nome completo*
+                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        Email institucional:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
+                        Email institucional*
+                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height: 35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        Senha:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
+                        Senha*
+                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height: 35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        Confirmação da senha:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
+                        Confirmação da senha*
+                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height: 35 }} />
                     </div>
-                    <button style={{ borderRadius: 5, width:300, height:30, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
+                    <button style={{ borderRadius: 5, width:300, height: 35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
                         Cadastrar
                     </button>
                     ou
-                    <button style={{ borderRadius: 5, width:300, height:30, backgroundColor: 'white', cursor:'pointer' }}>
-                        <img src={google} alt="google"  style={{ width: 14, marginRight: 15 }} />
+                    <button style={{ borderRadius: 5, width:300, height:40, backgroundColor: 'white', cursor:'pointer' }}>
+                        <img src={google} alt="google"  style={{ width: 15, marginRight: 15 }} />
                         Cadastrar com o Google
                     </button>
                     <div style={{fontSize:10, textAlign:'center'}}>

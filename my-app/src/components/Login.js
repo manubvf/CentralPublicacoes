@@ -28,19 +28,19 @@ export default class Login extends React.Component {
                     <p style={{'border-bottom': '2px solid #0070A8','padding-bottom': '2.1vh', fontSize:25, width: '100%', textAlign: 'center'}}> Login </p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Email:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
+                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Senha:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:30 }} />
+                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
                     <a style={{alignSelf:'start', cursor:'pointer'}}> Esqueceu a senha? </a>
-                    <button style={{ borderRadius: 5, width:300, height:30, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
+                    <button style={{ borderRadius: 5, width:300, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
                         Entrar
                     </button>
                     ou
-                    <button style={{ borderRadius: 5, width:300, height:30, backgroundColor: 'white', cursor:'pointer' }}>
-                        <img src={google} alt="google"  style={{ width: 14, marginRight: 10 }} />
+                    <button style={{ borderRadius: 5, width:300, height:40, backgroundColor: 'white', cursor:'pointer' }}>
+                        <img src={google} alt="google"  style={{ width: 15, marginRight: 10 }} />
                         Entrar com o Google
                     </button>
                     <div>
