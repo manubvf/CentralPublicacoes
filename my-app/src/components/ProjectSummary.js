@@ -54,6 +54,7 @@ const styles = {
       'margin-top': '27px',
       'text-align': 'left',
       'margin-left': '4.5vh',
+      'margin-bottom': '30px',
     },
     authorLink: {
       color: '#586973',
@@ -63,15 +64,54 @@ const styles = {
       'border-bottom': 'solid thin',
     },
     tagsContainer:{
-
+      'margin-left': '37px',
+      'margin-right': '37px',
+      display: 'flex',
+      top: '358px',
+    },
+    tagMediumBlue:{
+      background: '#9FD8F9',
+      position: 'relative',
+      'padding-left': '16px',
+      'padding-right': '16px',
+      'padding-top': '7px',
+      'padding-bottom': '7px',
+      'border-radius': '8px',
+      'font-size': '14px',
+      color: '#333D42',
+      marginRight: '16px'
+    },
+    tagLightBlue:{
+      background: '#C4F4FF',
+      position: 'relative',
+      'padding-left': '16px',
+      'padding-right': '16px',
+      'padding-top': '7px',
+      'padding-bottom': '7px',
+      'border-radius': '8px',
+      'font-size': '14px',
+      color: '#333D42',
+      marginRight: '16px'
+    },
+    tagDarkBlue:{
+      background: '#7DCCDD',
+      position: 'relative',
+      'padding-left': '16px',
+      'padding-right': '16px',
+      'padding-top': '7px',
+      'padding-bottom': '7px',
+      'border-radius': '8px',
+      'font-size': '14px',
+      color: '#333D42',
+      marginRight: '16px'
     }
 }
 
 export default class ProjectSummary extends React.Component {
 
-//<Link to="/"> {this.props.author}</Link>,
-//<Link to="/"> {this.props.author}</Link>
-//<tags
+//verificacao tamanho do titulo e autores
+//gerenciar o vetor que vai vir como autores
+//radom cor das tags
 
     render() {
       return (
@@ -90,7 +130,9 @@ export default class ProjectSummary extends React.Component {
                   <Link to="/" style={styles.authorLink}> {this.props.author}</Link>
                 </div>
                 <div style={styles.tagsContainer}>
-                  <div style={styles.tag}>{this.props.tag1}</div>
+                  <div style={styles.tagMediumBlue}>{this.props.tag1}</div>
+                    <div style={styles.tagLightBlue}>{this.props.tag1}</div>
+                      <div style={styles.tagDarkBlue}>{this.props.tag1}</div>
                 </div>
           </div>
       );
