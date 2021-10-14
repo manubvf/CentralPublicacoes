@@ -1,4 +1,5 @@
 import AboutUs from './container/AboutUs';
+import PageNotFound from './container/PageNotFound';
 import Terms from './container/Terms';
 import Analitics from './container/Analitics';
 import Explore from './container/Explore';
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route exact path="/aboutus">
           <AboutUs/>
+        </Route>
+        <Route exact path="/404">
+          <PageNotFound/>
         </Route>
       </Switch>
     </Router>
