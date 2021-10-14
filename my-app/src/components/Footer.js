@@ -34,6 +34,7 @@ export default class Footer extends React.Component {
             <div>
                 <Link style={styles.link} to="/terms">Termos e Privacidade</Link>
                 <Link style={styles.link} to="/aboutus">Sobre nós</Link>
+                <Link style={styles.link} to="/contactus">Contato</Link>
             </div>
             <div>
             <p style={styles.authors}>Developed by students at Unicamp</p>
