@@ -5,113 +5,187 @@ import {
   Link,
 } from 'react-router-dom'
 
+var title = "Título";
+
+var numInterested = "0";
+
 const styles = {
     card: {
         width: '70.5vh',
-        height: '225px',
+        height: '230px',
         backgroundColor: '#ffffff',
-        'box-shadow': '0px 1px 8px rgba(0, 0, 0, 0.25)',
-        'border-radius': '5px',
+        boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)',
+        borderRadius: '5px',
     },
     category: {
       float: 'right',
-      'margin-top': '-20px',
-      'margin-right': '-10px',
+      marginTop: '-20px',
+      marginRight: '-10px',
     },
     categoryImage: {
         width: '199px',
         height: '55px',
-        'object-fit': 'contain',
+        objectFit: 'contain',
     },
     categoryTitle: {
       position: 'absolute',
       width: '199px',
       height: '55px',
       display: 'flex',
-      'align-items': 'center',
-      'font-size': '17px',
-      'padding-left': '22px',
-      'justify-content': 'center',
+      alignItems: 'center',
+      fontSize: '17px',
+      paddingLeft: '22px',
+      justifyContent: 'center',
       color: '#3B3B3B',
     },
     title:{
-      'padding-top': '35px',
-      'margin-left': '4.5vh',
-      'text-align': 'left',
+      paddingTop: '10px',
+      marginLeft: '4.5vh',
+      textAlign: 'left',
       width: '42vh',
       color: '#333D42',
     },
     interested:{
       color: '#586973',
-      'font-size': '15px',
-      'text-align': 'right',
-      'margin-top': '-20px',
-      'padding-right': '24px',
+      fontSize: '15px',
+      textAlign: 'right',
+      paddingRight: '24px',
+      float: 'right',
+      marginTop: '59px',
+      marginRight: '-181px',
     },
     authorsContainer: {
       color: '#586973',
       fontSize: '17px',
-      'margin-top': '27px',
-      'text-align': 'left',
-      'margin-left': '4.5vh',
-      'margin-bottom': '30px',
+      marginTop: '24px',
+      textAlign: 'left',
+      marginLeft: '4.5vh',
+      marginBottom: '30px',
     },
     authorLink: {
       color: '#586973',
     },
     authorLinkHover:{
       color: '#586973',
-      'border-bottom': 'solid thin',
+      borderBottom: 'solid thin',
     },
     tagsContainer:{
-      'margin-left': '37px',
-      'margin-right': '37px',
+      marginLeft: '37px',
+      marginRight: '37px',
       display: 'flex',
-      top: '358px',
+      position: 'relative',
+      bottom: '3px',
     },
     tagMediumBlue:{
       background: '#9FD8F9',
       position: 'relative',
-      'padding-left': '16px',
-      'padding-right': '16px',
-      'padding-top': '7px',
-      'padding-bottom': '7px',
-      'border-radius': '8px',
-      'font-size': '14px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      paddingTop: '4px',
+      paddingBottom: '4px',
+      borderRadius: '8px',
+      fontSize: '14px',
       color: '#333D42',
       marginRight: '16px'
     },
     tagLightBlue:{
       background: '#C4F4FF',
       position: 'relative',
-      'padding-left': '16px',
-      'padding-right': '16px',
-      'padding-top': '7px',
-      'padding-bottom': '7px',
-      'border-radius': '8px',
-      'font-size': '14px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      paddingTop: '4px',
+      paddingBottom: '4px',
+      borderRadius: '8px',
+      fontSize: '14px',
       color: '#333D42',
       marginRight: '16px'
     },
     tagDarkBlue:{
       background: '#7DCCDD',
       position: 'relative',
-      'padding-left': '16px',
-      'padding-right': '16px',
-      'padding-top': '7px',
-      'padding-bottom': '7px',
-      'border-radius': '8px',
-      'font-size': '14px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      paddingTop: '4px',
+      paddingBottom: '4px',
+      borderRadius: '8px',
+      fontSize: '14px',
       color: '#333D42',
       marginRight: '16px'
     }
-}
+};
+
+function createAuthorElement(element, index){
+   if(index == 0){
+     return (<Link to="/" style={styles.authorLink}>{element}</Link>);
+   } else{
+     return (<Link to="/" style={styles.authorLink}>, {element}</Link>);
+   }
+ };
+
+ //handling list of authors
+function AuthorLink(props) {
+   let array = props.authors;
+   let code;
+   let size = array.length > 5 ? 5 : array.length;
+   for (var i = 0; i < size; i++) {
+     code = [code, createAuthorElement(array[i], i),];
+   }
+   if(array.length > 5){
+     code = [code, "..."];
+   }
+   return(code);
+ };
+
+ function createTagElement(element, styleIndex){
+   if(styleIndex == 1){
+     return (<div style={styles.tagMediumBlue}>{element}</div>);
+   }
+   if(styleIndex == 2){
+     return (<div style={styles.tagLightBlue}>{element}</div>);
+   }
+   if(styleIndex == 3){
+     return (<div style={styles.tagDarkBlue}>{element}</div>);
+   }
+ };
+
+//handling list of tags
+ function TagsList(props){
+    let array = props.tags;
+    let code;
+    let arrayStyles = [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]; //all possible order of styles
+    var styleIndex = Math.floor(Math.random() * 6) + 1;
+    let style = arrayStyles[styleIndex-1];
+    for (var i = 0;i < array.length; i++){
+        code = [code, createTagElement(array[i], style[i]),];
+    }
+    return(code);
+ };
 
 export default class ProjectSummary extends React.Component {
 
-//verificacao tamanho do titulo e autores
-//gerenciar o vetor que vai vir como autores
-//radom cor das tags
+    constructor(props) {
+      super(props);
+
+      //handling title's length
+      title = props.title;
+      if (props.title.length > 50) {
+        let t = title.substr(0,50);
+        title = t.concat("...");
+      }
+
+      //handling the format of number of interested string
+      let value = this.props.interested;
+      if(this.props.interested > 1000 && this.props.interested < 1000000){
+        value = value / 1000;
+        value = value + " mil";
+      } else{
+        if(this.props.interested > 1000000){
+          value = value / 1000000;
+          value = value + " M";
+        }
+      }
+      numInterested = value + " interessados";
+    }
 
     render() {
       return (
@@ -120,19 +194,15 @@ export default class ProjectSummary extends React.Component {
                   <p style={styles.categoryTitle}>{this.props.category}</p>
                   <img style={styles.categoryImage} src={categoryFlag}/>
                 </div>
-                <h2 style={styles.title}>{this.props.title}</h2>
-                <div style={styles.interested}>
-                  {this.props.interested} interessados
+                <div style={styles.interested}>{numInterested}
                   <Icon style={{'padding-left': '7px'}} name='star outline' />
                 </div>
+                <h2 style={styles.title}>{title}</h2>
                 <div style={styles.authorsContainer}>
-                  <Link to="/" style={styles.authorLink}>{this.props.author}</Link>,
-                  <Link to="/" style={styles.authorLink}> {this.props.author}</Link>
+                  <AuthorLink authors={this.props.authors}/>
                 </div>
                 <div style={styles.tagsContainer}>
-                  <div style={styles.tagMediumBlue}>{this.props.tag1}</div>
-                    <div style={styles.tagLightBlue}>{this.props.tag1}</div>
-                      <div style={styles.tagDarkBlue}>{this.props.tag1}</div>
+                  <TagsList tags={this.props.tags}/>
                 </div>
           </div>
       );
