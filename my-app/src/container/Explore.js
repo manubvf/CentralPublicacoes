@@ -2,6 +2,7 @@
 import React from 'react';
 import Container from './Container';
 import ProjectSummary from '../components/ProjectSummary';
+import SearchBar from '../components/SearchBar';
 import { Player } from '@lottiefiles/react-lottie-player';
 
 const styles = {
@@ -12,6 +13,18 @@ const styles = {
         marginRight: '8.5%',
         width: '150vh',
         marginLeft: '8.5%',
+    },
+    pageTitle:{
+      textAlign: 'left',
+      fontSize: 30,
+      color: '#333D42',
+      paddingLeft: '8.5%',
+      marginTop: '64px'
+    },
+    searchBarContainer:{
+      marginRight: '8.5%',
+      marginLeft: '8.5%',
+      marginTop: '60px',
     }
 }
 
@@ -20,7 +33,10 @@ export default class AboutUs extends React.Component {
     render() {
       return (
           <Container>
-            <p style={{textAlign:'left', fontSize:30 }}>Explorar</p>
+            <div style={styles.searchBarContainer}>
+              <SearchBar/>
+            </div>
+            <p style={styles.pageTitle}>Trends</p>
             <div style={styles.cardsContainer}>
                 <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Análise de Algoritmos" authors={["Manoela Brandão Ferreira","Megan Draper","Peter Campbell"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
                 <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Big Data" authors={["Manoela Brandão Ferreira"]} interested={150000} tags={["Tag 1"]}/>
