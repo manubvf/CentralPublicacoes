@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
 import searchIcon from '../images/searchIcon.png';
+import searchPlusIcon from '../images/searchPlusIcon.png';
 import {
   Link,
 } from 'react-router-dom'
@@ -54,20 +55,78 @@ const styles = {
     submitButtonContainer:{
       marginRight: '170px',
     },
-    searchIcon:{
-      color: '#F1F1F1',
-      position: 'absolute'
+    searchItem:{
+      background: '#f1f1f1',
+      height: '34px',
+      borderRadius: '20px',
+      border: '1.5px solid #5f5f5f',
+      marginTop: '8px',
+      marginRight: '15px',
+      padding: '5px 14px 5px 14px',
+      color: '#5f5f5f',
+      fontSize: '15px',
+
+    },
+    searchItemsContainer:{
+      marginTop: '15px',
+      marginLeft: '25px',
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    closeIcon:{
+      color: '#5f5f5f',
+      float: 'right',
+      fontSize: '20px',
+      marginTop: '-2px',
+      marginLeft: '10px',
+      cursor:'pointer'
+    },
+    addSearchItem:{
+      height: '34px',
+      borderRadius: '20px',
+      border: '1.5px solid #049DBF',
+      marginTop: '8px',
+      marginRight: '15px',
+      padding: '5px 14px',
+      color: '#049DBF',
+      fontSize: '15px',
+      fontWeight: 'bold',
+      cursor:'pointer'
     },
 };
+
+function createSearchItemsElement(str){
+    return (<div style={styles.searchItem}>{str}<div style={styles.closeIcon}>x</div></div>);
+ };
+
+//handling search items
+function SearchItems(props) {
+  let array = props.searchArray;
+  let code;
+  console.log("terrific " + array);
+  for (var i = 0; i < array.length; i++) {
+    code = [code, createSearchItemsElement(array[i]),];
+  }
+  return(code);
+};
+
+function SearchItemsContainer(props){
+  if(props.visible){
+    return (<div style={styles.searchItemsContainer}><SearchItems searchArray={props.searchArray}/><div style={styles.addSearchItem}>adicionar mais  +</div></div>);
+  } else {
+    return (<></>);
+  }
+}
 
 export default class ProjectSummary extends React.Component {
 
     constructor(props) {
       super(props);
-      this.state = {filter: 'title', search: ''};
+      this.state = {filter: 'título', search: '', searchArray:[]};
 
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleDeleteItem = this.handleDeleteItem.bind(this);
     }
 
     handleInputChange(event){
@@ -76,19 +135,32 @@ export default class ProjectSummary extends React.Component {
     }
 
     handleSubmit(event) {
-      alert('filtrar por: ' + this.state.filter + "termo: " + this.state.search);
+      const str = this.state.search;
+      const strTrim = str.trim();
+      if(strTrim.length > 0){
+        var array = this.state.searchArray;
+        array.push(this.state.filter + ": " + this.state.search);
+        this.setState({searchArray: array});
+      } else{
+        alert('a barra de pesquisa deve estar preenchida com um termo');
+      }
       event.preventDefault();
+    }
+
+    handleDeleteItem(event){
+      console.log("Fechar");
     }
 
     render() {
       return (
+        <div>
         <form style={styles.form} onSubmit={this.handleSubmit}>
           <label style={styles.filterContainer}>
             <p style={styles.labelInput}>Filtrar por </p>
             <select name="filter" style={styles.filterDropDown} value={this.state.filter} onChange={this.handleInputChange}>
-              <option value="title">Título</option>
-              <option value="category">Categoria</option>
-              <option value="author">Autor</option>
+              <option value="título">Título</option>
+              <option value="categoria">Categoria</option>
+              <option value="autor">Autor</option>
               <option value="tag">Tag</option>
             </select>
           </label>
@@ -96,7 +168,7 @@ export default class ProjectSummary extends React.Component {
             <input type="text"  name="search" value={this.state.search} placeholder="Pesquisar" style={styles.searchInput} onChange={this.handleInputChange} />
           </label>
           <div style={styles.submitButtonContainer}>
-            <input type="image" src={searchIcon} alt="Pesquisar" style={styles.submitButton}/>
+            <input type="image" src={this.state.searchArray.length > 0 ? searchPlusIcon: searchIcon} alt="Pesquisar" style={styles.submitButton}/>
           </div>
           <label style={styles.filterContainer}>
               <p style={styles.labelInput}>Ordenar por </p>
@@ -105,6 +177,8 @@ export default class ProjectSummary extends React.Component {
               </select>
           </label>
         </form>
+        <SearchItemsContainer visible={this.state.searchArray.length > 0 ? true : false} searchArray={this.state.searchArray}/>
+      </div>
       );
     }
   }
