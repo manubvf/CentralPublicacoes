@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
+import searchIcon from '../images/searchIcon.png';
 import {
   Link,
 } from 'react-router-dom'
@@ -63,19 +64,19 @@ export default class ProjectSummary extends React.Component {
 
     constructor(props) {
       super(props);
-      this.state = {filter: 'title'};
-      this.state = {search: ''};
+      this.state = {filter: 'title', search: ''};
 
-      this.handleChange = this.handleChange.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-      this.setState({value: event.target.value});
+    handleInputChange(event){
+      const nameState = event.target.name;
+      this.setState({[nameState]: event.target.value});
     }
 
     handleSubmit(event) {
-      alert('Um nome foi enviado: ' + this.state.value);
+      alert('filtrar por: ' + this.state.filter + "termo: " + this.state.search);
       event.preventDefault();
     }
 
@@ -84,23 +85,23 @@ export default class ProjectSummary extends React.Component {
         <form style={styles.form} onSubmit={this.handleSubmit}>
           <label style={styles.filterContainer}>
             <p style={styles.labelInput}>Filtrar por </p>
-            <select style={styles.filterDropDown} value={this.state.filter} onChange={this.handleFilterChange}>
+            <select name="filter" style={styles.filterDropDown} value={this.state.filter} onChange={this.handleInputChange}>
               <option value="title">Título</option>
               <option value="category">Categoria</option>
               <option value="author">Autor</option>
               <option value="tag">Tag</option>
-              </select>
+            </select>
           </label>
           <label style={styles.searchInputContainer}>
-            <input type="text" value={this.state.search} placeholder="Pesquisar" style={styles.searchInput} onChange={this.handleSearchInputChange} />
+            <input type="text"  name="search" value={this.state.search} placeholder="Pesquisar" style={styles.searchInput} onChange={this.handleInputChange} />
           </label>
           <div style={styles.submitButtonContainer}>
-            <input type="submit" value="" style={styles.submitButton}/>
+            <input type="image" src={searchIcon} alt="Pesquisar" style={styles.submitButton}/>
           </div>
           <label style={styles.filterContainer}>
-            <p style={styles.labelInput}>Ordenar por </p>
-            <select style={styles.filterDropDown} value={this.state.filter} onChange={this.handleFilterChange}>
-              <option value="title"> </option>
+              <p style={styles.labelInput}>Ordenar por </p>
+              <select style={styles.filterDropDown} value={this.state.filter} onChange={this.handleFilterChange}>
+                <option value="title"> </option>
               </select>
           </label>
         </form>
