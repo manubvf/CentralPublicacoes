@@ -5,7 +5,7 @@ import Container from './Container';
 export default class AboutUs extends React.Component {
     render() {
       return (
-        <Container>
+        <Container currentPage='foryou'>
             <p style={{textAlign:'left', fontSize:30 }}>Pra você</p>
         </Container>
       );

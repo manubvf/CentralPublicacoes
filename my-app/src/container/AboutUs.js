@@ -1,14 +1,16 @@
 
 import React from 'react';
-import logo from '../logo.svg';
-import aboutUs from '../images/aboutUs.png';
 import Container from './Container';
+import { Player } from '@lottiefiles/react-lottie-player';
+import { Link } from 'react-router-dom';
 
 const styles = {
     div1: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        marginLeft: 40,
+        marginRight:40
     },
     div2: {
         marginTop: 20,
@@ -30,7 +32,7 @@ export default class AboutUs extends React.Component {
         <Container>
             <p style={{textAlign:'left', fontSize:30 }}>Sobre nós</p>
             <div style={styles.div1}>
-                <img src={aboutUs} alt="aboutUs" />
+                <Player autoplay={true} loop={true} controls={false} src="https://assets7.lottiefiles.com/packages/lf20_bpqri9y8.json" style={{ height: '356px', width: '516px' }}/>
                 <div style={{marginLeft: 30}}>
                     <p style={{textAlign:'left'}}>Somos um grupo de estudantes da disciplina MC855 da Universidade Estadual de Campinas. </p>
 
@@ -38,12 +40,12 @@ export default class AboutUs extends React.Component {
                 </div>
             </div>
             <div style={styles.div2}>
-                <p style={{ fontSize: 70, color: '#049DBF' }}> {"{"} </p>
+                <p style={{ fontSize: 70, color: '#049DBF', height:35 }}> {"{"} </p>
                 <div style={styles.div3}>
                     <p style={{textAlign:'left'}}>À principio, o alcance deste projeto está somente para o Instituto de Computação.  </p>
-                    <a style={{textAlign:'left'}}> Caso tenha interesse, entre em contato conosco! </a>
+                    <p style={{textAlign:'left'}}> Caso tenha interesse, <Link to="/contactus"> entre em contato conosco!</Link> </p>
                 </div>
-                <p style={{ fontSize: 70, color: '#049DBF' }}> {"}"} </p>
+                <p style={{ fontSize: 70, color: '#049DBF', height:35 }}> {"}"} </p>
             </div>
         </Container>
       );

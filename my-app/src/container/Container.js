@@ -1,7 +1,8 @@
-import '../App.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import React from 'react';
+import Login from '../components/Login';
+import SignUp from '../components/SignUp';
 
 const styles = {
   content: {
@@ -12,12 +13,25 @@ const styles = {
     minHeight: '74vh'
   }
 }
+
 export default class Main extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {login: false, signup: false}
+    }
+
+    handleLogin = () => this.setState({login: !this.state.login})
+    handleSignUp = () => this.setState({signup: !this.state.signup})
 
     render() {
+      const {login, signup} = this.state;
+      const {currentPage} = this.props;
+
       return (
-        <div className="App">
-          <Header/>
+        <div>
+          {login && <Login handleClose={this.handleLogin} openSignUp={this.handleSignUp}/>}
+          {signup && <SignUp handleClose={this.handleSignUp} openLogin={this.handleLogin}/>}
+          <Header currentPage={currentPage} onLogin={() => this.setState({login: true})}/>
           <div style={styles.content}>
             {this.props.children}
           </div>

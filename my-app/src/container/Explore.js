@@ -32,7 +32,7 @@ export default class AboutUs extends React.Component {
 
     render() {
       return (
-          <Container>
+          <Container currentPage='explore'>
             <div style={styles.searchBarContainer}>
               <SearchBar/>
             </div>
