@@ -5,6 +5,7 @@ import Analitics from './container/Analitics';
 import Explore from './container/Explore';
 import ForYou from './container/ForYou';
 import Categories from './container/Categories';
+import Notifications from './container/Notifications';
 import 'semantic-ui-css/semantic.min.css';
 import {
   BrowserRouter as Router,
@@ -34,11 +35,14 @@ function App() {
         <Route path="/terms">
           <Terms/>
         </Route>
-        <Route exact path="/aboutus">
+        <Route path="/aboutus">
           <AboutUs/>
         </Route>
         <Route exact path="/contactus">
           <ContactUs/>
+        </Route>
+        <Route path="/notification">
+          <Notifications/>
         </Route>
       </Switch>
     </Router>
