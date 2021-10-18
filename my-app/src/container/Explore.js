@@ -38,10 +38,10 @@ export default class AboutUs extends React.Component {
             </div>
             <p style={styles.pageTitle}>Trends</p>
             <div style={styles.cardsContainer}>
-                <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Análise de Algoritmos" authors={["Manoela Brandão Ferreira","Megan Draper","Peter Campbell"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
-                <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Big Data" authors={["Manoela Brandão Ferreira"]} interested={150000} tags={["Tag 1"]}/>
-                <ProjectSummary title="Título" category="Inteligência Artificial" authors={["Manoela Brandão Ferreira"]} interested={150} tags={["Tag 1","Tag2"]}/>
-                <ProjectSummary title="Medical Image Classification for Computer-Aided Diagnosis with Deep Learning and Jumbo Vectors" category="Teoria de Grafos" authors={["Manoela Brandão Ferreira","Megan Draper","Peter Campbell","Bert Copper","Joan Harrys","Don Draper"]} interested={1500} tags={["Tag 1","Tag2","Tag3"]}/>
+                <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Inteligência Artificial" authors={["Sandra Avila","Luiz Sérgio Carvalho","Andrei Sposito"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
+                <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Deep Learning" authors={["Anderson de Rezende Rocha"]} interested={150000} tags={["Tag 1"]}/>
+                <ProjectSummary title="Análise de Mídias Sensíveis" category="Inteligência Artificial" authors={["Sandra Avila","Eduardo Valle","Anderson Rocha"]} interested={150} tags={["Tag 1","Tag2"]}/>
+                <ProjectSummary title="Medical Image Classification for Computer-Aided Diagnosis with Deep Learning and Jumbo Vectors" category="Teoria de Grafos" authors={["Michel Fornaciali","Micael Carvalho","Sandra Avila","Zanoni Dias","Mauricio Perez","Daniel Moraes"]} interested={1500} tags={["Tag 1","Tag2","Tag3"]}/>
               </div>
           </Container>
       );
