@@ -1,11 +1,12 @@
 import AboutUs from './container/AboutUs';
+import ContactUs from './container/ContactUs';
 import Terms from './container/Terms';
 import Analitics from './container/Analitics';
 import Explore from './container/Explore';
 import ForYou from './container/ForYou';
 import Categories from './container/Categories';
 import Notifications from './container/Notifications';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route path="/aboutus">
           <AboutUs/>
+        </Route>
+        <Route exact path="/contactus">
+          <ContactUs/>
         </Route>
         <Route path="/notification">
           <Notifications/>
