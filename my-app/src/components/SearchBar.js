@@ -95,24 +95,24 @@ const styles = {
     },
 };
 
-function createSearchItemsElement(str){
-    return (<div style={styles.searchItem}>{str}<div style={styles.closeIcon}>x</div></div>);
+function createSearchItemsElement(str, index, e){
+    return (<div style={styles.searchItem} onClick={e}>{str}<div id={index} style={styles.closeIcon}>x</div></div>);
  };
 
 //handling search items
 function SearchItems(props) {
   let array = props.searchArray;
   let code;
-  console.log("terrific " + array);
   for (var i = 0; i < array.length; i++) {
-    code = [code, createSearchItemsElement(array[i]),];
+    code = [code, createSearchItemsElement(array[i], i, props.closeEvent),];
   }
   return(code);
 };
 
+//handling searchItemsContainer
 function SearchItemsContainer(props){
   if(props.visible){
-    return (<div style={styles.searchItemsContainer}><SearchItems searchArray={props.searchArray}/><div style={styles.addSearchItem}>adicionar mais  +</div></div>);
+    return (<div style={styles.searchItemsContainer}><SearchItems searchArray={props.searchArray} closeEvent={props.closeEvent}/><div style={styles.addSearchItem} onClick={props.addMoreEvent}>adicionar mais  +</div></div>);
   } else {
     return (<></>);
   }
@@ -124,31 +124,45 @@ export default class ProjectSummary extends React.Component {
       super(props);
       this.state = {filter: 'título', search: '', searchArray:[]};
 
+      this.searchInput = React.createRef();
+
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleDeleteItem = this.handleDeleteItem.bind(this);
+      this.handleAddMoreClick = this.handleAddMoreClick.bind(this);
     }
 
     handleInputChange(event){
       const nameState = event.target.name;
       this.setState({[nameState]: event.target.value});
+      event.target.focus();
     }
 
     handleSubmit(event) {
-      const str = this.state.search;
+      var str = this.state.search;
       const strTrim = str.trim();
       if(strTrim.length > 0){
         var array = this.state.searchArray;
-        array.push(this.state.filter + ": " + this.state.search);
-        this.setState({searchArray: array});
+        str = this.state.filter + ": " + this.state.search;
+        const index = array.indexOf(str);
+        if(index < 0){
+          array.push(str);
+          this.setState({searchArray: array});
+        }
       } else{
-        alert('a barra de pesquisa deve estar preenchida com um termo');
+        alert('A barra de pesquisa deve estar preenchida com um termo!');
       }
       event.preventDefault();
     }
 
     handleDeleteItem(event){
-      console.log("Fechar");
+      var array = this.state.searchArray;
+      array.splice(event.target.id, 1);
+      this.setState({searchArray: array});
+    }
+
+    handleAddMoreClick(event){
+      this.searchInput.current.focus();
     }
 
     render() {
@@ -165,7 +179,7 @@ export default class ProjectSummary extends React.Component {
             </select>
           </label>
           <label style={styles.searchInputContainer}>
-            <input type="text"  name="search" value={this.state.search} placeholder="Pesquisar" style={styles.searchInput} onChange={this.handleInputChange} />
+            <input type="text" ref={this.searchInput}  name="search" value={this.state.search} placeholder="Pesquisar" style={styles.searchInput} onChange={this.handleInputChange} />
           </label>
           <div style={styles.submitButtonContainer}>
             <input type="image" src={this.state.searchArray.length > 0 ? searchPlusIcon: searchIcon} alt="Pesquisar" style={styles.submitButton}/>
@@ -177,7 +191,7 @@ export default class ProjectSummary extends React.Component {
               </select>
           </label>
         </form>
-        <SearchItemsContainer visible={this.state.searchArray.length > 0 ? true : false} searchArray={this.state.searchArray}/>
+        <SearchItemsContainer visible={this.state.searchArray.length > 0 ? true : false} searchArray={this.state.searchArray} closeEvent={this.handleDeleteItem} addMoreEvent={this.handleAddMoreClick}/>
       </div>
       );
     }
