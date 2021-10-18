@@ -23,6 +23,20 @@ const styles = {
         justifyContent: 'center',
         marginLeft: 20,
         marginRight: 20,
+    },
+    orangeBox: {
+      marginLeft: '72px',
+      border: '3px solid #FFB255',
+      padding: '39px 30px 63px 30px',
+      borderRadius: '15px',
+    },
+    blueBox: {
+      marginLeft: '81px',
+      border: '3px solid #6EC6DA',
+      padding: '5% 27.5%',
+      borderRadius: '15px',
+      position: 'absolute',
+      marginTop: '-11%',
     }
 }
 
@@ -33,10 +47,13 @@ export default class AboutUs extends React.Component {
             <p style={{textAlign:'left', fontSize:30 }}>Sobre nós</p>
             <div style={styles.div1}>
                 <Player autoplay={true} loop={true} controls={false} src="https://assets7.lottiefiles.com/packages/lf20_bpqri9y8.json" style={{ height: '356px', width: '516px' }}/>
-                <div style={{marginLeft: 30}}>
+                <div>
+                  <div style={styles.orangeBox}>
                     <p style={{textAlign:'left'}}>Somos um grupo de estudantes da disciplina MC855 da Universidade Estadual de Campinas. </p>
 
                     <p style={{textAlign:'left'}}>Este projeto tem como objetivo facilitar o acesso as informações de projetos de pesquisa em andamento, assim como aproximar ainda mais os pesquisadores e  os interessados nas pesquisas. Melhorando assim,a comunicação de todo o meio acadêmico.</p>
+                  </div>
+                  <div style={styles.blueBox}></div>
                 </div>
             </div>
             <div style={styles.div2}>
