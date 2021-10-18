@@ -1,16 +1,18 @@
 import AboutUs from './container/AboutUs';
+import PageNotFound from './container/PageNotFound';
+import ContactUs from './container/ContactUs';
 import Terms from './container/Terms';
 import Analitics from './container/Analitics';
 import EditProfile from './container/EditProfile';
 import Explore from './container/Explore';
 import ForYou from './container/ForYou';
 import Categories from './container/Categories';
-import 'semantic-ui-css/semantic.min.css'
+import Notifications from './container/Notifications';
+import 'semantic-ui-css/semantic.min.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
 } from 'react-router-dom'
 
 function App() {
@@ -40,6 +42,15 @@ function App() {
         </Route>
         <Route path="/editprofile">
           <EditProfile/>
+        </Route>
+        <Route exact path="/404">
+          <PageNotFound/>
+        </Route>
+        <Route exact path="/contactus">
+          <ContactUs/>
+        </Route>
+        <Route path="/notification">
+          <Notifications/>
         </Route>
       </Switch>
     </Router>

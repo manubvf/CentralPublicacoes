@@ -5,8 +5,8 @@ import Container from './Container';
 export default class AboutUs extends React.Component {
     render() {
       return (
-        <Container currentPage='explore'>
-            <p style={{textAlign:'left', fontSize:30 }}>Explorar</p>
+        <Container>
+            <p style={{textAlign:'left', fontSize:30 }}>Notifications</p>
         </Container>
       );
     }
