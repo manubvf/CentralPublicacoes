@@ -1,6 +1,7 @@
 import AboutUs from './container/AboutUs';
 import Terms from './container/Terms';
 import Analitics from './container/Analitics';
+import EditProfile from './container/EditProfile';
 import Explore from './container/Explore';
 import ForYou from './container/ForYou';
 import Categories from './container/Categories';
@@ -34,8 +35,11 @@ function App() {
         <Route path="/terms">
           <Terms/>
         </Route>
-        <Route exact path="/aboutus">
+        <Route path="/aboutus">
           <AboutUs/>
+        </Route>
+        <Route path="/editprofile">
+          <EditProfile/>
         </Route>
       </Switch>
     </Router>
