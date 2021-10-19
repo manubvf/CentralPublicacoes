@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from './Container';
 import { Icon, Checkbox } from 'semantic-ui-react';
+import Input from '../components/Input';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -57,35 +58,25 @@ export default class Login extends React.Component {
                         </button>
                     </div>
                     <div>
-                        <div style={{display: 'flex', flexDirection:'column', textAlign: 'left'}}>
-                            Nome:
-                            <input type="text" name="name" style={{ borderRadius: 10, width:500, height:35, border: '1px solid #586973' }} />
-                        </div>
+                        <Input title='Nome'> <input type="text" style={{ borderRadius: 10, width:500, height:35, border: '1px solid #586973' }} /> </Input>
                         <div style={{display: 'flex', flexDirection:'row', marginTop: 10}}>
-                            <div style={{display: 'flex', flexDirection:'column', textAlign: 'left'}}>
-                                Curso:
-                                <input type="text" name="name" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} />
-                            </div>
-                            <div style={{display: 'flex', flexDirection:'column', textAlign: 'left', marginLeft: 20}}>
-                                Link do currículo Lattes:
-                                <input type="text" name="name" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} />
-                            </div>
+                            <Input title='Curso'> <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> </Input>
+                            <Input title='Link do currículo Lattes' style={{marginLeft: 20}}> <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> </Input>
                         </div>
                     </div>
                 </div>
-                <div style={{textAlign: 'left', marginTop: 30, marginBottom: 30}}>
-                    Informações para contato:
-                    <div>
-                        <input onChange={e => this.setState({infoText: e.target.value})} value={this.state.infoText} type="text" style={{ borderRadius: 10, width:300, height:35, border: '1px solid #586973' }} />
+                    <div style={{marginTop: 20}}>
+                        <Input title='Informações para contato'> 
+                            <input onChange={e => this.setState({infoText: e.target.value})} value={this.state.infoText} type="text" style={{ borderRadius: 10, width:300, height:35, border: '1px solid #586973' }} /> 
+                        </Input>
                         <button onClick={this.addInfo} style={{ borderRadius: 10, width:35, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF' }}>
                             +
                         </button>
                         <Checkbox checked label='Deixar as informações de contato públicas' style={{ fontSize: 12, marginLeft: 20 }} />
                     </div>
-                    <div style={{display: 'flex', flexDirection:'row', marginTop: 10}}>
+                    <div style={{display: 'flex', flexDirection:'row', marginTop: 10, marginBottom: 30}}>
                         {this.state.information.map((item) => this.renderInfo(item))}
                     </div>
-                </div>
                 <div style={{margin: 10}}>
                     <button style={{ borderRadius: 10, width:100, height:35, backgroundColor: '#FFFFFF', color:'#0070A8', cursor:'pointer', border: '1px solid #0070A8' }}>
                         Cancelar
