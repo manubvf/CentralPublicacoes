@@ -3,7 +3,7 @@ class Pesquisa:
         self.autores = autores if autores is not None else []
         self.titulo = titulo
         self.anoInicio = anoInicio
-        self.dataConclusao = dataConclusao 
+        self.dataConclusao = dataConclusao
         self.ultimaAtualizacao = ultimaAtualizacao if ultimaAtualizacao is not None else None
         self.descricao = descricao
         self.categoria = categoria if categoria is not None else None
@@ -11,7 +11,7 @@ class Pesquisa:
         self.status = status
         self.apoiadores = []
 
-    @property 
+    @property
     def autores(self):
         return self.autores
 
@@ -34,7 +34,7 @@ class Pesquisa:
     @anoInicio.setter
     def anoInicio(self, value):
         self.anoInicio = value
-    
+
     @property
     def dataConclusao(self):
         return self.dataConclusao
