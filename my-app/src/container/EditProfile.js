@@ -18,7 +18,7 @@ export default class Login extends React.Component {
 
     infoExist = (info) => {
         let exists = false;
-        this.state.information.map(item => { if (item === info) exists = true; })
+        this.state.information.map(item => { if (item === info) exists = true; return null })
         return exists;
     }
 
@@ -51,7 +51,7 @@ export default class Login extends React.Component {
             <div style={{display: 'flex', flexDirection:'column', alignItems: 'center' }}>
                 <div style={{display: 'flex', flexDirection:'row', alignItems: 'center'}}>
                     <div style={{display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width:150, height:150, marginRight: 10}}>
-                        {this.state.fileSelected ? <img style={{width:100, height:100, borderRadius:5}} src={this.state.fileSelected}/> : <Icon name='user' size='huge' style={{margin:10}}/>}
+                        {this.state.fileSelected ? <img style={{width:100, height:100, borderRadius:5}} alt="sem imagem" src={this.state.fileSelected}/> : <Icon name='user' size='huge' style={{margin:10}}/>}
                         <input ref={fileInput => this.fileInput = fileInput} style={{ display:'none' }} type="file" onChange={this.fileSelectedHandler}/>
                         <button onClick={() => this.fileInput.click()} style={{ background: 'white', border: 'none', color: '#0070A8', cursor:'pointer' }}> 
                             {this.state.fileSelected ? 'Mudar foto' : 'Adicionar uma foto'}

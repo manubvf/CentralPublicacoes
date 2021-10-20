@@ -3,7 +3,6 @@ import React from 'react';
 import Container from './Container';
 import ProjectSummary from '../components/ProjectSummary';
 import SearchBar from '../components/SearchBar';
-import { Player } from '@lottiefiles/react-lottie-player';
 
 const styles = {
     cardsContainer: {

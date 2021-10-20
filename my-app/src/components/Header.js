@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../images/logo.png';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ const styles = {
         alignItems: 'center',
         paddingLeft: 70,
         paddingRight: 70,
-        'box-shadow': '0px 1px 6px 1px rgba(0, 0, 0, 0.2)',
+        boxShadow: '0px 1px 6px 1px rgba(0, 0, 0, 0.2)',
     },
     items: {
         display: 'flex',
@@ -24,37 +24,37 @@ const styles = {
         marginRight: 52,
         marginLeft: 52,
         color: '#5F5F5F',
-        'font-size': '18px',
+        fontSize: '18px',
     },
     itemHeaderHover: {
       marginLeft: 51,
       marginRight: 51,
       color: '#5F5F5F',
-      'font-size': '18px',
-      'font-weight': 'bold',
-      'padding-top': '3.6vh',
-      'padding-bottom': '3.1vh',
-      'border-bottom': '4px solid #5F5F5F',
+      fontSize: '18px',
+      fontWeight: 'bold',
+      paddingTop: '3.6vh',
+      paddingBottom: '3.1vh',
+      borderBottom: '4px solid #5F5F5F',
     },
     itemHeaderSelected: {
       marginLeft: 51,
       marginRight: 51,
       color: '#0070A8',
-      'font-size': '18px',
-      'font-weight': 'bold',
-      'padding-top': '3.6vh',
-      'padding-bottom': '3.1vh',
-      'border-bottom': '4px solid #0070A8',
+      fontSize: '18px',
+      fontWeight: 'bold',
+      paddingTop: '3.6vh',
+      paddingBottom: '3.1vh',
+      borderBottom: '4px solid #0070A8',
     },
     icons: {
       marginRight: 5,
-      'margin-top': '-3px',
-      'border-bottom': 'none !important',
+      marginTop: '-3px',
+      borderBottom: 'none !important',
     },
     logo: {
         width: 120,
         height: 50,
-        'object-fit': 'contain',
+        objectFit: 'contain',
     },
     user: {
         width: 20,
