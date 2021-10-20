@@ -74,8 +74,8 @@ export default class Header extends React.Component {
     render() {
         const {currentPage, onLogin} = this.props;
         const {hoverExplore, hoverCategories, hoverForYou, hoverAnalitics} = this.state;
-      return (
-          <div style={styles.outside}>
+        return (
+            <div style={styles.outside}>
                 <Link to="/">
                     <img style={styles.logo} src={logo} alt="logo" />
                 </Link>
@@ -101,12 +101,12 @@ export default class Header extends React.Component {
                     <Link to="/notification">
                         <Icon name='bell outline' size='large'/>
                     </Link>
-                    <button onClick={onLogin} style={{border: 0, backgroundColor: 'transparent', cursor:'pointer', 'font-size': '18px', color: '#586973'}}>
-                        <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, 'margin-top': '-3px'}}/>
+                    <button onClick={onLogin} style={{border: 0, backgroundColor: 'transparent', cursor:'pointer', fontSize: '18px', color: '#586973'}}>
+                        <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, marginTop: '-3px'}}/>
                         Login
                     </button>
                 </div>
-          </div>
-      );
+            </div>
+        );
     }
   }
