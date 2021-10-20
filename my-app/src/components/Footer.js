@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Link,
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const styles = {
     outside: {
@@ -27,19 +25,15 @@ const styles = {
 }
 
 export default class Footer extends React.Component {
-
     render() {
       return (
         <div style={styles.outside}>
             <div>
-                <Link style={styles.link} to="/terms">Termos e Privacidade</Link>
-                <Link style={styles.link} to="/aboutus">Sobre nós</Link>
-                <Link style={styles.link} to="/contactus">Contato</Link>
+                <Link style={styles.link} to="/terms"> Termos e Privacidade </Link>
+                <Link style={styles.link} to="/aboutus"> Sobre nós </Link>
+                <Link style={styles.link} to="/contactus"> Contato </Link>
             </div>
-            <div>
-            <p style={styles.authors}>Developed by students at Unicamp</p>
-
-            </div>
+            <p style={styles.authors}> Developed by students at Unicamp </p>
         </div>
       );
     }

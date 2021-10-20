@@ -6,7 +6,7 @@ export default class Categories extends React.Component {
     render() {
       return (
         <Container currentPage='categories'>
-            <p style={{textAlign:'left', fontSize:30 }}>Categorias</p>
+            <p style={{ fontSize:30 }}>Categorias</p>
         </Container>
       );
     }

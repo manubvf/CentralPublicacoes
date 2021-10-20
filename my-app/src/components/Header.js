@@ -59,40 +59,55 @@ const styles = {
     user: {
         width: 20,
         marginRight: 10,
-    }
+    },
+    loginButton: {
+        border: 0, 
+        backgroundColor: 'transparent', 
+        cursor:'pointer', 
+        fontSize: '18px', 
+        color: '#586973'
+    },
 }
 
 export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {hoverExplore: false};
-    this.state = {hoverCategories: false};
-    this.state = {hoverForYou: false};
-    this.state = {hoverAnalitics: false};
-  }
+    constructor(props) {
+        super(props);
+        
+        this.state = { hoverExplore: false, hoverCategories: false, hoverForYou: false, hoverAnalitics: false };
+    }
+
+    changeHoverExplore = () => this.setState({hoverExplore: !this.state.hoverExplore});
+    changeHoverCategories = () => this.setState({hoverCategories: !this.state.hoverCategories});
+    changeHoverForYou = () => this.setState({hoverForYou: !this.state.hoverForYou});
+    changeHoverAnalitics = () => this.setState({hoverAnalitics: !this.state.hoverAnalitics});
 
     render() {
         const {currentPage, onLogin} = this.props;
         const {hoverExplore, hoverCategories, hoverForYou, hoverAnalitics} = this.state;
+        const exploreStyle = currentPage === 'explore' ? styles.itemHeaderSelected : hoverExplore ? styles.itemHeaderHover : styles.itemHeader;
+        const categoriesStyle = currentPage === 'categories' ? styles.itemHeaderSelected : hoverCategories ? styles.itemHeaderHover : styles.itemHeader;
+        const forYouStyle = currentPage === 'foryou' ? styles.itemHeaderSelected : hoverForYou ? styles.itemHeaderHover : styles.itemHeader;
+        const analiticsStyle = currentPage === 'analitics' ? styles.itemHeaderSelected : hoverAnalitics ? styles.itemHeaderHover : styles.itemHeader;
+
         return (
             <div style={styles.outside}>
                 <Link to="/">
                     <img style={styles.logo} src={logo} alt="logo" />
                 </Link>
                 <div style={styles.items}>
-                    <Link style={currentPage === 'explore' ? styles.itemHeaderSelected : hoverExplore ? styles.itemHeaderHover : styles.itemHeader} to="/explore" onMouseEnter={() => this.setState({hoverExplore: true})} onMouseLeave={() => this.setState({hoverExplore: false})}>
+                    <Link style={exploreStyle} to="/explore" onMouseEnter={this.changeHoverExplore} onMouseLeave={this.changeHoverExplore}>
                         <Icon style={styles.icons} name='compass outline' size='large'/>
                         Explorar
                     </Link>
-                    <Link style={currentPage === 'categories' ? styles.itemHeaderSelected : hoverCategories ? styles.itemHeaderHover : styles.itemHeader} to="/categories" onMouseEnter={() => this.setState({hoverCategories: true})} onMouseLeave={() => this.setState({hoverCategories: false})}>
+                    <Link style={categoriesStyle} to="/categories" onMouseEnter={this.changeHoverCategories} onMouseLeave={this.changeHoverCategories}>
                         <Icon style={styles.icons} name='th large' size='large'/>
                         Categorias
                     </Link>
-                    <Link style={currentPage === 'foryou' ? styles.itemHeaderSelected : hoverForYou ? styles.itemHeaderHover : styles.itemHeader}  to="/foryou" onMouseEnter={() => this.setState({hoverForYou: true})} onMouseLeave={() => this.setState({hoverForYou: false})}>
+                    <Link style={forYouStyle}  to="/foryou" onMouseEnter={this.changeHoverForYou} onMouseLeave={this.changeHoverForYou}>
                         <Icon idstyle={styles.icons} name='lightbulb outline' size='large'/>
                         Para Você
                     </Link>
-                    <Link style={currentPage === 'analitics' ? styles.itemHeaderSelected : hoverAnalitics ? styles.itemHeaderHover : styles.itemHeader} to="/analitics" onMouseEnter={() => this.setState({hoverAnalitics: true})} onMouseLeave={() => this.setState({hoverAnalitics: false})}>
+                    <Link style={analiticsStyle} to="/analitics" onMouseEnter={this.changeHoverAnalitics} onMouseLeave={this.changeHoverAnalitics}>
                         <Icon style={styles.icons} name='chart line' size='large'/>
                         Análises
                     </Link>
@@ -101,7 +116,7 @@ export default class Header extends React.Component {
                     <Link to="/notification">
                         <Icon name='bell outline' size='large'/>
                     </Link>
-                    <button onClick={onLogin} style={{border: 0, backgroundColor: 'transparent', cursor:'pointer', fontSize: '18px', color: '#586973'}}>
+                    <button onClick={onLogin} style={styles.loginButton}>
                         <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, marginTop: '-3px'}}/>
                         Login
                     </button>
