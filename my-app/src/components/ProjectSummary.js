@@ -190,20 +190,20 @@ export default class ProjectSummary extends React.Component {
     render() {
       return (
           <div style={styles.card}>
-                <div style={styles.category}>
-                  <p style={styles.categoryTitle}>{this.props.category}</p>
-                  <img style={styles.categoryImage} src={categoryFlag} alt=""/>
-                </div>
-                <div style={styles.interested}>{numInterested}
-                  <Icon style={{'padding-left': '7px'}} name='star outline' />
-                </div>
-                <h2 style={styles.title}>{title}</h2>
-                <div style={styles.authorsContainer}>
-                  <AuthorLink authors={this.props.authors}/>
-                </div>
-                <div style={styles.tagsContainer}>
-                  <TagsList tags={this.props.tags}/>
-                </div>
+            <div style={styles.category}>
+              <p style={styles.categoryTitle}>{this.props.category}</p>
+              <img style={styles.categoryImage} src={categoryFlag} alt=""/>
+            </div>
+            <div style={styles.interested}>{numInterested}
+              <Icon style={{paddingLeft: '7px'}} name='star outline' />
+            </div>
+            <h2 style={styles.title}>{title}</h2>
+            <div style={styles.authorsContainer}>
+              <AuthorLink authors={this.props.authors}/>
+            </div>
+            <div style={styles.tagsContainer}>
+              <TagsList tags={this.props.tags}/>
+            </div>
           </div>
       );
     }
