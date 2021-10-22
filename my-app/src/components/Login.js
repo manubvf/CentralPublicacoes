@@ -1,5 +1,6 @@
 import React from 'react';
 import google from '../images/google.png';
+import '../Theme.css';
 
 const styles = {
     out: { 
@@ -59,24 +60,6 @@ const styles = {
         cursor:'pointer',
         alignSelf:'start',
     },
-    bigButtonWhite: { 
-        borderRadius: 5, 
-        width:300, 
-        height:40, 
-        backgroundColor: 'white', 
-        cursor:'pointer',
-        backgroundColor: 'white'
-    },
-    bigButtonBlue: { 
-        borderRadius: 5, 
-        width:300, 
-        height:40, 
-        backgroundColor: 'white', 
-        cursor:'pointer',
-        backgroundColor: '#0070A8', 
-        color:'white',
-        border: 0,
-    },
 }
 
 export default class Login extends React.Component {
@@ -103,11 +86,11 @@ export default class Login extends React.Component {
                         <input type="text" name="name" style={styles.input} />
                     </div>
                     <button style={styles.linkButtonLeft}> Esqueceu a senha? </button> 
-                    <button style={styles.bigButtonBlue}>
+                    <button className="bigBlueButton">
                         Entrar
                     </button>
                     ou
-                    <button style={styles.bigButtonWhite}>
+                    <button className="bigWhiteButton">
                         <img src={google} alt="google"  style={{ width: 15, marginRight: 10 }} />
                         Entrar com o Google
                     </button>
