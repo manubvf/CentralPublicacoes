@@ -13,6 +13,7 @@ export default class Login extends React.Component {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                zIndex: 1,
             }}>
                 <div style={{ 
                     backgroundColor: 'rgba(255, 255, 255)',
@@ -34,7 +35,7 @@ export default class Login extends React.Component {
                         Senha:
                         <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
-                    <a style={{alignSelf:'start', cursor:'pointer'}}> Esqueceu a senha? </a>
+                    <button style={{alignSelf:'start', cursor:'pointer', border: '0px solid', color:'#0070A8', textDecoration: 'underline'}}> Esqueceu a senha? </button>
                     <button style={{ borderRadius: 5, width:300, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
                         Entrar
                     </button>

@@ -16,6 +16,7 @@ export default class SignUp extends React.Component {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                zIndex: 1,
             }}>
                 <div style={{ 
                     backgroundColor: 'rgba(255, 255, 255)',

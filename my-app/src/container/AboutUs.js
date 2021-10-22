@@ -37,16 +37,25 @@ const styles = {
       borderRadius: '15px',
       position: 'absolute',
       marginTop: '-11%',
-    }
+    },
+    brackets: {
+      fontSize: 70, 
+      color: '#049DBF', 
+      height: 35,
+    },
+    img: { 
+      height: '356px', 
+      width: '516px',
+    },
 }
 
 export default class AboutUs extends React.Component {
     render() {
       return (
         <Container>
-            <p style={{textAlign:'left', fontSize:30 }}>Sobre nós</p>
+            <p style={{ fontSize:30 }}>Sobre nós</p>
             <div style={styles.div1}>
-                <Player autoplay={true} loop={true} controls={false} src="https://assets7.lottiefiles.com/packages/lf20_bpqri9y8.json" style={{ height: '356px', width: '516px' }}/>
+                <Player autoplay={true} loop={true} controls={false} src="https://assets7.lottiefiles.com/packages/lf20_bpqri9y8.json" style={styles.img}/>
                 <div>
                   <div style={styles.orangeBox}>
                     <p style={{textAlign:'left'}}>Somos um grupo de estudantes da disciplina MC855 da Universidade Estadual de Campinas. </p>
@@ -57,12 +66,12 @@ export default class AboutUs extends React.Component {
                 </div>
             </div>
             <div style={styles.div2}>
-                <p style={{ fontSize: 70, color: '#049DBF', height:35 }}> {"{"} </p>
+                <p style={styles.brackets}> {"{"} </p>
                 <div style={styles.div3}>
                     <p style={{textAlign:'left'}}>À principio, o alcance deste projeto está somente para o Instituto de Computação.  </p>
                     <p style={{textAlign:'left'}}> Caso tenha interesse, <Link to="/contactus"> entre em contato conosco!</Link> </p>
                 </div>
-                <p style={{ fontSize: 70, color: '#049DBF', height:35 }}> {"}"} </p>
+                <p style={styles.brackets}> {"}"} </p>
             </div>
         </Container>
       );

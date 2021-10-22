@@ -1,10 +1,6 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
 import searchIcon from '../images/searchIcon.png';
 import searchPlusIcon from '../images/searchPlusIcon.png';
-import {
-  Link,
-} from 'react-router-dom'
 
 const styles = {
     form:{
