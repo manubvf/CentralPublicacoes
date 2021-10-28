@@ -9,6 +9,7 @@ import ForYou from './container/ForYou';
 import Categories from './container/Categories';
 import Notifications from './container/Notifications';
 import 'semantic-ui-css/semantic.min.css';
+import Test from './container/test'
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,7 +21,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/">
-          <Explore/>
+          <Test/>
         </Route>
         <Route path="/explore">
           <Explore/>
