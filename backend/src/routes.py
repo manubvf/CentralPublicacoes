@@ -13,7 +13,7 @@ def articles():
     #results = articles_schema.dump(articles)
 
     #return jsonify(results)
-    return {"batata":"batata"}
+    return "{\"batata\":\"batata\"}"
 
 
 if __name__ == "__main__":
