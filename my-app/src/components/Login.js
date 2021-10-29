@@ -2,8 +2,29 @@ import React from 'react';
 import google from '../images/google.png';
 
 export default class Login extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {email: '', password: ''}
+    }
+
+    handleSubmit = async () => {
+        const {email, password} = this.state;
+        return fetch(`http://127.0.0.1:5000/login`, {
+            'method':'POST',
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({email, password})
+        })
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+    }
 
     render() {
+        const {email, password} = this.state;
+
         return (
             <div style={{ 
                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -28,14 +49,14 @@ export default class Login extends React.Component {
                     <p style={{'border-bottom': '2px solid #0070A8','padding-bottom': '2.1vh', fontSize:25, width: '100%', textAlign: 'center'}}> Login </p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Email:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
+                        <input onChange={e => this.setState({email: e.target.value})} value={email} type="text" name="email" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Senha:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
+                        <input onChange={e => this.setState({password: e.target.value})} value={password} type="text" name="password" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
                     <a style={{alignSelf:'start', cursor:'pointer'}}> Esqueceu a senha? </a>
-                    <button style={{ borderRadius: 5, width:300, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
+                    <button onClick={this.handleSubmit} style={{ borderRadius: 5, width:300, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
                         Entrar
                     </button>
                     ou

@@ -19,6 +19,7 @@ export default class Categories extends React.Component {
     .then(response => this.setState({articles: response.batata}))
     .catch(error => console.log(error))
     }
+
     render() {
       return (
         <div className="App container m-4">
