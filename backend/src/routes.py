@@ -6,14 +6,14 @@ app = create_app()
 
 # Define a route to fetch the available articles 
 
-@app.route("/articles", methods=["GET"], strict_slashes=False)
+@app.route("/", methods=["GET"], strict_slashes=False)
 def articles():
 
     #articles = Articles.query.all() 
     #results = articles_schema.dump(articles)
 
     #return jsonify(results)
-    return "{\"batata\":\"batata\"}"
+    return {"batata":'oi'}
 
 
 if __name__ == "__main__":
