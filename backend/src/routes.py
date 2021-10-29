@@ -4,6 +4,28 @@ from flask import current_app, jsonify, request
 # Create an application instance
 app = create_app()
 
+def signUp():
+    fullname = request.json['fullname']
+    email = request.json['email']
+    password = request.json['password']
+    passwordConfirmation = request.json['passwordConfirmation']
+
+    newUser = { 'fullname': fullname, 'email': email, 'password': password, 'passwordConfirmation': passwordConfirmation }
+
+    return {'token': 'LKJHGFDSA'}
+
+def login():
+    email = request.json['email']
+    password = request.json['password']
+
+    user = { 'email': email, 'password': password }
+    correct = { 'email': 'rebecapstroh@gmail.com', 'password': '12345' }
+
+    if user == correct:
+        return {'token': 'LKJHGFDSA'}
+
+    return {'error': 'user not found'}
+
 # Define a route to fetch the available articles 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -13,20 +35,18 @@ def articles():
     #results = articles_schema.dump(articles)
 
     #return jsonify(results)
-    return {"batata":'oi'}
+    return { 'fullname': 'Rebeca Stroh', 'email': 'rebecapstroh@gmail.com', 'password': '12345' }
 
-@app.route("/login", methods=["POST"], strict_slashes=False)
+@app.route("/backend", methods=["POST"], strict_slashes=False)
 def add_articles():
-    email = request.json['email']
-    password = request.json['password']
+    function = request.json['function']
 
-    article = { 'email': email, 'password': password }
-    correct = { 'email': 'rebecapstroh@gmail.com', 'password': '12345' }
+    if (function == 'signup'):
+        return signUp()
+    elif (function == 'login'):
+        return login()
 
-    if article == correct:
-        return {'token': 'LKJHGFDSA'}
-
-    return {'error': 'user not found'}
+    return {'error': 'no function found'}
 
 if __name__ == "__main__":
     app.run(debug=True)

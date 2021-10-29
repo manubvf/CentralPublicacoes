@@ -10,6 +10,21 @@ export default class Login extends React.Component {
         this.state = {information: [], infoText: '', fileSelected: null};
     }
 
+    componentDidMount(){
+      fetch('http://127.0.0.1:5000/',{
+        'methods':'GET',
+        headers : {
+          'Content-Type':'application/json'
+          }
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response.error) console.log(response.error)
+        else  this.setState(response)
+      })
+      .catch(error => console.log(error))
+    }
+
     deleteInfo = (info) => {
         let { information } = this.state;
         information = information.filter(item => item !== info );
@@ -45,6 +60,7 @@ export default class Login extends React.Component {
     }
 
     render() {
+        const {fullname} = this.state;
         return (
         <Container>
             <p style={{textAlign:'left', fontSize:30, paddingLeft: '8%' }}>Editar perfil</p>
@@ -58,10 +74,16 @@ export default class Login extends React.Component {
                         </button>
                     </div>
                     <div>
-                        <Input title='Nome'> <input type="text" style={{ borderRadius: 10, width:500, height:35, border: '1px solid #586973' }} /> </Input>
+                        <Input title='Nome'> 
+                            <input onChange={e => this.setState({fullname: e.target.value})} value={fullname} type="text" style={{ borderRadius: 10, width:500, height:35, border: '1px solid #586973' }} /> 
+                        </Input>
                         <div style={{display: 'flex', flexDirection:'row', marginTop: 10}}>
-                            <Input title='Curso'> <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> </Input>
-                            <Input title='Link do currículo Lattes' style={{marginLeft: 20}}> <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> </Input>
+                            <Input title='Curso'> 
+                                <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> 
+                            </Input>
+                            <Input title='Link do currículo Lattes' style={{marginLeft: 20}}> 
+                                <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> 
+                            </Input>
                         </div>
                     </div>
                 </div>

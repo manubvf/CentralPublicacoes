@@ -10,15 +10,22 @@ export default class Login extends React.Component {
 
     handleSubmit = async () => {
         const {email, password} = this.state;
-        return fetch(`http://127.0.0.1:5000/login`, {
+        return fetch(`http://127.0.0.1:5000/backend`, {
             'method':'POST',
             headers : {
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({ 
+                function: 'login',
+                email, password
+            })
         })
         .then(response => response.json())
-        .then(response => console.log(response))
+        .then(response => {
+            console.log(response.token)
+            if (response.error) console.log(response.error)
+            else localStorage.setItem('token', response.token)
+        })
         .catch(error => console.log(error))
     }
 

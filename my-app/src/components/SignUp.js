@@ -5,8 +5,40 @@ import {
 } from 'react-router-dom'
 
 export default class SignUp extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { fullname: '', email: '', password: '', passwordConfirmation: '' }
+    }
+
+    handleSubmit = async () => {
+        const { fullname, email, password, passwordConfirmation } = this.state;
+
+        return fetch(`http://127.0.0.1:5000/backend`, {
+            'method':'POST',
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({ 
+                function: 'signup',
+                fullname, email, password, passwordConfirmation 
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response.token)
+            if (response.error) console.log(response.error)
+            else {
+                localStorage.setItem('token', response.token)
+                window.location = '/editProfile';
+            }
+        })
+        .catch(error => console.log(error))
+    }
 
     render() {
+        const { fullname, email, password, passwordConfirmation } = this.state;
+
         return (
             <div style={{ 
                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -31,21 +63,21 @@ export default class SignUp extends React.Component {
                     <p style={{'border-bottom': '2px solid #0070A8','padding-bottom': '2.1vh', fontSize:25, width: '100%', textAlign: 'center'}}> Cadastro </p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Nome completo*
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
+                        <input onChange={e => this.setState({fullname: e.target.value})} value={fullname} type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Email institucional*
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height: 35 }} />
+                        <input onChange={e => this.setState({email: e.target.value})} value={email} type="text" name="email" style={{ borderRadius: 5, width:300, height: 35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Senha*
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height: 35 }} />
+                        <input onChange={e => this.setState({password: e.target.value})} value={password} type="password" name="password" style={{ borderRadius: 5, width:300, height: 35 }} />
                     </div>
                     <div style={{display: 'flex', flexDirection:'column'}}>
                         Confirmação da senha*
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height: 35 }} />
+                        <input onChange={e => this.setState({passwordConfirmation: e.target.value})} value={passwordConfirmation} type="password" name="passwordConfirmation" style={{ borderRadius: 5, width:300, height: 35 }} />
                     </div>
-                    <button style={{ borderRadius: 5, width:300, height: 35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
+                    <button onClick={this.handleSubmit} style={{ borderRadius: 5, width:300, height: 35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
                         Cadastrar
                     </button>
                     ou
