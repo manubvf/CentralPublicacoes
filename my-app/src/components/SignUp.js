@@ -36,12 +36,20 @@ const styles = {
         textDecoration: 'underline', 
         color: '#0070A8'
     },
+    title: {
+        borderBottom: '2px solid #0070A8',
+        paddingBottom: '2.1vh', 
+        fontSize: 25, 
+        width: '100%', 
+        textAlign: 'center',
+    },
 }
 
 export default class SignUp extends React.Component {
     render() {
         return (
-            <Modal closeButtonRight title="Cadastro" handleClose={this.props.handleClose}>
+            <Modal closeButtonRight handleClose={this.props.handleClose}>
+                <p style={styles.title}> Cadastro </p>
                 <div style={styles.divColumn}>
                     Nome completo*
                     <input type="text" name="name" style={styles.input} />

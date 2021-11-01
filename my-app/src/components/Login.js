@@ -45,12 +45,20 @@ const styles = {
         color:'white',
         border: 0,
     },
+    title: {
+        borderBottom: '2px solid #0070A8',
+        paddingBottom: '2.1vh', 
+        fontSize: 25, 
+        width: '100%', 
+        textAlign: 'center',
+    },
 }
 
 export default class Login extends React.Component {
     render() {
         return (
-            <Modal closeButtonRight title="Login" handleClose={this.props.handleClose}>
+            <Modal closeButtonRight handleClose={this.props.handleClose}>
+                <p style={styles.title}> Login </p>
                 <div style={styles.divColumn}>
                     Email:
                     <input type="text" name="name" style={styles.input} />
