@@ -9,6 +9,7 @@ migrate = Migrate()
 ma = Marshmallow()
 cors = CORS()
 
+
 def create_app():
     """Application-factory pattern"""
     app = Flask(__name__)
