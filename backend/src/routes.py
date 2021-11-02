@@ -12,10 +12,10 @@ def signUp():
     password = request.json['password']
     passwordConfirmation = request.json['passwordConfirmation']
 
-    newUser = {'fullname': fullname, 'email': email,
-               'password': password, 'passwordConfirmation': passwordConfirmation}
+    # newUser = {'fullname': fullname, 'email': email, 'password': password, 'passwordConfirmation': passwordConfirmation}
+    # return {'token': 'LKJHGFDSA'}
 
-    return {'token': 'LKJHGFDSA'}
+    return central.Central.cadastro(fullname, password, email)
 
 
 def login():

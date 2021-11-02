@@ -95,3 +95,28 @@ def read_db(op, args):
     close_ssh_tunnel()
 
     return ret
+
+
+def insert_db(op, args):
+    '''Performs a write (INSERT) operation on the database.
+    '''
+    '''
+    op: identifies the desired operation (INSERT parameters).
+    args: list of parameters.
+    '''
+    open_ssh_tunnel()
+    connection = mysql_connect()
+    cursor = connection.cursor()
+
+    # op 0 inserts a new user with a name, email and password
+    if op == 0:
+        query = "SELECT * FROM Usuario"
+        cursor.execute(query)
+        next_id = len(cursor.fetchall()) + 1
+        query = "INSERT INTO Usuario VALUES (" + str(next_id) + ", '" + args[0] + "', '" + \
+            args[1] + "', NULL, '" + args[3] + \
+                "', NULL, NULL, NULL, NULL, NULL)"
+        cursor.execute(query)
+
+    mysql_disconnect(connection)
+    close_ssh_tunnel()
