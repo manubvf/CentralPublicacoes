@@ -2,6 +2,7 @@ import React from 'react';
 import Container from './Container';
 import { Icon, Checkbox } from 'semantic-ui-react';
 import Input from '../components/Input';
+import '../Theme.css';
 
 const styles = {
     outside: { display: 'flex', flexDirection:'column', alignItems: 'center' },
@@ -91,15 +92,15 @@ export default class Login extends React.Component {
                         <Input title='Informações para contato'> 
                             <input onChange={this.handleInfosChange} value={this.state.infoText} type="text" style={styles.infoInput} /> 
                         </Input>
-                        <button onClick={this.addInfo} style={styles.addInfoButton}> + </button>
+                        <button onClick={this.addInfo} className="blueButton" style={{ fontSize:18, marginLeft: 5 }}> + </button>
                         <Checkbox checked label='Deixar as informações de contato públicas' style={styles.checkbox} />
                     </div>
                     <div style={styles.infos}>
                         {this.state.information.map((item) => this.renderInfo(item))}
                     </div>
                     <div style={{margin: 10}}>
-                        <button style={styles.cancelButton}> Cancelar </button>
-                        <button style={styles.saveButton}> Salvar </button>
+                        <button className="mediumWhiteButton" style={{ width: 100 }}> Cancelar </button>
+                        <button className="mediumBlueButton" style={{ width: 100, marginLeft: 20 }}> Salvar </button>
                     </div>
                 </div>
             </Container>
