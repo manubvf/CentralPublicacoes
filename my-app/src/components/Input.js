@@ -10,9 +10,18 @@ const styles = {
       marginTop: '-3px',
       color: '#333D42',
     },
+    labelTextArea:{
+      background: '#ffffff',
+      padding: '0px 8px',
+      position: 'absolute',
+      marginLeft: '12px',
+      marginTop: '-215px',
+      color: '#333D42',
+    },
     input:{
       height: '64px',
-      width: '100%',
+      width: '101%',
+      position: 'absolute',
       padding: '10px 17px',
       borderRadius: '8px',
       border: '1.5px solid #333D42',
@@ -22,8 +31,31 @@ const styles = {
     },
     inputButton:{
       height: '64px',
-      width: '100%',
-      padding: '10px 71px 10px 17px',
+      width: '101%',
+      position: 'absolute',
+      padding: '10px 16% 10px 17px',
+      borderRadius: '8px',
+      border: '1.5px solid #333D42',
+      fontSize: '21px',
+      color: '#5f5f5f',
+      marginTop: '8px',
+    },
+    inputIcon:{
+      height: '64px',
+      width: '101%',
+      position: 'absolute',
+      padding: '10px 17px 10px 43px',
+      borderRadius: '8px',
+      border: '1.5px solid #333D42',
+      fontSize: '21px',
+      color: '#5f5f5f',
+      marginTop: '8px',
+    },
+    extraComponents:{
+      height: '64px',
+      width: '101%',
+      position: 'absolute',
+      padding: '10px 16% 10px 43px',
       borderRadius: '8px',
       border: '1.5px solid #333D42',
       fontSize: '21px',
@@ -42,7 +74,7 @@ const styles = {
     },
     buttons:{
       background: '#ffffff',
-      position: 'absolute',
+      position: 'relative',
       height: '60px',
       width: '57px',
       marginTop: '10px',
@@ -50,34 +82,61 @@ const styles = {
       borderTop: 'none',
       borderRight: 'none',
       borderBottom: 'none',
-      left: '32%',
+      float: 'right',
       paddingLeft: '16px',
     },
-    icons:{
+    iconRight:{
       color: '#049DBF',
-    }
+    },
+    iconLeft:{
+      color: '#333D42',
+      position: 'absolute',
+      marginTop: '30px',
+      marginLeft: '13px',
+    },
 }
 
 //rendering inputs
 function InputComponent(props){
   if(props.type === "select"){
-    return (<select name={props.name} style={styles.input} onChange={props.changeEvent}>{props.children}</select>);
+    return (<select name={props.name} placeholder={props.placeholder} style={styles.input} onChange={props.changeEvent}>{props.children}</select>);
   } else {
     if(props.type === "textArea"){
-      return (<textarea name={props.name} style={styles.textAreaInput} onChange={props.changeEvent}/>);
+      return (<textarea name={props.name}  placeholder={props.placeholder} style={styles.textAreaInput} onChange={props.changeEvent}/>);
     } else{
-      return (<input type="text" name={props.name} style={props.buttonExists === true? styles.inputButton : styles.input} onChange={props.changeEvent}/>);
+      let inputStyle;
+      if(props.buttonExists === true && props.iconExists === true){
+          inputStyle = styles.extraComponents;
+      }else{
+        if(props.buttonExists === true){
+            inputStyle = styles.inputButton;
+        }else{
+          if(props.iconExists === true){
+              inputStyle = styles.inputIcon;
+          }else{
+              inputStyle = styles.input;
+          }
+        }
+      }
+      return (<input type="text"  placeholder={props.placeholder} name={props.name} style={inputStyle} onChange={props.changeEvent}/>);
     }
   }
 }
 
 //rendering buttons
-function ButtonComponent(props){
-  if(props.exists === true){
-    return (<button type="submit" style={styles.buttons} onClick={props.buttonClick}><Icon style={styles.icons} name={props.icon} size='large'/></button>);
+function ExtraComponents(props){
+  let code;
+  if(props.buttonExists === true){
+    code = [code, <button type="submit" style={styles.buttons} onClick={props.buttonClick}><Icon style={styles.iconRight} name={props.buttonIcon} size='large'/></button>,];
   } else {
-    return (<></>);
+    code = [code, <></>,];
   }
+  if(props.iconExists === true){
+    code = [code, <Icon style={styles.iconLeft} name={props.iconName} size='large'/>,];
+  } else {
+    code = [code, <></>,];
+  }
+  return (code);
 }
 
 
@@ -85,11 +144,31 @@ function ButtonComponent(props){
 export default class Input extends React.Component {
     render() {
       return (
-        <div style={{width:this.props.width}}>
-          <p style={styles.labelInput}>{this.props.title}</p>
-            <ButtonComponent exists={this.props.buttonExists} icon={this.props.buttonIcon} buttonClick={this.props.buttonClick}/>
-            <InputComponent type={this.props.type} children={this.props.children} name={this.props.name} changeEvent={this.props.eventChange} buttonExists={this.props.buttonExists}/>
+        <div style={{position: 'relative', marginBottom: '20px', width:this.props.width, height: this.props.type === "textArea" ? '200px' : '64px'}}>
+            <InputComponent type={this.props.type} children={this.props.children} placeholder={this.props.placeholder} name={this.props.name} changeEvent={this.props.eventChange} buttonExists={this.props.buttonExists} iconExists={this.props.iconExists} />
+            <ExtraComponents width={this.props.width} iconExists={this.props.iconExists} iconName={this.props.iconName} buttonExists={this.props.buttonExists} buttonIcon={this.props.buttonIcon} buttonClick={this.props.buttonClick}/>
+            <p style={this.props.type === "textArea" ? styles.labelTextArea : styles.labelInput}>{this.props.title}</p>
         </div>
       );
     }
   }
+
+  /*************************************************
+  Input Component Documentation:
+
+  - Props:
+    - type: "text", "select", "textArea" - the select items are received as children
+    - title: input title
+    - width
+    - eventChange: input onChange event
+
+  - Optional Props:
+    - name: input name
+    - iconExists: whether there's an icon in the input
+    - iconName: the icon name from semantic-ui library
+    - buttonExists: whether there's a button in the input
+    - buttonIcon: the icon name from semantic-ui library
+    - buttonClick: button onClick event
+    - placeholder: exists for text and textArea
+
+  ************************************************/
