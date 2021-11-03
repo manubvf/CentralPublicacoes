@@ -1,6 +1,7 @@
 import React from 'react';
 import google from '../images/google.png';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import '../Theme.css';
 import Modal from './Modal';
 
 const styles = {
@@ -12,22 +13,6 @@ const styles = {
         borderRadius: 5, 
         width:300,
         height: 35 
-    },
-    bigButtonBlue: { 
-        borderRadius: 5, 
-        width:300, 
-        height: 35, 
-        backgroundColor: '#0070A8', 
-        color:'white', 
-        cursor:'pointer',
-        border: 1
-    },
-    bigButtonWhite: { 
-        borderRadius: 5, 
-        width:300, 
-        height:40, 
-        backgroundColor: 'white', 
-        cursor:'pointer' 
     },
     link: {
         border: 0, 
@@ -66,11 +51,11 @@ export default class SignUp extends React.Component {
                     Confirmação da senha*
                     <input type="text" name="name" style={styles.input} />
                 </div>
-                <button style={styles.bigButtonBlue}>
+                <button className="bigBlueButton">
                     Cadastrar
                 </button>
                 ou
-                <button style={styles.bigButtonWhite}>
+                <button className="bigWhiteButton">
                     <img src={google} alt="google"  style={{ width: 15, marginRight: 15 }} />
                     Cadastrar com o Google
                 </button>

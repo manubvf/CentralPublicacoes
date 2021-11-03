@@ -1,0 +1,66 @@
+.greenBlueButton {
+  cursor: pointer;
+  height: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  border: 0;
+  color: white;
+  background-color: #049DBF;
+}
+
+.blueButton {
+  cursor: pointer;
+  height: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  border: 0;
+  color: white;
+  background-color: #0070A8;
+}
+
+.mediumBlueButton { 
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 35px;
+  cursor: pointer;
+  border: 0;
+  color: white;
+  background-color: #0070A8;
+}
+
+.mediumWhiteButton { 
+  border-radius: 10px; 
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 35px; 
+  cursor: pointer;
+  border: 1px solid #0070A8;
+  color: #0070A8;
+  background-color: #FFFFFF;
+}
+
+.bigBlueButton { 
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 300px;
+  height: 40px; 
+  border: 0;
+  cursor: pointer;
+  color: white;
+  background-color: #0070A8;
+}
+
+.bigWhiteButton { 
+  border-radius: 5px; 
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 300px; 
+  height: 40px; 
+  cursor: pointer;
+  border: 1px solid;
+  background-color: white;
+}
