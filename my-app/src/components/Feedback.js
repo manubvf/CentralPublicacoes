@@ -17,7 +17,7 @@ const styles = {
 
 {/* <Feedback ok message="Projeto de pesquisa criado com sucesso!" linkText="Ver página do projeto" link="/"/> */}
 
-export default class Login extends React.Component {
+export default class Feedback extends React.Component {
     render() {
         const { ok, notOk, message, link, linkText, handleClose } = this.props;
         return (
