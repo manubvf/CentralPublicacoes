@@ -118,7 +118,7 @@ function InputComponent(props){
           }
         }
       }
-      return (<input type="text" value={props.value} placeholder={props.placeholder} name={props.name} style={inputStyle} onChange={props.changeEvent}/>);
+      return (<input type={props.type} value={props.value} placeholder={props.placeholder} name={props.name} style={inputStyle} onChange={props.changeEvent}/>);
     }
   }
 }
@@ -157,7 +157,7 @@ export default class Input extends React.Component {
   Input Component Documentation:
 
   - Props:
-    - type: "text", "select", "textArea" - the select items are received as children
+    - type: "text", "select", "textArea", "password" - the select items are received as children
     - title: input title
     - width
     - eventChange: input onChange event
