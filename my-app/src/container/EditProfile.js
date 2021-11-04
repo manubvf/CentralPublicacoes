@@ -2,6 +2,21 @@ import React from 'react';
 import Container from './Container';
 import { Icon, Checkbox } from 'semantic-ui-react';
 import Input from '../components/Input';
+import '../Theme.css';
+
+const styles = {
+    outside: { display: 'flex', flexDirection:'column', alignItems: 'center' },
+    principalInfos: { display: 'flex', flexDirection:'row', alignItems: 'center' },
+    photoDiv: { display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width:150, height:150, marginRight: 10 },
+    photos: { width:100, height:100, borderRadius:5 },
+    buttonLink: { background: 'white', border: 'none', color: '#0070A8', cursor:'pointer' },
+    addInfoButton: { borderRadius: 10, width:35, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF' },
+    courseLattesDiv: {display: 'flex', flexDirection:'row', marginTop: 10, justifyContent: 'space-between'},
+    cancelButton: { borderRadius: 10, width:100, height:35, backgroundColor: '#FFFFFF', color:'#0070A8', cursor:'pointer', border: '1px solid #0070A8' },
+    saveButton: { borderRadius: 10, width:100, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF', marginLeft: 10 },
+    infos: {display: 'flex', flexDirection:'row', marginTop: 10, marginBottom: 30},
+    checkbox: { fontSize: 12, marginLeft: 20 },
+}
 
 export default class EditProfile extends React.Component {
     constructor(props) {
@@ -33,7 +48,7 @@ export default class EditProfile extends React.Component {
 
     infoExist = (info) => {
         let exists = false;
-        this.state.information.map(item => { if (item === info) exists = true; })
+        this.state.information.map(item => { if (item === info) exists = true; return null; });
         return exists;
     }
 
@@ -43,7 +58,7 @@ export default class EditProfile extends React.Component {
 
         const { information } = this.state;
         information.push(this.state.infoText);
-        this.setState({information, infoText: ''});
+        this.setState({ information, infoText: '' });
     }
 
     fileSelectedHandler = (e) => {
@@ -59,56 +74,45 @@ export default class EditProfile extends React.Component {
         )
     }
 
+    handleInfosChange = e => this.setState({infoText: e.target.value})
+
     render() {
         const {fullname} = this.state;
         return (
-        <Container>
-            <p style={{textAlign:'left', fontSize:30, paddingLeft: '8%' }}>Editar perfil</p>
-            <div style={{display: 'flex', flexDirection:'column', alignItems: 'center' }}>
-                <div style={{display: 'flex', flexDirection:'row', alignItems: 'center'}}>
-                    <div style={{display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width:150, height:150, marginRight: 10}}>
-                        {this.state.fileSelected ? <img style={{width:100, height:100, borderRadius:5}} src={this.state.fileSelected}/> : <Icon name='user' size='huge' style={{margin:10}}/>}
-                        <input ref={fileInput => this.fileInput = fileInput} style={{ display:'none' }} type="file" onChange={this.fileSelectedHandler}/>
-                        <button onClick={() => this.fileInput.click()} style={{ background: 'white', border: 'none', color: '#0070A8', cursor:'pointer' }}> 
-                            {this.state.fileSelected ? 'Mudar foto' : 'Adicionar uma foto'}
-                        </button>
-                    </div>
-                    <div>
-                        <Input title='Nome'> 
-                            <input onChange={e => this.setState({fullname: e.target.value})} value={fullname} type="text" style={{ borderRadius: 10, width:500, height:35, border: '1px solid #586973' }} /> 
-                        </Input>
-                        <div style={{display: 'flex', flexDirection:'row', marginTop: 10}}>
-                            <Input title='Curso'> 
-                                <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> 
-                            </Input>
-                            <Input title='Link do currículo Lattes' style={{marginLeft: 20}}> 
-                                <input type="text" style={{ borderRadius: 10, width:240, height:35, border: '1px solid #586973' }} /> 
-                            </Input>
+            <Container>
+                <p style={{ fontSize:30, paddingLeft: '8%' }}>Editar perfil</p>
+                <div style={styles.outside}>
+                    <div style={styles.principalInfos}>
+                        <div style={styles.photoDiv}>
+                            {this.state.fileSelected
+                                ? <img style={styles.photo} alt="sem imagem" src={this.state.fileSelected}/>
+                                : <Icon name='user' size='huge' style={{ margin:10 }}/>}
+                            <input ref={fileInput => this.fileInput = fileInput} style={{ display:'none' }} type="file" onChange={this.fileSelectedHandler}/>
+                            <button onClick={() => this.fileInput.click()} style={styles.buttonLink}>
+                                {this.state.fileSelected ? 'Mudar foto' : 'Adicionar uma foto'}
+                            </button>
+                        </div>
+                        <div>
+                            <Input title='Nome' type="text" width='500px'/>
+                            <div style={styles.courseLattesDiv}>
+                                <Input title='Curso' width="240px"  type="text"/>
+                                <Input title='Link do currículo Lattes' width="240px" type="text" style={{marginLeft: 20}}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                    <div style={{marginTop: 20}}>
-                        <Input title='Informações para contato'> 
-                            <input onChange={e => this.setState({infoText: e.target.value})} value={this.state.infoText} type="text" style={{ borderRadius: 10, width:300, height:35, border: '1px solid #586973' }} /> 
-                        </Input>
-                        <button onClick={this.addInfo} style={{ borderRadius: 10, width:35, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF' }}>
-                            +
-                        </button>
-                        <Checkbox checked label='Deixar as informações de contato públicas' style={{ fontSize: 12, marginLeft: 20 }} />
+                    <div style={{marginTop: 20, display: 'flex', alignItems: 'center'}}>
+                        <Input title='Informações para contato' value={this.state.infoText} type="text" width="350px" eventChange={this.handleInfosChange} buttonIcon="plus" buttonClick={this.addInfo}/>
+                        <Checkbox label='Deixar as informações de contato públicas' style={styles.checkbox} />
                     </div>
-                    <div style={{display: 'flex', flexDirection:'row', marginTop: 10, marginBottom: 30}}>
+                    <div style={styles.infos}>
                         {this.state.information.map((item) => this.renderInfo(item))}
                     </div>
-                <div style={{margin: 10}}>
-                    <button style={{ borderRadius: 10, width:100, height:35, backgroundColor: '#FFFFFF', color:'#0070A8', cursor:'pointer', border: '1px solid #0070A8' }}>
-                        Cancelar
-                    </button>
-                    <button style={{ borderRadius: 10, width:100, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF', marginLeft: 10 }}>
-                        Salvar
-                    </button>
+                    <div style={{margin: 10}}>
+                        <button className="mediumWhiteButton" style={{ width: 100 }}> Cancelar </button>
+                        <button className="mediumBlueButton" style={{ width: 100, marginLeft: 20 }}> Salvar </button>
+                    </div>
                 </div>
-            </div>
-          </Container>
-      );
+            </Container>
+        );
     }
   }

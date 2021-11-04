@@ -17,24 +17,29 @@ const styles = {
 export default class Container extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {login: false, signup: false}
+      
+      this.state = {login: false, signup: false};
     }
 
-    handleLogin = () => this.setState({login: !this.state.login})
-    handleSignUp = () => this.setState({signup: !this.state.signup})
+    handleLogin = () => this.setState({login: !this.state.login});
+    handleSignUp = () => this.setState({signup: !this.state.signup});
+    onLogin = () => this.setState({login: true});
 
     render() {
-      const {login, signup} = this.state;
-      const {currentPage} = this.props;
+      const { login, signup } = this.state;
+      const { currentPage } = this.props;
 
       return (
         <div>
           {login && <Login handleClose={this.handleLogin} openSignUp={this.handleSignUp}/>}
           {signup && <SignUp handleClose={this.handleSignUp} openLogin={this.handleLogin}/>}
-          <Header currentPage={currentPage} onLogin={() => this.setState({login: true})}/>
+
+          <Header currentPage={currentPage} onLogin={this.onLogin}/>
+
           <div style={styles.content}>
             {this.props.children}
           </div>
+          
           <Footer/>
         </div>
       );
