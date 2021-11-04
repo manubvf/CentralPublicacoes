@@ -105,13 +105,13 @@ function InputComponent(props){
       return (<textarea name={props.name}  placeholder={props.placeholder} style={styles.textAreaInput} onChange={props.changeEvent}/>);
     } else{
       let inputStyle;
-      if(props.buttonExists === true && props.iconExists === true){
+      if(props.buttonIcon !== undefined && props.iconName !== undefined){
           inputStyle = styles.extraComponents;
       }else{
-        if(props.buttonExists === true){
+        if(props.buttonIcon !== undefined){
             inputStyle = styles.inputButton;
         }else{
-          if(props.iconExists === true){
+          if(props.iconName !== undefined){
               inputStyle = styles.inputIcon;
           }else{
               inputStyle = styles.input;
@@ -126,12 +126,12 @@ function InputComponent(props){
 //rendering buttons
 function ExtraComponents(props){
   let code;
-  if(props.buttonExists === true){
+  if(props.buttonIcon !== undefined){
     code = [code, <button type="submit" style={styles.buttons} onClick={props.buttonClick}><Icon style={styles.iconRight} name={props.buttonIcon} size='large'/></button>,];
   } else {
     code = [code, <></>,];
   }
-  if(props.iconExists === true){
+  if(props.iconName !== undefined){
     code = [code, <Icon style={styles.iconLeft} name={props.iconName} size='large'/>,];
   } else {
     code = [code, <></>,];
@@ -145,8 +145,8 @@ export default class Input extends React.Component {
     render() {
       return (
         <div style={{position: 'relative', marginBottom: '20px', width:this.props.width, height: this.props.type === "textArea" ? '200px' : '64px'}}>
-            <InputComponent type={this.props.type} children={this.props.children} placeholder={this.props.placeholder} name={this.props.name} changeEvent={this.props.eventChange} buttonExists={this.props.buttonExists} iconExists={this.props.iconExists} />
-            <ExtraComponents width={this.props.width} iconExists={this.props.iconExists} iconName={this.props.iconName} buttonExists={this.props.buttonExists} buttonIcon={this.props.buttonIcon} buttonClick={this.props.buttonClick}/>
+            <InputComponent type={this.props.type} children={this.props.children} placeholder={this.props.placeholder} name={this.props.name} changeEvent={this.props.eventChange} iconName={this.props.iconName} buttonIcon={this.props.buttonIcon}/>
+            <ExtraComponents iconName={this.props.iconName} buttonIcon={this.props.buttonIcon} buttonClick={this.props.buttonClick}/>
             <p style={this.props.type === "textArea" ? styles.labelTextArea : styles.labelInput}>{this.props.title}</p>
         </div>
       );
@@ -164,9 +164,7 @@ export default class Input extends React.Component {
 
   - Optional Props:
     - name: input name
-    - iconExists: whether there's an icon in the input
     - iconName: the icon name from semantic-ui library
-    - buttonExists: whether there's a button in the input
     - buttonIcon: the icon name from semantic-ui library
     - buttonClick: button onClick event
     - placeholder: exists for text and textArea
