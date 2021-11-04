@@ -99,10 +99,10 @@ const styles = {
 //rendering inputs
 function InputComponent(props){
   if(props.type === "select"){
-    return (<select name={props.name} placeholder={props.placeholder} style={styles.input} onChange={props.changeEvent}>{props.children}</select>);
+    return (<select name={props.name} value={props.value} placeholder={props.placeholder} style={styles.input} onChange={props.changeEvent}>{props.children}</select>);
   } else {
     if(props.type === "textArea"){
-      return (<textarea name={props.name}  placeholder={props.placeholder} style={styles.textAreaInput} onChange={props.changeEvent}/>);
+      return (<textarea name={props.name} value={props.value}  placeholder={props.placeholder} style={styles.textAreaInput} onChange={props.changeEvent}/>);
     } else{
       let inputStyle;
       if(props.buttonIcon !== undefined && props.iconName !== undefined){
@@ -118,7 +118,7 @@ function InputComponent(props){
           }
         }
       }
-      return (<input type="text"  placeholder={props.placeholder} name={props.name} style={inputStyle} onChange={props.changeEvent}/>);
+      return (<input type="text" value={props.value} placeholder={props.placeholder} name={props.name} style={inputStyle} onChange={props.changeEvent}/>);
     }
   }
 }
@@ -145,7 +145,7 @@ export default class Input extends React.Component {
     render() {
       return (
         <div style={{position: 'relative', marginBottom: '20px', width:this.props.width, height: this.props.type === "textArea" ? '200px' : '64px'}}>
-            <InputComponent type={this.props.type} children={this.props.children} placeholder={this.props.placeholder} name={this.props.name} changeEvent={this.props.eventChange} iconName={this.props.iconName} buttonIcon={this.props.buttonIcon}/>
+            <InputComponent type={this.props.type} children={this.props.children} placeholder={this.props.placeholder} name={this.props.name} value={this.props.value} changeEvent={this.props.eventChange} iconName={this.props.iconName} buttonIcon={this.props.buttonIcon}/>
             <ExtraComponents iconName={this.props.iconName} buttonIcon={this.props.buttonIcon} buttonClick={this.props.buttonClick}/>
             <p style={this.props.type === "textArea" ? styles.labelTextArea : styles.labelInput}>{this.props.title}</p>
         </div>

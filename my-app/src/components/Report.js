@@ -5,9 +5,9 @@ import Input from '../components/Input';
 const styles = {
     title: {
         borderBottom: '2px solid #FF0000',
-        paddingBottom: '2.1vh', 
-        fontSize: 25, 
-        width: '100%', 
+        paddingBottom: '2.1vh',
+        fontSize: 25,
+        width: '100%',
         textAlign: 'center',
     },
     filterDropDown:{
@@ -65,7 +65,7 @@ export default class Report extends React.Component {
 
     renderInfo = (info) => {
         return(
-            <div style={{borderRadius: 15, fontSize:13, backgroundColor: '#F1F1F1', paddingLeft: 10, paddingRight: 5, border: '1px solid #586973', marginLeft:10}}>
+            <div style={{borderRadius: 15, fontSize:13, backgroundColor: '#F1F1F1', paddingLeft: 10, paddingRight: 5, border: '1px solid #586973', marginLeft:10, marginBottom:10}}>
                 {info}
                 <button onClick={() => this.deleteInfo(info)} style={{marginLeft:5, color: '#586973', border: 'none', cursor:'pointer'}}> x </button>
             </div>
@@ -82,22 +82,17 @@ export default class Report extends React.Component {
                     <p style={styles.title}> Denunciar projeto </p>
                     <p style={{ fontWeight: 'bold', fontSize: 18 }}>Porque você está denunciando este projeto de pesquisa?</p>
                     <p style={{ color: '#586973' }}>Não se preocupe, sua denúncia será anônima e analisada por moderadores</p>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 10}}>
-                        <Input title='Motivos *'> 
-                            <select name="filter" style={styles.filterDropDown} value={filter} onChange={this.handleInputChange}>
+                    <div style={{ width: '100%', marginTop: 10}}>
+                        <Input title='Motivos *' type="select"  buttonIcon="plus" buttonClick={this.addInfo} eventChange={this.handleInputChange} value={filter}>
                                 <option value="">-</option>
                                 <option value="Conteudo impróprio">Conteudo impróprio</option>
                                 <option value="Violação de propriedade intelectual">Violação de propriedade intelectual</option>
-                            </select>
                         </Input>
-                        <button onClick={this.addInfo} style={styles.addInfoButton}> + </button>
                     </div>
                     <div style={styles.infos}>
                         {information.map((item) => this.renderInfo(item))}
                     </div>
-                    <Input title="Explique o motivo da denúncia *" style={{margin:20}}>
-                        <textarea value={reason} onChange={this.handleTextAreaChange} style={{ width: '100%', height: 120, borderRadius: 10, border: '1px solid #000000', padding:20 }} />
-                    </Input>
+                    <Input title="Explique o motivo da denúncia *" type="textArea" eventChange={this.handleTextAreaChange} value={reason}/>
                     <div style={{ margin: 10 , alignSelf: 'center'}}>
                         <button style={styles.cancelButton} onClick={handleClose}> Cancelar </button>
                         <button style={styles.reportButton} onClick={this.submit}> Denunciar </button>
