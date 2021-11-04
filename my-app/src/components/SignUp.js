@@ -6,22 +6,18 @@ import Modal from './Modal';
 import Input from '../components/Input';
 
 const styles = {
-    divColumn: {
-        display: 'flex',
-        flexDirection:'column',
-        width: '99%',
-    },
     input: {
         borderRadius: 5,
         width:300,
         height: 35
     },
+    terms: {
+        cursor:'pointer',
+    },
     link: {
-        border: 0,
-        backgroundColor: 'transparent',
         cursor:'pointer',
         textDecoration: 'underline',
-        color: '#0070A8'
+        marginLeft: 5,
     },
     title: {
         borderBottom: '2px solid #0070A8',
@@ -64,6 +60,11 @@ export default class SignUp extends React.Component {
         })
         .catch(error => console.log(error))
     }
+
+    handleNameChange = (e) => this.setState({ fullname: e.target.value })
+    handleEmailChange = (e) => this.setState({ email: e.target.value })
+    handlePasswordChange = (e) => this.setState({ password: e.target.value })
+    handlePasswordConfChange = (e) => this.setState({ passwordConfirmation: e.target.value })
   
     render() {
         const { fullname, email, password, passwordConfirmation } = this.state;
@@ -71,35 +72,27 @@ export default class SignUp extends React.Component {
         return (
             <Modal closeButtonRight handleClose={this.props.handleClose}>
                 <p style={styles.title}> Cadastro </p>
-                <div style={styles.divColumn}>
-                    <Input title="Nome completo *" type="text" name="name" />
-                </div>
-                <div style={styles.divColumn}>
-                    <Input title="Email institucional *" type="text" name="name" />
-                </div>
-                <div style={styles.divColumn}>
-                    <Input title="Senha *" type="password" name="name" />
-                </div>
-                <div style={styles.divColumn}>
-                    <Input title="Confirmação da senha *" type="password" name="name" />
-                </div>
-                <button onClick={this.handleSubmit} className="bigBlueButton">
+                <Input title="Nome completo *" type="text" name="fullname" value={fullname} width="100%" eventChange={this.handleNameChange} />
+                <Input title="Email institucional *" type="text" name="email" value={email} width="100%" eventChange={this.handleEmailChange} />
+                <Input title="Senha *" type="password" name="password" value={password} width="100%" eventChange={this.handlePasswordChange} />
+                <Input title="Confirmação da senha *" type="password" name="passwordConfirmation" value={passwordConfirmation} width="100%" eventChange={this.handlePasswordConfChange} />
+                <button onClick={this.handleSubmit} className="bigBlueButton" style={{ marginTop: 10, marginBottom: 10 }}>
                     Cadastrar
                 </button>
                 ou
-                <button className="bigWhiteButton">
+                <button className="bigWhiteButton" style={{ marginTop: 10, marginBottom: 10 }}>
                     <img src={google} alt="google"  style={{ width: 15, marginRight: 15 }} />
                     Cadastrar com o Google
                 </button>
-                <div style={{fontSize:10, textAlign:'center'}}>
+                <div style={{ fontSize:10, textAlign:'center', marginBottom: 10 }}>
                     Ao continuar você concorda com os nossos <br/>
-                    <button onClick={this.props.handleClose} style={styles.link}>
+                    <a onClick={this.props.handleClose} style={styles.terms}>
                         <Link to="/terms"> Termos e Politica de Privacidade </Link>
-                    </button>
+                    </a>
                 </div>
                 <div>
                     Já tem uma conta ?
-                    <button onClick={() => {this.props.handleClose(); this.props.openLogin();}} style={styles.link}> Faça seu login </button>
+                    <a onClick={() => {this.props.handleClose(); this.props.openLogin();}} style={styles.link}> Faça seu login </a>
                 </div>
             </Modal>
       );
