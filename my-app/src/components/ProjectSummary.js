@@ -115,7 +115,7 @@ const styles = {
 };
 
 function createAuthorElement(element, index){
-   if(index == 0){
+   if(index === 0){
      return (<Link to="/" style={styles.authorLink}>{element}</Link>);
    } else{
      return (<Link to="/" style={styles.authorLink}>, {element}</Link>);
@@ -137,13 +137,13 @@ function AuthorLink(props) {
  };
 
  function createTagElement(element, styleIndex){
-   if(styleIndex == 1){
+   if(styleIndex === 1){
      return (<div style={styles.tagMediumBlue}>{element}</div>);
    }
-   if(styleIndex == 2){
+   if(styleIndex === 2){
      return (<div style={styles.tagLightBlue}>{element}</div>);
    }
-   if(styleIndex == 3){
+   if(styleIndex === 3){
      return (<div style={styles.tagDarkBlue}>{element}</div>);
    }
  };
@@ -190,20 +190,20 @@ export default class ProjectSummary extends React.Component {
     render() {
       return (
           <div style={styles.card}>
-                <div style={styles.category}>
-                  <p style={styles.categoryTitle}>{this.props.category}</p>
-                  <img style={styles.categoryImage} src={categoryFlag}/>
-                </div>
-                <div style={styles.interested}>{numInterested}
-                  <Icon style={{'padding-left': '7px'}} name='star outline' />
-                </div>
-                <h2 style={styles.title}>{title}</h2>
-                <div style={styles.authorsContainer}>
-                  <AuthorLink authors={this.props.authors}/>
-                </div>
-                <div style={styles.tagsContainer}>
-                  <TagsList tags={this.props.tags}/>
-                </div>
+            <div style={styles.category}>
+              <p style={styles.categoryTitle}>{this.props.category}</p>
+              <img style={styles.categoryImage} src={categoryFlag} alt=""/>
+            </div>
+            <div style={styles.interested}>{numInterested}
+              <Icon style={{paddingLeft: '7px'}} name='star outline' />
+            </div>
+            <h2 style={styles.title}>{title}</h2>
+            <div style={styles.authorsContainer}>
+              <AuthorLink authors={this.props.authors}/>
+            </div>
+            <div style={styles.tagsContainer}>
+              <TagsList tags={this.props.tags}/>
+            </div>
           </div>
       );
     }

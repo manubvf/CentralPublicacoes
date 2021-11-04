@@ -1,54 +1,69 @@
 import React from 'react';
 import google from '../images/google.png';
+import '../Theme.css';
+import Modal from './Modal';
+import Input from '../components/Input';
+
+const styles = {
+    input: {
+        borderRadius: 5,
+        width:300,
+        height:35
+    },
+    divColumn: {
+        display: 'flex',
+        flexDirection:'column',
+        width: '99%',
+    },
+    linkButton: {
+        border: 0,
+        backgroundColor: 'transparent',
+        textDecoration: 'underline',
+        color: '#0070A8',
+        cursor:'pointer'
+    },
+    linkButtonLeft: {
+        border: 0,
+        backgroundColor: 'transparent',
+        textDecoration: 'underline',
+        color: '#0070A8',
+        cursor:'pointer',
+        alignSelf:'start',
+    },
+    title: {
+        borderBottom: '2px solid #0070A8',
+        paddingBottom: '2.1vh',
+        fontSize: 25,
+        width: '100%',
+        textAlign: 'center',
+    },
+}
 
 export default class Login extends React.Component {
-
     render() {
         return (
-            <div style={{ 
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                position: 'absolute', 
-                height: '100%', 
-                width: '100%', 
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}>
-                <div style={{ 
-                    backgroundColor: 'rgba(255, 255, 255)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    borderRadius: 5,
-                    padding: 50,
-                    minHeight: '80%'
-                }}>
-                    <button onClick={this.props.handleClose} style={{alignSelf:'end', border: 0, backgroundColor: 'transparent', cursor:'pointer'}}> X </button>
-                    <p style={{'border-bottom': '2px solid #0070A8','padding-bottom': '2.1vh', fontSize:25, width: '100%', textAlign: 'center'}}> Login </p>
-                    <div style={{display: 'flex', flexDirection:'column'}}>
-                        Email:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
-                    </div>
-                    <div style={{display: 'flex', flexDirection:'column'}}>
-                        Senha:
-                        <input type="text" name="name" style={{ borderRadius: 5, width:300, height:35 }} />
-                    </div>
-                    <a style={{alignSelf:'start', cursor:'pointer'}}> Esqueceu a senha? </a>
-                    <button style={{ borderRadius: 5, width:300, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer' }}>
-                        Entrar
-                    </button>
-                    ou
-                    <button style={{ borderRadius: 5, width:300, height:40, backgroundColor: 'white', cursor:'pointer' }}>
-                        <img src={google} alt="google"  style={{ width: 15, marginRight: 10 }} />
-                        Entrar com o Google
-                    </button>
-                    <div>
-                        É novo por aqui ? 
-                        <button onClick={() => {this.props.handleClose(); this.props.openSignUp();}} style={{border: 0, backgroundColor: 'transparent', textDecoration: 'underline', color: '#0070A8', cursor:'pointer'}}> Faça seu cadastro </button>
-                    </div>
+            <Modal closeButtonRight handleClose={this.props.handleClose}>
+                <p style={styles.title}> Login </p>
+                <div style={styles.divColumn}>
+                  <Input title="Email" type="text" name="name"/>
                 </div>
-          </div>
+                <div style={styles.divColumn}>
+                  <Input title="Senha" type="password" name="name"/>
+                </div>
+                <button style={styles.linkButtonLeft}> Esqueceu a senha? </button>
+                <button className="bigBlueButton">
+                    Entrar
+                </button>
+                ou
+                <button className="bigWhiteButton">
+                    <img src={google} alt="google"  style={{ width: 15, marginRight: 10 }} />
+                    Entrar com o Google
+                </button>
+                <div>
+                    É novo por aqui ?
+                    <button onClick={() => {this.props.handleClose(); this.props.openSignUp();}} style={styles.linkButton}> Faça seu cadastro </button>
+                </div>
+            </Modal>
       );
     }
   }

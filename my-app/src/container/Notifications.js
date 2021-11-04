@@ -6,7 +6,7 @@ export default class AboutUs extends React.Component {
     render() {
       return (
         <Container>
-            <p style={{textAlign:'left', fontSize:30 }}>Notifications</p>
+            <p style={{ fontSize:30 }}>Notifications</p>
         </Container>
       );
     }
