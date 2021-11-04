@@ -3,7 +3,7 @@ import Container from './Container';
 import { Icon, Checkbox } from 'semantic-ui-react';
 import Input from '../components/Input';
 
-export default class Login extends React.Component {
+export default class EditProfile extends React.Component {
     constructor(props) {
         super(props);
 

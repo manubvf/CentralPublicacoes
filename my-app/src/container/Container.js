@@ -14,7 +14,7 @@ const styles = {
   }
 }
 
-export default class Main extends React.Component {
+export default class Container extends React.Component {
     constructor(props) {
       super(props);
       this.state = {login: false, signup: false}

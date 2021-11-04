@@ -28,7 +28,7 @@ const styles = {
     }
 }
 
-export default class AboutUs extends React.Component {
+export default class Explore extends React.Component {
 
     render() {
       return (

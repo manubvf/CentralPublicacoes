@@ -31,6 +31,7 @@ export default class SignUp extends React.Component {
             else {
                 localStorage.setItem('token', response.token)
                 window.location = '/editProfile';
+                this.props.handleClose();
             }
         })
         .catch(error => console.log(error))

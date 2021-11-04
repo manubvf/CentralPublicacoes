@@ -8,6 +8,8 @@ import Explore from './container/Explore';
 import ForYou from './container/ForYou';
 import Categories from './container/Categories';
 import Notifications from './container/Notifications';
+import MyProfile from './container/MyProfile';
+import NewProject from './container/NewProject';
 import 'semantic-ui-css/semantic.min.css';
 import {
   BrowserRouter as Router,
@@ -51,6 +53,12 @@ function App() {
         </Route>
         <Route path="/notification">
           <Notifications/>
+        </Route>
+        <Route path="/myProfile">
+          <MyProfile/>
+        </Route>
+        <Route path="/newProject">
+          <NewProject/>
         </Route>
       </Switch>
     </Router>

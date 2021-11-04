@@ -44,6 +44,6 @@ class Central:
             database.insert_db(0, signup_info)
             ret = {'token': 'LKJHGFDSA'}
         else:
-            ret = {'error': 'user not found'}
+            ret = {'error': 'error during sign up'}
 
         return ret

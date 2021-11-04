@@ -10,6 +10,12 @@ export default class Login extends React.Component {
 
     handleSubmit = async () => {
         const {email, password} = this.state;
+
+        if (email === '' || password === '') {
+            console.log('Faltam dados!')
+            return null;
+        }
+
         return fetch(`http://127.0.0.1:5000/backend`, {
             'method':'POST',
             headers : {
@@ -24,7 +30,10 @@ export default class Login extends React.Component {
         .then(response => {
             console.log(response.token)
             if (response.error) console.log(response.error)
-            else localStorage.setItem('token', response.token)
+            else {
+                localStorage.setItem('token', response.token);
+                this.props.handleClose();
+            }
         })
         .catch(error => console.log(error))
     }

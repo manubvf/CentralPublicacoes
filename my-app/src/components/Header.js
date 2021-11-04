@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import logo from '../images/logo.png';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import google from '../images/google.png';
+import DropDownMenu from './DropDownMenu';
 
 const styles = {
     outside: {
@@ -69,11 +71,14 @@ export default class Header extends React.Component {
     this.state = {hoverCategories: false};
     this.state = {hoverForYou: false};
     this.state = {hoverAnalitics: false};
+    this.state = {showSubmenu:false};
   }
 
     render() {
-        const {currentPage, onLogin} = this.props;
-        const {hoverExplore, hoverCategories, hoverForYou, hoverAnalitics} = this.state;
+        const { currentPage, onLogin } = this.props;
+        const { hoverExplore, hoverCategories, hoverForYou, hoverAnalitics, showSubmenu } = this.state;
+        const token = localStorage.getItem('token');
+
       return (
           <div style={styles.outside}>
                 <Link to="/">
@@ -97,14 +102,25 @@ export default class Header extends React.Component {
                         Análises
                     </Link>
                 </div>
-                <div>
+                <div style={{ display: 'flex', flexDirection:'row' }}>
                     <Link to="/notification">
                         <Icon name='bell outline' size='large'/>
                     </Link>
-                    <button onClick={onLogin} style={{border: 0, backgroundColor: 'transparent', cursor:'pointer', 'font-size': '18px', color: '#586973'}}>
-                        <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, 'margin-top': '-3px'}}/>
-                        Login
-                    </button>
+                    {
+                        token ?
+                        <div>
+                            <a onClick={() => this.setState({ showSubmenu: !showSubmenu })} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
+                                <img style={{ width: 20, height: 20, borderRadius: 25, marginRight: 10 }} src={google}></img>
+                                <p style={{ fontWeight: 'bold' }}> Professor </p>
+                            </a>
+                            { showSubmenu && <DropDownMenu/> }
+                        </div>
+                        : 
+                        <button onClick={onLogin} style={{ border: 0, backgroundColor: 'transparent', cursor:'pointer', 'font-size': '18px', color: '#586973' }}>
+                            <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, 'margin-top': '-3px'}}/>
+                            Login
+                        </button>
+                    }
                 </div>
           </div>
       );
