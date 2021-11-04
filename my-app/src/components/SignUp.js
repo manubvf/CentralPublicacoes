@@ -33,7 +33,41 @@ const styles = {
 }
 
 export default class SignUp extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { fullname: '', email: '', password: '', passwordConfirmation: '' }
+    }
+
+    handleSubmit = async () => {
+        const { fullname, email, password, passwordConfirmation } = this.state;
+
+        return fetch(`http://127.0.0.1:5000/backend`, {
+            'method':'POST',
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({ 
+                function: 'signup',
+                fullname, email, password, passwordConfirmation 
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response.token)
+            if (response.error) console.log(response.error)
+            else {
+                localStorage.setItem('token', response.token)
+                window.location = '/editProfile';
+                this.props.handleClose();
+            }
+        })
+        .catch(error => console.log(error))
+    }
+  
     render() {
+        const { fullname, email, password, passwordConfirmation } = this.state;
+
         return (
             <Modal closeButtonRight handleClose={this.props.handleClose}>
                 <p style={styles.title}> Cadastro </p>
@@ -49,7 +83,7 @@ export default class SignUp extends React.Component {
                 <div style={styles.divColumn}>
                     <Input title="Confirmação da senha *" type="password" name="name" />
                 </div>
-                <button className="bigBlueButton">
+                <button onClick={this.handleSubmit} className="bigBlueButton">
                     Cadastrar
                 </button>
                 ou

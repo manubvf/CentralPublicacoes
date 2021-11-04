@@ -2,6 +2,8 @@ import React from 'react';
 import logo from '../images/logo.png';
 import { Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import google from '../images/google.png';
+import DropDownMenu from './DropDownMenu';
 
 const styles = {
     outside: {
@@ -73,7 +75,7 @@ export default class Header extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = { hoverExplore: false, hoverCategories: false, hoverForYou: false, hoverAnalitics: false };
+        this.state = { hoverExplore: false, hoverCategories: false, hoverForYou: false, hoverAnalitics: false, showSubmenu: false };
     }
 
     changeHoverExplore = () => this.setState({hoverExplore: !this.state.hoverExplore});
@@ -82,12 +84,13 @@ export default class Header extends React.Component {
     changeHoverAnalitics = () => this.setState({hoverAnalitics: !this.state.hoverAnalitics});
 
     render() {
-        const {currentPage, onLogin} = this.props;
-        const {hoverExplore, hoverCategories, hoverForYou, hoverAnalitics} = this.state;
+        const { currentPage, onLogin } = this.props;
+        const { hoverExplore, hoverCategories, hoverForYou, hoverAnalitics, showSubmenu } = this.state;
         const exploreStyle = currentPage === 'explore' ? styles.itemHeaderSelected : hoverExplore ? styles.itemHeaderHover : styles.itemHeader;
         const categoriesStyle = currentPage === 'categories' ? styles.itemHeaderSelected : hoverCategories ? styles.itemHeaderHover : styles.itemHeader;
         const forYouStyle = currentPage === 'foryou' ? styles.itemHeaderSelected : hoverForYou ? styles.itemHeaderHover : styles.itemHeader;
         const analiticsStyle = currentPage === 'analitics' ? styles.itemHeaderSelected : hoverAnalitics ? styles.itemHeaderHover : styles.itemHeader;
+        const token = localStorage.getItem('token');
 
         return (
             <div style={styles.outside}>
@@ -112,14 +115,25 @@ export default class Header extends React.Component {
                         Análises
                     </Link>
                 </div>
-                <div>
+                <div style={{ display: 'flex', flexDirection:'row' }}>
                     <Link to="/notification">
                         <Icon name='bell outline' size='large'/>
                     </Link>
-                    <button onClick={onLogin} style={styles.loginButton}>
-                        <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, marginTop: '-3px'}}/>
-                        Login
-                    </button>
+                    {
+                        token ?
+                        <div>
+                            <a onClick={() => this.setState({ showSubmenu: !showSubmenu })} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
+                                <img style={{ width: 20, height: 20, borderRadius: 25, marginRight: 10 }} src={google}></img>
+                                <p style={{ fontSize: '18px' }}> Professor </p>
+                            </a>
+                            { showSubmenu && <DropDownMenu/> }
+                        </div>
+                        : 
+                        <button onClick={onLogin} style={styles.loginButton}>
+                            <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, 'margin-top': '-3px'}}/>
+                            Login
+                        </button>
+                    }
                 </div>
             </div>
         );

@@ -18,11 +18,26 @@ const styles = {
     checkbox: { fontSize: 12, marginLeft: 20 },
 }
 
-export default class Login extends React.Component {
+export default class EditProfile extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {information: [], infoText: '', fileSelected: null};
+    }
+
+    componentDidMount(){
+      fetch('http://127.0.0.1:5000/',{
+        'methods':'GET',
+        headers : {
+          'Content-Type':'application/json'
+          }
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response.error) console.log(response.error)
+        else  this.setState(response)
+      })
+      .catch(error => console.log(error))
     }
 
     deleteInfo = (info) => {
@@ -62,6 +77,7 @@ export default class Login extends React.Component {
     handleInfosChange = e => this.setState({infoText: e.target.value})
 
     render() {
+        const {fullname} = this.state;
         return (
             <Container>
                 <p style={{ fontSize:30, paddingLeft: '8%' }}>Editar perfil</p>

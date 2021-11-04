@@ -2,7 +2,7 @@
 import React from 'react';
 import Container from './Container';
 
-export default class AboutUs extends React.Component {
+export default class ForYou extends React.Component {
     render() {
       return (
         <Container currentPage='foryou'>

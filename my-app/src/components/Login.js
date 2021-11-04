@@ -40,7 +40,45 @@ const styles = {
 }
 
 export default class Login extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {email: '', password: ''}
+    }
+
+    handleSubmit = async () => {
+        const {email, password} = this.state;
+
+        if (email === '' || password === '') {
+            console.log('Faltam dados!')
+            return null;
+        }
+
+        return fetch(`http://127.0.0.1:5000/backend`, {
+            'method':'POST',
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({ 
+                function: 'login',
+                email, password
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response.token)
+            if (response.error) console.log(response.error)
+            else {
+                localStorage.setItem('token', response.token);
+                this.props.handleClose();
+            }
+        })
+        .catch(error => console.log(error))
+    }
+  
     render() {
+        const {email, password} = this.state;
+
         return (
             <Modal closeButtonRight handleClose={this.props.handleClose}>
                 <p style={styles.title}> Login </p>
@@ -51,7 +89,7 @@ export default class Login extends React.Component {
                   <Input title="Senha" type="password" name="name"/>
                 </div>
                 <button style={styles.linkButtonLeft}> Esqueceu a senha? </button>
-                <button className="bigBlueButton">
+                <button onClick={this.handleSubmit} className="bigBlueButton">
                     Entrar
                 </button>
                 ou
