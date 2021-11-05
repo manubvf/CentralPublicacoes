@@ -30,7 +30,7 @@ const styles = {
       marginTop: '8px',
     },
     inputButton:{
-      height: '64px',
+      height: '44px',
       width: '101%',
       position: 'absolute',
       padding: '10px 16% 10px 17px',
@@ -41,7 +41,7 @@ const styles = {
       marginTop: '8px',
     },
     inputIcon:{
-      height: '64px',
+      height: '44px',
       width: '101%',
       position: 'absolute',
       padding: '10px 17px 10px 43px',
@@ -52,7 +52,7 @@ const styles = {
       marginTop: '8px',
     },
     extraComponents:{
-      height: '64px',
+      height: '44px',
       width: '101%',
       position: 'absolute',
       padding: '10px 16% 10px 43px',
@@ -75,8 +75,8 @@ const styles = {
     buttons:{
       background: '#ffffff',
       position: 'relative',
-      height: '60px',
-      width: '57px',
+      height: '41px',
+      width: '55px',
       marginTop: '10px',
       borderLeft: '1px solid #333D42',
       borderTop: 'none',
