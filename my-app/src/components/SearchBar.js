@@ -92,7 +92,7 @@ const styles = {
 };
 
 function createSearchItemsElement(str, index, e){
-    return (<div style={styles.searchItem} onClick={e}>{str}<div id={index} style={styles.closeIcon}>x</div></div>);
+    return (<div key={index} style={styles.searchItem} onClick={e}>{str}<div id={index} style={styles.closeIcon}>x</div></div>);
  };
 
 //handling search items
@@ -132,6 +132,10 @@ export default class ProjectSummary extends React.Component {
       const nameState = event.target.name;
       this.setState({[nameState]: event.target.value});
       event.target.focus();
+    }
+
+    handleFilterChange(e) {
+
     }
 
     handleSubmit(event) {

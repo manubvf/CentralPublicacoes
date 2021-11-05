@@ -61,14 +61,19 @@ export default class Login extends React.Component {
         .then(response => response.json())
         .then(response => {
             console.log(response.token)
-            if (response.error) console.log(response.error)
-            else {
+            if (response.error) {
+                console.log(response.error)
+                this.setState({ loading: false });
+            } else {
                 localStorage.setItem('token', response.token);
+                this.setState({ loading: false });
                 this.props.handleClose();
             }
+        })
+        .catch(error => {
+            console.log(error); 
             this.setState({ loading: false });
         })
-        .catch(error => console.log(error))
     }
 
     handleEmailChange = (e) => this.setState({ email: e.target.value })
@@ -83,7 +88,7 @@ export default class Login extends React.Component {
                 <p style={styles.title}> Login </p>
                 <Input title="Email" type="text" name="email" value={email} width="100%" eventChange={this.handleEmailChange}/>
                 <Input title="Senha" type="password" name="password" value={password} width="100%" eventChange={this.handlePasswordChange}/>
-                <a href="#" style={styles.linkButtonLeft}> Esqueceu a senha? </a>
+                <a href="/#" style={styles.linkButtonLeft}> Esqueceu a senha? </a>
                 <button onClick={this.handleSubmit} className="bigBlueButton" style={{ marginTop: 10, marginBottom: 10 }}>
                     Entrar
                 </button>
@@ -94,7 +99,7 @@ export default class Login extends React.Component {
                 </button>
                 <div>
                     É novo por aqui ?
-                    <a href="#" onClick={() => {this.props.handleClose(); this.props.openSignUp();}} style={styles.link}> Faça seu cadastro </a>
+                    <a href="/#" onClick={() => {this.props.handleClose(); this.props.openSignUp();}} style={styles.link}> Faça seu cadastro </a>
                 </div>
             </Modal>
         </>);

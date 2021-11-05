@@ -1,6 +1,5 @@
 import React from 'react';
 import google from '../images/google.png';
-import { Link } from 'react-router-dom';
 import '../Theme.css';
 import Modal from './Modal';
 import Input from '../components/Input';
@@ -86,13 +85,13 @@ export default class SignUp extends React.Component {
                 </button>
                 <div style={{ fontSize:10, textAlign:'center', marginBottom: 10 }}>
                     Ao continuar você concorda com os nossos <br/>
-                    <a onClick={this.props.handleClose} style={styles.terms}>
-                        <Link to="/terms"> Termos e Politica de Privacidade </Link>
+                    <a href="/terms" onClick={this.props.handleClose} style={styles.terms}>
+                        Termos e Politica de Privacidade
                     </a>
                 </div>
                 <div>
                     Já tem uma conta ?
-                    <a onClick={() => {this.props.handleClose(); this.props.openLogin();}} style={styles.link}> Faça seu login </a>
+                    <a href="/#" onClick={() => {this.props.handleClose(); this.props.openLogin();}} style={styles.link}> Faça seu login </a>
                 </div>
             </Modal>
       );

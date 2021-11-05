@@ -8,13 +8,13 @@ const styles = {
     outside: { display: 'flex', flexDirection:'column', alignItems: 'center' },
     principalInfos: { display: 'flex', flexDirection:'row', alignItems: 'center' },
     photoDiv: { display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width:150, height:150, marginRight: 10 },
-    photos: { width:100, height:100, borderRadius:5 },
+    photo: { width:150, height:150, borderRadius:5 },
     buttonLink: { background: 'white', border: 'none', color: '#0070A8', cursor:'pointer' },
     addInfoButton: { borderRadius: 10, width:35, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF' },
     courseLattesDiv: {display: 'flex', flexDirection:'row', marginTop: 10, justifyContent: 'space-between'},
     cancelButton: { borderRadius: 10, width:100, height:35, backgroundColor: '#FFFFFF', color:'#0070A8', cursor:'pointer', border: '1px solid #0070A8' },
     saveButton: { borderRadius: 10, width:100, height:35, backgroundColor: '#0070A8', color:'white', cursor:'pointer', border: '1px solid #FFFFFF', marginLeft: 10 },
-    infos: {display: 'flex', flexDirection:'row', marginTop: 10, marginBottom: 30},
+    infos: {display: 'flex', flexDirection:'row', marginTop: 10, marginBottom: 30, alignItems: 'left'},
     checkbox: { fontSize: 12, marginLeft: 20 },
 }
 
@@ -22,7 +22,7 @@ export default class EditProfile extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {information: [], infoText: '', fileSelected: null};
+        this.state = {information: [], infoText: '', fileSelected: null, fullname: '', course: '', lattes: ''};
     }
 
     componentDidMount(){
@@ -62,12 +62,13 @@ export default class EditProfile extends React.Component {
     }
 
     fileSelectedHandler = (e) => {
+        if (!e || !e.target || !e.target.files || e.target.files.length === 0) return null;
         this.setState({fileSelected: URL.createObjectURL(e.target.files[0])})
     }
 
-    renderInfo = (info) => {
+    renderInfo = (info, index) => {
         return(
-            <div style={{borderRadius: 15, fontSize:11, backgroundColor: '#F1F1F1', paddingLeft: 10, paddingRight: 5, border: '1px solid #586973', marginLeft:10}}>
+            <div key={index} style={{borderRadius: 15, fontSize:11, backgroundColor: '#F1F1F1', paddingLeft: 10, paddingRight: 5, border: '1px solid #586973', marginLeft:10}}>
                 {info}
                 <button onClick={() => this.deleteInfo(info)} style={{marginLeft:5, color: '#586973', border: 'none', cursor:'pointer'}}> x </button>
             </div>
@@ -75,9 +76,13 @@ export default class EditProfile extends React.Component {
     }
 
     handleInfosChange = e => this.setState({infoText: e.target.value})
+    handleFullnameChange = e => this.setState({fullname: e.target.value})
+    handleCourseChange = e => this.setState({course: e.target.value})
+    handleLattesChange = e => this.setState({lattes: e.target.value})
 
     render() {
-        const {fullname} = this.state;
+        const { fullname, course, lattes } = this.state;
+
         return (
             <Container>
                 <p style={{ fontSize:30, paddingLeft: '8%' }}>Editar perfil</p>
@@ -93,19 +98,21 @@ export default class EditProfile extends React.Component {
                             </button>
                         </div>
                         <div>
-                            <Input title='Nome' type="text" width='500px'/>
+                            <Input title='Nome' value={fullname} type="text" width='500px' eventChange={this.handleFullnameChange}/>
                             <div style={styles.courseLattesDiv}>
-                                <Input title='Curso' width="240px"  type="text"/>
-                                <Input title='Link do currículo Lattes' width="240px" type="text" style={{marginLeft: 20}}/>
+                                <Input title='Curso' value={course} width="240px"  type="text" eventChange={this.handleCourseChange}/>
+                                <Input title='Link do currículo Lattes' value={lattes} width="240px" type="text" style={{marginLeft: 20}} eventChange={this.handleLattesChange}/>
                             </div>
                         </div>
                     </div>
-                    <div style={{marginTop: 20, display: 'flex', alignItems: 'center'}}>
-                        <Input title='Informações para contato' value={this.state.infoText} type="text" width="350px" eventChange={this.handleInfosChange} buttonIcon="plus" buttonClick={this.addInfo}/>
-                        <Checkbox label='Deixar as informações de contato públicas' style={styles.checkbox} />
-                    </div>
-                    <div style={styles.infos}>
-                        {this.state.information.map((item) => this.renderInfo(item))}
+                    <div>
+                        <div style={{marginTop: 20, display: 'flex', alignItems: 'center'}}>
+                            <Input title='Informações para contato' value={this.state.infoText} type="text" width="350px" eventChange={this.handleInfosChange} buttonIcon="plus" buttonClick={this.addInfo}/>
+                            <Checkbox label='Deixar as informações de contato públicas' style={styles.checkbox} />
+                        </div>
+                        <div style={styles.infos}>
+                            {this.state.information.map((item, index) => this.renderInfo(item, index))}
+                        </div>
                     </div>
                     <div style={{margin: 10}}>
                         <button className="mediumWhiteButton" style={{ width: 100 }}> Cancelar </button>

@@ -116,9 +116,9 @@ const styles = {
 
 function createAuthorElement(element, index){
    if(index === 0){
-     return (<Link to="/" style={styles.authorLink}>{element}</Link>);
+     return (<Link key={index} to="/" style={styles.authorLink}>{element}</Link>);
    } else{
-     return (<Link to="/" style={styles.authorLink}>, {element}</Link>);
+     return (<Link key={index} to="/" style={styles.authorLink}>, {element}</Link>);
    }
  };
 
@@ -136,15 +136,15 @@ function AuthorLink(props) {
    return(code);
  };
 
- function createTagElement(element, styleIndex){
+ function createTagElement(index, element, styleIndex){
    if(styleIndex === 1){
-     return (<div style={styles.tagMediumBlue}>{element}</div>);
+     return (<div key={index} style={styles.tagMediumBlue}>{element}</div>);
    }
    if(styleIndex === 2){
-     return (<div style={styles.tagLightBlue}>{element}</div>);
+     return (<div key={index} style={styles.tagLightBlue}>{element}</div>);
    }
    if(styleIndex === 3){
-     return (<div style={styles.tagDarkBlue}>{element}</div>);
+     return (<div key={index} style={styles.tagDarkBlue}>{element}</div>);
    }
  };
 
@@ -156,7 +156,7 @@ function AuthorLink(props) {
     var styleIndex = Math.floor(Math.random() * 6) + 1;
     let style = arrayStyles[styleIndex-1];
     for (var i = 0;i < array.length; i++){
-        code = [code, createTagElement(array[i], style[i]),];
+        code = [code, createTagElement(i, array[i], style[i]),];
     }
     return(code);
  };

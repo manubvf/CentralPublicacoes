@@ -122,15 +122,15 @@ export default class Header extends React.Component {
                     {
                         token ?
                         <div>
-                            <a onClick={() => this.setState({ showSubmenu: !showSubmenu })} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
-                                <img style={{ width: 20, height: 20, borderRadius: 25, marginRight: 10 }} src={google}></img>
+                            <a href="/#" onClick={() => this.setState({ showSubmenu: !showSubmenu })} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
+                                <img alt="Imagem de perfil" style={{ width: 20, height: 20, borderRadius: 25, marginRight: 10 }} src={google}></img>
                                 <p style={{ fontSize: '18px' }}> Professor </p>
                             </a>
                             { showSubmenu && <DropDownMenu/> }
                         </div>
                         : 
                         <button onClick={onLogin} style={styles.loginButton}>
-                            <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, 'margin-top': '-3px'}}/>
+                            <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, marginTop: '-3px'}}/>
                             Login
                         </button>
                     }
