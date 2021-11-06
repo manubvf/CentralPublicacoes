@@ -2,7 +2,7 @@ import requests
 # from usuario import Usuario, UsuarioCadastrado
 # import pandas as pd
 # from pymysql import connections
-import database
+from database import Database
 
 
 class Central:
@@ -20,7 +20,7 @@ class Central:
         password : string com a senha da DAC do usuário
         '''
         login_info = [user, password]
-        data = database.read_db(0, login_info)
+        data = Database.read_user(login_info)
         # Checks if there is an entry on the table
         if len(data) > 0:
             ret = {'token': 'LKJHGFDSA'}
@@ -28,9 +28,6 @@ class Central:
             ret = {'error': 'user not found'}
 
         return ret
-
-    # Por enquanto o cadastro só pega o nome, senha e email
-    # Cadastro ainda nao funciona kkkkk solucionar o insert no banco
 
     @staticmethod
     def cadastro(nome, senha, email_institucional):
@@ -41,7 +38,7 @@ class Central:
 
         if (response.status_code == 200):
             signup_info = [nome, senha, email_institucional]
-            database.insert_db(0, signup_info)
+            Database.insert_user(signup_info)
             ret = {'token': 'LKJHGFDSA'}
         else:
             ret = {'error': 'error during sign up'}

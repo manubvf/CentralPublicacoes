@@ -1,122 +1,68 @@
-# import requests
-import pymysql
-import logging
-import sshtunnel
-from sshtunnel import SSHTunnelForwarder
-
-ssh_host = '143.106.73.33'
-ssh_username = 'ubuntu'
-ssh_password = 'jujuborina21'
-database_username = 'dudoca'
-database_password = 'Acabaxi_21'
-database_name = 'db_central_ic'
-localhost = '127.0.0.1'
+from database_connection import DatabaseConnection
 
 
-def open_ssh_tunnel(verbose=False):
-    """Open an SSH tunnel and connect using a username and password.
+class Database:
 
-    :param verbose: Set to True to show logging
-    :return tunnel: Global SSH tunnel connection
-    """
+    @staticmethod
+    def read_user(args):
+        '''
+        ***Perform a read (SELECT) operation on the user table and returns the result.
+        *** Expects: an email and password 
+        *** Return: the user fields
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
 
-    if verbose:
-        sshtunnel.DEFAULT_LOGLEVEL = logging.DEBUG
-
-    global tunnel
-    tunnel = SSHTunnelForwarder(
-        (ssh_host, 22),
-        ssh_username=ssh_username,
-        ssh_password=ssh_password,
-        remote_bind_address=('127.0.0.1', 3306)
-    )
-
-    tunnel.start()
-
-
-def close_ssh_tunnel():
-    """Closes the SSH tunnel connection.
-    """
-
-    tunnel.close
-
-
-def mysql_connect():
-    """Connect to a MySQL server using the SSH tunnel connection
-
-    :return connection: Global MySQL database connection
-    """
-
-    # global connection
-
-    # connection = pymysql.connect(
-    #    host='127.0.0.1',
-    #    user=database_username,
-    #    passwd=database_password,
-    #    db=database_name,
-    #    port=tunnel.local_bind_port
-    # )
-
-    return pymysql.connect(
-        host='127.0.0.1',
-        user=database_username,
-        passwd=database_password,
-        db=database_name,
-        port=tunnel.local_bind_port
-    )
-
-
-def mysql_disconnect(connection):
-    """Closes the MySQL database connection.
-    """
-
-    connection.close()
-
-
-def read_db(op, args):
-    '''Perform a read (SELECT) operation on the database and returns the result.
-    '''
-    '''
-    op: identifies the desired operation (SELECT parameters).
-    args: list of parameters.
-    '''
-    open_ssh_tunnel()
-    connection = mysql_connect()
-    cursor = connection.cursor()
-
-    # op 0 performs a search with email and password (login)
-    if op == 0:
         query = "SELECT email_institucional, senha FROM Usuario WHERE email_institucional='" + \
-            args[0] + "' AND senha='" + args[1] + "'"
+            args[0] + "' AND senha='" + args[1] + "';"
         cursor.execute(query)
         ret = cursor.fetchall()
 
-    mysql_disconnect(connection)
-    close_ssh_tunnel()
+        db_connection.close_all()
 
-    return ret
+        return ret
 
+    @staticmethod
+    def insert_user(args):
+        '''
+        *** Performs a write (INSERT) operation on the User Table.
+        *** Expects: an name, password and email
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
 
-def insert_db(op, args):
-    '''Performs a write (INSERT) operation on the database.
-    '''
-    '''
-    op: identifies the desired operation (INSERT parameters).
-    args: list of parameters.
-    '''
-    open_ssh_tunnel()
-    connection = mysql_connect()
-    cursor = connection.cursor()
+            query = "INSERT INTO `Usuario` (`nome` , `senha`, `email_institucional`) VALUES ('" + \
+                args[0] + "', '" + args[1] + "', '" + args[2] + "');"
 
-    # op 0 inserts a new user with a name, email and password
-    if op == 0:
-        query = "SELECT * FROM Usuario"
-        cursor.execute(query)
-        next_id = len(cursor.fetchall()) + 1
-        query = "INSERT INTO Usuario VALUES (" + str(next_id) + ", '" + args[0] + "', '" + \
-            args[1] + "', NULL, '" + args[3] + \
-                "', NULL, NULL, NULL, NULL, NULL)"
-        cursor.execute(query)
+            cursor.execute(query)
+            db_connection.connection.commit()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
 
-    mysql_disconnect(connection)
-    close_ssh_tunnel()
+    @staticmethod
+    def delete_user(args):
+        '''
+        *** Performs a remove (DELETE) from the User Table.
+        *** Expects: an email
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "DELETE FROM `Usuario` WHERE (`email_institucional`='" + \
+                args[0] + "');"
+            print(query)
+            cursor.execute(query)
+            cursor.execute(query)
+            db_connection.connection.commit()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
