@@ -107,7 +107,6 @@ class Database:
 
             query = "DELETE FROM `Usuario` WHERE (`email_institucional`='" + \
                 args[0] + "');"
-            print(query)
             cursor.execute(query)
             db_connection.connection.commit()
         except Exception as e:
@@ -119,7 +118,7 @@ class Database:
     @staticmethod
     def insert_pesquisa(titulo, descricao, idCategoria, ano_inicio, git=None, tag_1=None, tag_2=None, tag_3=None):
         '''
-        *** Performs a write (INSERT) operation on the Search and Author Tables.
+        *** Performs a write (INSERT) operation on the Search Table.
         *** Expects: an title, description, idCategory, start year, git, tag_1, tag_2, tag_3
         *** The optionals are:  git, tag_1, tag_2, tag_3
         *** Return: the search id
@@ -154,6 +153,43 @@ class Database:
             query = "SELECT MAX(idPesquisa) FROM Pesquisas;"
             cursor.execute(query)
             return cursor.fetchall()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def insert_autors(nome, idUsuario=None, idPesquisa=None, idPublicacao=None):
+        '''
+        *** Performs a write (INSERT) operation on the Author Table.
+        *** Expects: an nome, and a Serch or Publication
+        *** The optionals are:  user id
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "INSERT INTO `Autores` (`nome`"
+            if(idPesquisa is None) and (idPublicacao is None):
+                raise(Exception("Missing arguments"))
+            if(not idPesquisa is None):
+                query += ", `idPesquisa`"
+            if(not idPublicacao is None):
+                query += ", `idPublicacao`"
+            if(not idUsuario is None):
+                query += ", `idUsuario`"
+            query += ") VALUES ('" + nome
+            if(not idPesquisa is None):
+                query += "', '" + idPesquisa
+            if(not idPublicacao is None):
+                query += "', '" + idPublicacao
+            if(not idUsuario is None):
+                query += "', '" + idUsuario
+            query += "');"
+            print(query)
+            cursor.execute(query)
+            db_connection.connection.commit()
         except Exception as e:
             db_connection.connection.rollback()
             raise(e)
