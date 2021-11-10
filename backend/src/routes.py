@@ -15,7 +15,7 @@ def signUp():
     # newUser = {'fullname': fullname, 'email': email, 'password': password, 'passwordConfirmation': passwordConfirmation}
     # return {'token': 'LKJHGFDSA'}
 
-    return central.Central.cadastro(fullname, password, email)
+    return central.Central.signup(fullname, password, email)
 
 
 def login():
@@ -45,16 +45,14 @@ def articles():
     return {'fullname': 'Rebeca Stroh', 'email': 'rebecapstroh@gmail.com', 'password': '12345'}
 
 
-@app.route("/backend", methods=["POST"], strict_slashes=False)
+@app.route("/backend/login", methods=["POST"], strict_slashes=False)
 def add_articles():
-    function = request.json['function']
+    return login()
 
-    if (function == 'signup'):
-        return signUp()
-    elif (function == 'login'):
-        return login()
 
-    return {'error': 'no function found'}
+@app.route("/backend/signup", methods=["POST"], strict_slashes=False)
+def backend_signUp():
+    return signUp()
 
 
 if __name__ == "__main__":

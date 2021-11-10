@@ -64,7 +64,7 @@ class Database:
         db_connection = DatabaseConnection()
         cursor = db_connection.connection.cursor()
 
-        query = "SELECT idUsuario, email_institucional, senha FROM Usuario WHERE email_institucional='" + \
+        query = "SELECT idUsuario, nome, email_institucional, senha FROM Usuario WHERE email_institucional='" + \
             args[0] + "' AND senha='" + args[1] + "';"
         cursor.execute(query)
         ret = cursor.fetchall()
@@ -297,3 +297,51 @@ class Database:
             raise(e)
         finally:
             db_connection.close_all()
+
+    @staticmethod
+    def insert_token(userId, token):
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "INSERT INTO `Tokens` (`tokenString`, `idUsuario`) VALUES ('" + \
+                token + "', '" + str(userId) + "');"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def delete_token(token):
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "DELETE FROM `Tokens` WHERE `tokenString`='" + token + "';"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def read_token(token):
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM Tokens WHERE tokenString='" + token + "';"
+        cursor.execute(query)
+        ret = cursor.fetchall()
+
+        db_connection.close_all()
+
+        return ret
