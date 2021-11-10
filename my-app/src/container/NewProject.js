@@ -187,9 +187,6 @@ export default class NewProject extends React.Component {
     })
     this.setState({ loading: false });
   }
-  handleCancel = () => {
-
-  }
 
   handleDocSubmit = () => {
     const { docNameText, fileSelected, attachments } = this.state;
@@ -279,7 +276,7 @@ export default class NewProject extends React.Component {
           <Input title='Nome:' type="input" name="docNameText" width="100%" value={docNameText} eventChange={this.handleDocNameChange}/>
           <div style={{ color: 'rgba(0,0,0,0.6)', borderRadius: 10, border: '1px solid', flex: 1, width: '100%', padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 20 }}>
             <button className="mediumBlueButton" style={{ width: 100, marginBottom: 20 }} onClick={() => this.fileInputRef.click()}> Procurar </button>
-            ou arraste o seu arquivo até aqui
+            Selecione o arquivo do seu documento
             <input ref={e => this.fileInputRef = e} type="file" hidden onChange={this.handleFileSelected}/>
           </div>
           <button className="mediumBlueButton" style={{ width: 100, marginLeft: 5, alignSelf: 'end' }} onClick={this.handleDocSubmit} > Adicionar </button>
@@ -347,7 +344,6 @@ export default class NewProject extends React.Component {
             </div>
           </div>
           <div style={{ alignSelf: 'flex-end', marginRight: 40 }}>
-            <button className="mediumWhiteButton" style={{ width: 100 }} onClick={this.handleCancel}> Cancelar </button>
             <button className="mediumBlueButton" style={{ width: 100, marginLeft: 5 }} onClick={this.handleSubmit} > Salvar </button>
           </div>
         </div>
