@@ -358,3 +358,139 @@ class Database:
         db_connection.close_all()
 
         return ret
+
+
+
+    @staticmethod
+    def delete_research(titulo, descricao):
+        '''
+        *** Performs a remove (DELETE) from the Pesquisas Table.
+        *** Expects: titulo and descricao
+        *** Return: none
+        '''
+        '''
+        Query final:
+        DELETE from `Autores` WHERE (`idPesquisa` = (SELECT `idPesquisa` from `Pesquisas` WHERE `titulo`='titulo' AND `descricao`='descricao'));
+        DELETE from `Favoritados` WHERE (`idPesquisa` = (SELECT `idPesquisa` from `Pesquisas` WHERE `titulo`='titulo' AND `descricao`='descricao'));
+        DELETE from `Pesquisas` WHERE (`titulo`='titulo' AND `descricao`='descricao');
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            cond_where = "`titulo`='"+titulo+"' AND `descricao`='"+descricao+"'"
+            select = "SELECT `idPesquisa` from `Pesquisas` WHERE "+cond_where+")"
+
+            delete_autor = "DELETE from `Autores` WHERE (`idPesquisa` = ("+select+");"
+            delete_favoritos = "DELETE from `Favoritados` WHERE (`idPesquisa` = ("+select+");"
+            delete_pesquisa = "DELETE from `Pesquisas` WHERE ("+cond_where+");"
+
+            query = delete_autor + delete_favoritos + delete_pesquisa
+            print(query)
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+
+
+    @staticmethod
+    def update_research(idPesquisa, titulo=None, descricao=None, idCategoria=None, ano_inicio=None, idTag_1=None, idTag_2=None, idTag_3=None, git=None, autores=None):
+        '''
+        *** Performs a update the Pesquisas Table.
+        *** Expects: idPesquisa, an title, description, idCategory, start year, git, idTag_1, idTag_2, idTag_3, authors
+        *** The optionals are: an title, description, idCategory, start year, git, idTag_1, idTag_2, idTag_3, authors
+        *** Return: none
+        *** Obs: The variable autores should be a list [], EX: autores = ['Zanoni Dias', 'Flavio Keidi', 'Orlando Lee']
+        '''
+
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            titulo = "`titulo`='"+titulo+"', " if titulo is not None else ""
+            descricao = "`descricao`='"+descricao+"', " if descricao is not None else ""
+            ano_inicio = "`ano_inicio`='"+ano_inicio+"', " if ano_inicio is not None else ""
+            git = "`git`='"+git+"', " if git is not None else ""
+            idCategoria = "`idCategoria`='"+idCategoria+"', " if idCategoria is not None else ""
+            idTag_1 = "`idTag_1`='"+idTag_1+"', " if idTag_1 is not None else ""
+            idTag_2 = "`idTag_2`='"+idTag_2+"', " if idTag_2 is not None else ""
+            idTag_3 = "`idTag_3`='"+idTag_3+"', " if idTag_3 is not None else ""
+
+            cond_where = "`idPesquisa`='"+idPesquisa+"'"
+
+            update_pesquisa = "UPDATE `Pesquisas` SET " +titulo+descricao+ano_inicio+git+idCategoria+idTag_1+idTag_2+idTag_3+", `ultima_atualizacao`='"+date.today().strftime('%Y-%m-%d')+"' WHERE  "+cond_where+";"
+            update_pesquisa = update_pesquisa.split(', , ')
+            update_pesquisa = update_pesquisa[0]+", "+update_pesquisa[1] if len(update_pesquisa)>1 else update_pesquisa[0]
+            update_autores = ""
+            delete_autores = ""
+
+            if autores is not None:
+                delete_autores = "DELETE from `Autores` WHERE ("+cond_where+");"
+                for i in range(len(autores)):
+                    update_autores += "INSERT INTO `Autores` (`idUsuario`, `idPesquisa`, `nome`) VALUES ((SELECT `idUsuario` from `Usuario` WHERE `nome`='"+autores[i]+"'), '"+idPesquisa+"', '"+autores[i]+"');"
+
+            query = update_pesquisa + delete_autores + update_autores
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+
+    @staticmethod
+    def update_publication(idPublicacao, titulo=None, descricao=None, idCategoria=None, ano_inicio=None, ano_termino=None, idTag_1=None, idTag_2=None, idTag_3=None, git=None, autores=None):
+        '''
+        *** Performs a update the Publicacoes Table.
+        *** Expects: idPublicacao, an title, description, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3, authors
+        *** The optionals are: an title, description, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3, authors
+        *** Return: none
+        *** Obs: The variable autores should be a list [], EX: autores = ['Zanoni Dias', 'Flavio Keidi', 'Orlando Lee']
+        '''
+
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            update_publicacao = ""
+            if((titulo or descricao or idCategoria or ano_inicio or ano_termino or idTag_1 or idTag_3 or git) is not None):
+
+                titulo = "`titulo`='"+titulo+"', " if titulo is not None else ""
+                descricao = "`descricao`='"+descricao+"', " if descricao is not None else ""
+                ano_inicio = "`ano_inicio`='"+ano_inicio+"', " if ano_inicio is not None else ""
+                ano_termino = "`ano_inicio`='"+ano_termino+"', " if ano_termino is not None else ""
+                git = "`git`='"+git+"', " if git is not None else ""
+                idCategoria = "`idCategoria`='"+idCategoria+"', " if idCategoria is not None else ""
+                idTag_1 = "`idTag_1`='"+idTag_1+"', " if idTag_1 is not None else ""
+                idTag_2 = "`idTag_2`='"+idTag_2+"', " if idTag_2 is not None else ""
+                idTag_3 = "`idTag_3`='"+idTag_3+"', " if idTag_3 is not None else ""
+
+                cond_where = "`idPublicacao`='"+idPublicacao+"'"
+
+                update_publicacao = "UPDATE `Publicacoes` SET " +titulo+descricao+ano_inicio+ano_termino+git+idCategoria+idTag_1+idTag_2+idTag_3+"WHERE "+cond_where+";" 
+                update_publicacao = update_publicacao.split(', WHERE') 
+                update_publicacao = update_publicacao[0]+" WHERE"+update_publicacao[1] if len(update_publicacao)>1 else update_publicacao[0]  
+            update_autores = ""
+            delete_autores = ""
+
+            if autores is not None:
+                delete_autores = "DELETE from `Autores` WHERE ("+cond_where+");"
+                for i in range(len(autores)):
+                    update_autores += "INSERT INTO `Autores` (`idUsuario`, `idPublicacao`, `nome`) VALUES ((SELECT `idUsuario` from `Usuario` WHERE `nome`='"+autores[i]+"'), '"+idPublicacao+"', '"+autores[i]+"');"
+
+            query = update_publicacao + delete_autores + update_autores
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
