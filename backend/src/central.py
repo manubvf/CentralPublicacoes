@@ -36,7 +36,11 @@ class Central:
         return ret
 
     @staticmethod
-    def cadastro(nome, senha, email_institucional):
+    def signup(nome, senha, email_institucional):
+        data = Database.read_email(email_institucional)
+        if len(data) > 0:
+            return {'error': 'email already registered'}
+
         user = email_institucional.split('@')[0][1:]
         json = {'username': user, 'password': senha}
         response = requests.post(
@@ -45,9 +49,19 @@ class Central:
         if (response.status_code == 200):
             signup_info = [nome, senha, email_institucional]
             Database.insert_user(signup_info)
-            ret = {'token': 'LKJHGFDSA'}
+            data = Database.read_email(email_institucional)
+            if len(data) > 0:
+                userId = data[0][0]
+                name = data[0][1]
+            else:
+                return {'error': 'failed to insert user information on database'}
+
+            # Generate token
+            token = Central.get_new_token()
+            Database.insert_token(userId, token)
+            ret = {'fullname': name, 'token': token}
         else:
-            ret = {'error': 'error during sign up'}
+            ret = {'error': 'email and password not belonging to any DAC student'}
 
         return ret
 
@@ -95,7 +109,8 @@ class Central:
 
 
 # Central.login('fkm@ic.unicamp.br', 'prof_ic21!')
-Central.logout('RUN7xuHSruSE7XGwvIU2')
+# print(Central.signup('Eduardo Augusto', 'Gce15p42', 'e196240@dac.unicamp.br'))
+Central.logout('VAvDok5NdOTzKJjHkJX6')
 
 # db_connection = DatabaseConnection()
 # cursor = db_connection.connection.cursor()

@@ -345,3 +345,16 @@ class Database:
         db_connection.close_all()
 
         return ret
+
+    @staticmethod
+    def read_email(email):
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM Usuario WHERE email_institucional='" + email + "';"
+        cursor.execute(query)
+        ret = cursor.fetchall()
+
+        db_connection.close_all()
+
+        return ret
