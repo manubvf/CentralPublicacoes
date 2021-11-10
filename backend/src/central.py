@@ -106,12 +106,3 @@ class Central:
             return True
         else:
             return False
-
-
-# Central.login('fkm@ic.unicamp.br', 'prof_ic21!')
-# print(Central.signup('Eduardo Augusto', 'Gce15p42', 'e196240@dac.unicamp.br'))
-Central.logout('VAvDok5NdOTzKJjHkJX6')
-
-# db_connection = DatabaseConnection()
-# cursor = db_connection.connection.cursor()
-# db_connection.close_all()
