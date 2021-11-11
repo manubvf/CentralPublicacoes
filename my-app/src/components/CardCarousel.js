@@ -18,7 +18,7 @@ const styles = {
       fontSize: 20,
       color: '#333D42',
       paddingLeft: '8.5%',
-      marginBottom: 35,
+      marginBottom: 40,
     },
     arrowIcon: {
       display: 'flex',
@@ -30,27 +30,75 @@ const styles = {
       borderRadius: '8px',
       color: '#586973',
     },
+    arrowDisable: {
+      minWidth: '46px',
+      height: '66px',
+      border: '1px solid #fff',
+      background: "#fff",
+    },
   };
 
   export default class CardCarousel extends React.Component {
-//só nao sei se passo os dados e leio tudo aqui ou se já passo os objetos como children
+
+    constructor(props) {
+      super(props);
+
+      var childrenSize = 0;
+      if(this.props.children !== undefined){
+        childrenSize = this.props.children.length > 1 ? this.props.children.length : 1;
+      }
+
+      this.state = {visibleCards: [], size: childrenSize, endIndex: childrenSize > 1 ? 1 : 0};
+
+      if(this.state.size >= 1){
+          const { visibleCards } = this.state;
+          if(this.state.size === 1){
+            visibleCards.push(this.props.children);
+          }else{
+            visibleCards.push(this.props.children[0]);
+            visibleCards.push(this.props.children[1]);
+          }
+        this.setState({ visibleCards });
+      }else{
+        this.setState({endIndex: -1});
+      }
+
+      this.arrowClick = this.arrowClick.bind(this);
+    }
+
+    arrowClick(event){
+      const arrowDirection = event.target.id;
+      let index = this.state.endIndex;
+        console.log("index ", index);
+      let auxArray = [];
+      if(arrowDirection === "right"){
+        auxArray.push(this.props.children[this.state.endIndex]);
+        auxArray.push(this.props.children[this.state.endIndex+1]);
+        index++;
+      }else{
+        auxArray.push(this.props.children[this.state.endIndex-2]);
+        auxArray.push(this.props.children[this.state.endIndex-1]);
+        index--;
+      }
+      this.setState({visibleCards: auxArray});
+      this.setState({endIndex: index});
+    }
+
+
 
     render() {
       return (
-          <>
+          <div style={{marginBottom:60}}>
             <div style={{display:"flex", justifyContent:"space-between"}}>
-              <p style={styles.header}>Com base em nao sei o que</p>
+              <p style={styles.header}>{this.props.title}</p>
               <Link style={styles.moreLink}>Ver mais +</Link>
             </div>
             <div style={{ display:"flex", flexDirection:'row', alignItems:'center', width:'96%' }}>
-            <Icon style={styles.arrowIcon} name="angle left" size='large'/>
-            <div style={styles.cardsContainer}>
-              <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Inteligência Artificial" authors={["Sandra Avila","Luiz Sérgio Carvalho","Andrei Sposito"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
-              <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Deep Learning" authors={["Anderson de Rezende Rocha"]} interested={150000} tags={["Tag 1"]}/>
-              </div>
-            <Icon style={styles.arrowIcon} name="angle right" size='large'/>
+            {this.state.endIndex > 1 ? <Icon style={styles.arrowIcon} name="angle left" size='large' id="left" onClick={this.arrowClick}/> : <div style={styles.arrowDisable}></div>}
+            <div style={styles.cardsContainer}>{this.state.visibleCards}</div>
+            {this.state.endIndex < this.state.size-1 ? <Icon style={styles.arrowIcon} name="angle right" size='large' id="right" onClick={this.arrowClick}/> : <div style={styles.arrowDisable}></div>}
             </div>
-          </>
+          </div>
       );
     }
   }

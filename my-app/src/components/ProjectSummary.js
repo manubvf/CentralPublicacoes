@@ -44,6 +44,9 @@ const styles = {
       textAlign: 'left',
       width: '42vh',
       color: '#333D42',
+      inlineSize: '390px',
+      overflow: 'hidden',
+      maxHeight: '72px',
     },
     interested:{
       color: '#586973',
@@ -162,12 +165,13 @@ function AuthorLink(props) {
  };
 
 export default class ProjectSummary extends React.Component {
-
     constructor(props) {
       super(props);
 
+      //this.state = {title1: this.props.title.length > 50 ? this.props.title.substr(0,50) : this.props.title, numInterested1: ""};
+
       //handling title's length
-      title = props.title;
+      title = this.props.title;
       if (props.title.length > 50) {
         let t = title.substr(0,50);
         title = t.concat("...");
@@ -197,7 +201,7 @@ export default class ProjectSummary extends React.Component {
             <div style={styles.interested}>{numInterested}
               <Icon style={{paddingLeft: '7px'}} name='star outline' />
             </div>
-            <h2 style={styles.title}>{title}</h2>
+            <h2 style={styles.title}>{this.props.title}</h2>
             <div style={styles.authorsContainer}>
               <AuthorLink authors={this.props.authors}/>
             </div>
