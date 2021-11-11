@@ -24,13 +24,13 @@ def login():
 
     return central.Central.login(email, password)
 
-    # user = {'email': email, 'password': password}
-    # correct = {'email': 'rebecapstroh@gmail.com', 'password': '12345'}
+def deleteUser():
+    email = request.json['email']
+    password = request.json['password']
 
-    # if user == correct:
-    # return {'token': 'LKJHGFDSA'}
+    return central.Central.deleteUser(email, password)
 
-    # return {'error': 'user not found'}
+
 
 # Define a route to fetch the available articles
 
@@ -53,6 +53,10 @@ def add_articles():
 @app.route("/backend/signup", methods=["POST"], strict_slashes=False)
 def backend_signUp():
     return signUp()
+
+@app.route("/backend/deleteuser", methods=["POST"], strict_slashes=False)
+def backend_deleteUser():
+    return deleteUser()
 
 
 if __name__ == "__main__":
