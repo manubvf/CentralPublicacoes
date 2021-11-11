@@ -189,7 +189,6 @@ class Database:
             if(not idUsuario is None):
                 query += "', '" + idUsuario
             query += "');"
-            print(query)
             cursor.execute(query)
             db_connection.connection.commit()
         except Exception as e:
@@ -221,7 +220,6 @@ class Database:
             if(not idPublicacao is None):
                 query += "', '" + idPublicacao
             query += "');"
-            print(query)
             cursor.execute(query)
             db_connection.connection.commit()
         except Exception as e:
@@ -387,7 +385,6 @@ class Database:
             delete_pesquisa = "DELETE from `Pesquisas` WHERE ("+cond_where+");"
 
             query = delete_autor + delete_favoritos + delete_pesquisa
-            print(query)
 
             cursor.execute(query)
             db_connection.connection.commit()
@@ -425,7 +422,6 @@ class Database:
                 if(not descricao is None):
                     query += "', '" + descricao
                 query += "');"
-                print(query)
                 cursor.execute(query)
                 db_connection.connection.commit()
                 query = "SELECT MAX(idModificacao_Pesquisas) FROM Modificacao_Pesquisas;"
@@ -444,6 +440,55 @@ class Database:
                     query += "', " + idModificacaoPesquisas + ");"
                 else:
                     query += "', '" + str(idModificacaoPesquisas) + "');"
+                cursor.execute(query)
+            db_connection.connection.commit()
+            return idAutores
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def insert_request_autor_update(tipo, nome, idPesquisa, idUsuarioSolicitante, idUsuario=None):
+        '''
+        *** Insert a request for un update for the autor table 
+        *** Expects: name, idPesquisa, the type of modification and the idUsuario of the User who solicitates change
+        *** The optionals are: an idUsuario for the new autor 
+        *** Return: ID List of users that should be notificated 
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+            idModificacao_Autores = 'NULL'
+            if (tipo != TYPE.exclusao.value):
+
+                query = "INSERT INTO `Modificacao_Autores` ( `nome`"
+
+                if(not idUsuario is None):
+                    query += ", `idUsuario`"
+                query += ") VALUES ('" + nome
+                if(not idUsuario is None):
+                    query += "', '" + idUsuario
+                query += "');"
+                cursor.execute(query)
+                db_connection.connection.commit()
+                query = "SELECT MAX(idModificacao_Autores) FROM Modificacao_Autores;"
+                cursor.execute(query)
+                idModificacao_Autores = cursor.fetchall()[0][0]
+            query = "SELECT idUsuario FROM Autores WHERE (idPesquisa = '" + idPesquisa + \
+                "') AND (idUsuario is NOT NULL) AND (idUsuario <> '" + \
+                idUsuarioSolicitante + "');"
+            cursor.execute(query)
+            idAutores = cursor.fetchall()
+            for _aut in idAutores:
+                query = "INSERT INTO `Atualizacoes` ( `idPesquisa`, `idUsuario`, `status`, `tipo`, `idModificacaoAutores`) VALUES ("
+                query += " '" + idPesquisa + "', '" + str(_aut[0]) + "', 'pendente'" + \
+                    ", '" + TYPE(tipo).name
+                if (idModificacao_Autores == 'NULL'):
+                    query += "', " + idModificacao_Autores + ");"
+                else:
+                    query += "', '" + str(idModificacao_Autores) + "');"
                 cursor.execute(query)
             db_connection.connection.commit()
             return idAutores
@@ -562,8 +607,3 @@ class Database:
             raise(e)
         finally:
             db_connection.close_all()
-
-
-if __name__ == "__main__":
-    Database.insert_request_research_update(
-        TYPE.alteracao.value, '1', '1', 'Teste')
