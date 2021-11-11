@@ -8,9 +8,9 @@ import LoaderComponent from '../components/LoaderComponent';
 import { Icon } from 'semantic-ui-react';
 
 const MAX_AUTHORS = 10;
-const MAX_TAGS = 15;
-const MAX_ATTACHMENT = 5;
-const TAGS_COLOR = ['#84BBDB', '#49B4F1', '#70CAFF', '#23688F', '#487690', '#9FD8F9', '#0E6FA8', '#BBE6FF', '#137DBA', '#4683A6', '#56B5EC', '#40B9FF', '#1F9DE5', '#2690CE', '#6DA5C6']
+const MAX_TAGS = 3;
+const MAX_ATTACHMENT = 20;
+const TAGS_COLOR = ['#84BBDB', '#49B4F1', '#70CAFF']
 
 const styles = {
   outside: { display: 'flex', flexDirection:'column', alignItems: 'center' },
@@ -74,7 +74,7 @@ export default class NewProject extends React.Component {
       linkText: '', 
       linkNameText: '', 
       docNameText: '',
-      fileSelected: '',
+      fileSelected: null,
       tags: [], 
       authors: ['Rebeca Stroh'],
       attachments: [],
@@ -197,7 +197,7 @@ export default class NewProject extends React.Component {
     const doc = { type: 'doc', text: docNameText, file: fileSelected };
     attachments.push(doc);
 
-    this.setState({ showNewFile: false, docNameText: '', fileSelected: '' });
+    this.setState({ showNewFile: false, docNameText: '', fileSelected: null });
   }
 
   handleLinkSubmit = () => {
@@ -214,7 +214,7 @@ export default class NewProject extends React.Component {
 
   handleFileSelected = (e) => {
       if (!e || !e.target || !e.target.files || e.target.files.length === 0) return null;
-      this.setState({fileSelected: URL.createObjectURL(e.target.files[0])})
+      this.setState({fileSelected: e.target.files[0]})
   }
 
   renderTag = (tag, index) => {
@@ -268,7 +268,7 @@ export default class NewProject extends React.Component {
   }
 
   renderDocModal = () => {
-    const { docNameText } = this.state;
+    const { docNameText, fileSelected } = this.state;
     return (
       <Modal closeButtonLeft handleClose={() => this.setState({ showNewFile: false })}>
         <div style={{ display: 'flex', flex: 1, alignItems: 'center', flexDirection: 'column', width: '400px' }}>
@@ -276,7 +276,7 @@ export default class NewProject extends React.Component {
           <Input title='Nome:' type="input" name="docNameText" width="100%" value={docNameText} eventChange={this.handleDocNameChange}/>
           <div style={{ color: 'rgba(0,0,0,0.6)', borderRadius: 10, border: '1px solid', flex: 1, width: '100%', padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: 20 }}>
             <button className="mediumBlueButton" style={{ width: 100, marginBottom: 20 }} onClick={() => this.fileInputRef.click()}> Procurar </button>
-            Selecione o arquivo do seu documento
+            {fileSelected ? fileSelected.name : 'Selecione o arquivo do seu documento'}
             <input ref={e => this.fileInputRef = e} type="file" hidden onChange={this.handleFileSelected}/>
           </div>
           <button className="mediumBlueButton" style={{ width: 100, marginLeft: 5, alignSelf: 'end' }} onClick={this.handleDocSubmit} > Adicionar </button>
