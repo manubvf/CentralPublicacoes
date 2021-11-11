@@ -36,6 +36,11 @@ const styles = {
       border: '1px solid #fff',
       background: "#fff",
     },
+    moreLink:{
+      cursor: 'pointer',
+      color: '#0070A8',
+      textDecoration: 'underline',
+    },
   };
 
   export default class CardCarousel extends React.Component {
@@ -84,14 +89,12 @@ const styles = {
       this.setState({endIndex: index});
     }
 
-
-
     render() {
       return (
           <div style={{marginBottom:60}}>
             <div style={{display:"flex", justifyContent:"space-between"}}>
               <p style={styles.header}>{this.props.title}</p>
-              <Link style={styles.moreLink}>Ver mais +</Link>
+              <div style={styles.moreLink} onClick={this.props.seeMoreClick}>Ver mais +</div>
             </div>
             <div style={{ display:"flex", flexDirection:'row', alignItems:'center', width:'96%' }}>
             {this.state.endIndex > 1 ? <Icon style={styles.arrowIcon} name="angle left" size='large' id="left" onClick={this.arrowClick}/> : <div style={styles.arrowDisable}></div>}
