@@ -325,9 +325,9 @@ export default class NewProject extends React.Component {
               <div style={styles.tags}> {authors.map((item, index) => this.renderAuthor(item, index))} </div>
 
               <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <Input title='Ano de início:' type="date" name="beginDate" value={beginDate} width={200} eventChange={this.handleBeginDateChange}/>
+                <Input title='Ano de início:' type="number" name="beginDate" value={beginDate} width={200} eventChange={this.handleBeginDateChange}/>
                 <div style={{ marginLeft: 40, width: 200 }}>
-                  <Input title='Estimativa de fim:' type="date" name="endDate" value={endDate} eventChange={this.handleEndDateChange}/>
+                  <Input title='Estimativa de fim:' type="number" name="endDate" value={endDate} eventChange={this.handleEndDateChange}/>
                 </div>
               </div>
             </div>
