@@ -727,3 +727,234 @@ class Database:
             raise(e)
         finally:
             db_connection.close_all()
+
+    @staticmethod
+    def insert_favoritados(idUsuario, idPublicacao=None, idPesquisa=None):
+        '''
+        *** Performs an insert at the Favoritados Table.
+        *** Expects: idUsuario, and one of the two: idPublicacao, idPesquisa
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+            # If it's a Publicacao
+            if idPublicacao is not None:
+                query = "INSERT INTO `Favoritados` (`idUsuario`, `idPublicacao`) VALUES ('" + \
+                    str(idUsuario) + "', '" + str(idPublicacao) + "');"
+            # if it's a Pesquisa
+            elif idPesquisa is not None:
+                query = "INSERT INTO `Favoritados` (`idUsuario`, `idPesquisa`) VALUES ('" + \
+                    str(idUsuario) + "', '" + str(idPesquisa) + "');"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def delete_favoritados(idUsuario, idPublicacao=None, idPesquisa=None):
+        '''
+        *** Performs a deletion at the Favoritados Table.
+        *** Expects: idUsuario, and one of the two: idPublicacao, idPesquisa
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+            # If it's a Publicacao
+            if idPublicacao is not None:
+                query = "DELETE FROM `Favoritados` WHERE `idUsuario`='" + \
+                    str(idUsuario) + "' AND `idPublicacao`='" + \
+                    str(idPublicacao) + "';"
+            # if it's a Pesquisa
+            elif idPesquisa is not None:
+                query = "DELETE FROM `Favoritados` WHERE `idUsuario`='" + \
+                    str(idUsuario) + "' AND `idPesquisa`='" + \
+                    str(idPesquisa) + "';"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def read_favoritados(idUsuario=None, idPublicacao=None, idPesquisa=None):
+        '''
+        *** Performs a read from the Favoritados Table.
+        *** Expects: idUsuario or idPublicacao or idPesquisa
+        *** Return: all likes related to the given id
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+        # If it's a User id
+        if idUsuario is not None:
+            query = "SELECT * FROM `Favoritados` WHERE `idUsuario`='" + \
+                str(idUsuario) + "';"
+        # If it's a Publicacao
+        elif idPublicacao is not None:
+            query = "SELECT * FROM `Favoritados` WHERE `idPublicacao`='" + \
+                str(idPublicacao) + "';"
+        # if it's a Pesquisa
+        elif idPesquisa is not None:
+            query = "SELECT * FROM `Favoritados` WHERE `idPesquisa`='" + \
+                str(idPesquisa) + "';"
+
+        cursor.execute(query)
+        ret = cursor.fetchall()
+
+        db_connection.close_all()
+
+        return ret
+
+    @staticmethod
+    def update_user(idUsuario, nome=None, senha=None, email_pessoal=None, telefone=None, curso=None, lattes=None, research_gate=None, img_path=None):
+        '''
+        *** Performs an update on the Usuarios Table.
+        *** Expects: idUsuario and all fields he wishes to edit
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            first = False
+            updates = ""
+
+            if nome is not None:
+                updates += "`nome`='" + nome + "'"
+                first = True
+            if senha is not None:
+                if not first:
+                    updates += "`senha`='" + senha + "'"
+                else:
+                    updates += ", `senha`='" + senha + "'"
+                    first = True
+            if email_pessoal is not None:
+                if not first:
+                    updates += "`email_pessoal`='" + email_pessoal + "'"
+                else:
+                    updates += ", `email_pessoal`='" + email_pessoal + "'"
+                    first = True
+            if telefone is not None:
+                if not first:
+                    updates += "`telefone`='" + str(telefone) + "'"
+                else:
+                    updates += ", `telefone`='" + str(telefone) + "'"
+                    first = True
+            if curso is not None:
+                if not first:
+                    updates += "`curso`='" + curso + "'"
+                else:
+                    updates += ", `curso`='" + curso + "'"
+                    first = True
+            if lattes is not None:
+                if not first:
+                    updates += "`lattes`='" + lattes + "'"
+                else:
+                    updates += ", `lattes`='" + lattes + "'"
+                    first = True
+            if research_gate is not None:
+                if not first:
+                    updates += "`research_gate`='" + research_gate + "'"
+                else:
+                    updates += ", `research_gate`='" + research_gate + "'"
+                    first = True
+            if img_path is not None:
+                if not first:
+                    updates += "`img_path`='" + img_path + "'"
+                else:
+                    updates += ", `img_path`='" + img_path + "'"
+                    first = True
+
+            query = "UPDATE `Usuario` SET " + updates + \
+                " WHERE `idUsuario`='" + str(idUsuario) + "';"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def update_request(idAtualizacao, resultado):
+        '''
+        *** Performs an update on the Atualizacoes Table.
+        *** Expects: idAtualizacao and the new status
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "UPDATE `Atualizacoes` SET `status`='" + resultado + \
+                "' WHERE `idAtualizacao`='" + str(idAtualizacao) + "';"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def delete_request(idAtualizacao):
+        '''
+        *** Performs a deletion on the Atualizacoes/Modificacoes Table.
+        *** Expects: idAtualizacao
+        *** Return: none
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "SELECT * FROM `Atualizacoes` WHERE `idAtualizacao`='" + \
+                str(idAtualizacao) + "';"
+
+            cursor.execute(query)
+
+            data = cursor.fetchall()[0]
+
+            if data[6] == 'exclusao':
+                pass
+            elif data[6] == 'alteracao':
+                query = "DELETE FROM `Modificacao_Pesquisas` WHERE `idModificacao_Pesquisas`='" + \
+                    str(data[5]) + "';"
+                cursor.execute(query)
+                db_connection.connection.commit()
+            elif data[6] == 'adicao_autor':
+                query = "DELETE FROM `Modificacao_Autores` WHERE `idModificacao_Autores`='" + \
+                    str(data[4]) + "';"
+                cursor.execute(query)
+                db_connection.connection.commit()
+            else:
+                raise(Exception("Invalid fields for Atualizacao"))
+
+            query = "DELETE FROM `Atualizacoes` WHERE `idAtualizacao`='" + \
+                str(idAtualizacao) + "';"
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+
+        finally:
+            db_connection.close_all()
