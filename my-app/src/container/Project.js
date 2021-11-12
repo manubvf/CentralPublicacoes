@@ -50,8 +50,10 @@ export default class Project extends React.Component {
             lastUpdate: '',
             finished: false,
             isInterested: false,
+            isAuthor: false,
             outdated: false,
             showInfoHover: false,
+            showAuthorMenu: false,
             showAuthor: null,
         }
     }
@@ -90,6 +92,7 @@ export default class Project extends React.Component {
             lastUpdate: '2019-03-11',
             finished: false,
             isInterested: false,
+            isAuthor: true,
             outdated: false,
         });
         // TODO: GET INFOS FROM BACK
@@ -110,9 +113,13 @@ export default class Project extends React.Component {
     //   .catch(error => console.log(error))
     }
 
+    handleInfoHover = () => this.setState({showInfoHover: !this.state.showInfoHover});
+    handleAuthorMenu = () => this.setState({showAuthorMenu: !this.state.showAuthorMenu});
+
     showInterest = () => {
         // TODO: mostrar interesse
         const token = localStorage.getItem('token');
+        const { id } = this.state;
         this.setState({ isInterested: !this.state.isInterested });
         // fetch('http://127.0.0.1:5000/interest' , {
         //     'methods':'POST',
@@ -128,6 +135,52 @@ export default class Project extends React.Component {
         //     if (response.error) console.log(response.error)
         //     else  {
         //         this.setState({ isInterested: !this.state.isInterested });
+        //     }
+        // })
+        // .catch(error => console.log(error))
+    }
+
+    markAsDone = () => {
+        const token = localStorage.getItem('token');
+        const { id } = this.state;
+        // TODO: MARK PROJECT AS DONE
+        // fetch('http://127.0.0.1:5000/markAsDone' , {
+        //     'methods':'POST',
+        //     headers : {
+        //     'Content-Type':'application/json'
+        //     },
+        //     body: JSON.stringify({ 
+        //         token, idProject: id
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(response => {
+        //     if (response.error) console.log(response.error)
+        //     else  {
+        //         window.location.reload();
+        //     }
+        // })
+        // .catch(error => console.log(error))
+    }
+
+    deleteProject = () => {
+        const token = localStorage.getItem('token');
+        const { id } = this.state;
+        // TODO: MARK PROJECT AS DONE
+        // fetch('http://127.0.0.1:5000/deleteProject' , {
+        //     'methods':'POST',
+        //     headers : {
+        //     'Content-Type':'application/json'
+        //     },
+        //     body: JSON.stringify({ 
+        //         token, idProject: id
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(response => {
+        //     if (response.error) console.log(response.error)
+        //     else  {
+        //         window.location.href = '/myProfile';
         //     }
         // })
         // .catch(error => console.log(error))
@@ -177,8 +230,8 @@ export default class Project extends React.Component {
     }
 
     render() {
-        const { id, title, category, authors, tags, startDate, endDate, interested, description, attachments, lastUpdate, finished, outdated, isInterested,
-            showInfoHover } = this.state;
+        const { id, title, category, authors, tags, startDate, endDate, interested, description, attachments, lastUpdate, finished, outdated, isInterested, isAuthor,
+            showInfoHover, showAuthorMenu } = this.state;
         const token = localStorage.getItem('token');
         
         return (
@@ -187,6 +240,20 @@ export default class Project extends React.Component {
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <h1> {title} </h1>
+                            {isAuthor && <div style={{ background: '#F1F1F1', marginLeft: 15, borderRadius: 10, padding: 5, paddingLeft: 10, paddingRight: 10, cursor: 'pointer' }}>
+                                <Icon name='cog'/> {showAuthorMenu ? <Icon name='chevron up' onClick={this.handleAuthorMenu}/> : <Icon name='chevron down' onClick={this.handleAuthorMenu}/>}
+                                {showAuthorMenu && <div style={{ position: 'absolute', background: '#F1F1F1', marginTop: 5, marginLeft: -5, padding: 10, paddingLeft: 10, paddingRight: 10, borderRadius: 10, display: 'flex', flexDirection: 'column' }}>
+                                    <a href={'/newProject/'+id} style={{ borderBottom: '1px solid #B5BBBF', marginBottom: 10, paddingBottom: 10, color: '#333D42', textAlign: 'center' }}>
+                                        Adicionar/Editar informações
+                                    </a>
+                                    <a onClick={this.markAsDone} style={{ borderBottom: '1px solid #B5BBBF', marginBottom: 10, paddingBottom: 10, color: '#333D42', textAlign: 'center' }}>
+                                        Marcar como concluído
+                                    </a>
+                                    <a onClick={this.deleteProject} style={{ color: '#333D42', textAlign: 'center' }}>
+                                        Excluir projeto
+                                    </a>
+                                </div>}
+                            </div>}
                             {finished
                             ? <div style={{ borderRadius: 15, border: '2px solid #008550', marginLeft: 15, paddingTop: 5, paddingBottom: 5, paddingLeft: 10, paddingRight: 10, height: 35, color: '#008550', fontSize: 12 }}> Concluído </div>
                             : outdated && <div style={{ borderRadius: 15, border: '2px solid #E46117', marginLeft: 15, paddingTop: 5, paddingBottom: 5, paddingLeft: 10, paddingRight: 10, height: 35, color: '#E46117', fontSize: 12 }}> Desatualizado </div>
@@ -207,10 +274,10 @@ export default class Project extends React.Component {
                             {endDate ? <p style={{ marginLeft: 5, color: finished ? '#008550' : outdated && '#E46117' }}> {endDate} </p> : '?'}
                             <div>
                             { finished 
-                                ? <Icon name='check circle outline' style={{ marginLeft: 10, cursor: 'pointer' }} color="green" onMouseOver={() => this.setState({showInfoHover:true})} onMouseLeave={() => this.setState({showInfoHover:false})}/>
-                                : <Icon name='info circle' style={{ marginLeft: 10, cursor: 'pointer' }} onMouseOver={() => this.setState({showInfoHover:true})} onMouseLeave={() => this.setState({showInfoHover:false})}/>
+                                ? <Icon name='check circle outline' style={{ marginLeft: 10, cursor: 'pointer' }} color="green" onMouseOver={this.handleInfoHover} onMouseLeave={this.handleInfoHover}/>
+                                : <Icon name='info circle' style={{ marginLeft: 10, cursor: 'pointer' }} onMouseOver={this.handleInfoHover} onMouseLeave={this.handleInfoHover}/>
                             }
-                            {showInfoHover && <div style={{ position: 'absolute', background: '#86949C', padding: 5, paddingLeft: 10, paddingRight: 10, borderRadius: 10, marginLeft: -120 }}>
+                            {showInfoHover && <div style={{ position: 'absolute', background: '#F1F1F1', padding: 5, paddingLeft: 10, paddingRight: 10, borderRadius: 10, marginLeft: -120 }}>
                                 { finished ? 'Tempo em que o projeto ficou em curso' : 'Ano estimado para a conclusão' }
                             </div>}
                             </div>
