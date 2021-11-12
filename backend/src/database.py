@@ -557,13 +557,12 @@ class Database:
             db_connection.close_all()
 
     @staticmethod
-    def update_publication(idPublicacao, titulo=None, descricao=None, idCategoria=None, ano_inicio=None, ano_termino=None, idTag_1=None, idTag_2=None, idTag_3=None, git=None, autores=None):
+    def update_publication(idPublicacao, idCategoria=None, ano_inicio=None, ano_termino=None, idTag_1=None, idTag_2=None, idTag_3=None, git=None):
         '''
         *** Performs a update the Publicacoes Table.
-        *** Expects: idPublicacao, an title, description, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3, authors
-        *** The optionals are: an title, description, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3, authors
+        *** Expects: idPublicacao, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3, authors
+        *** The optionals are: an title, description, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3
         *** Return: none
-        *** Obs: The variable autores should be a list [], EX: autores = ['Zanoni Dias', 'Flavio Keidi', 'Orlando Lee']
         '''
 
         try:
@@ -571,13 +570,13 @@ class Database:
             cursor = db_connection.connection.cursor()
 
             update_publicacao = ""
-            if((titulo or descricao or idCategoria or ano_inicio or ano_termino or idTag_1 or idTag_3 or git) is not None):
+            if((idCategoria or ano_inicio or ano_termino or idTag_1 or idTag_3 or git) is not None):
 
-                titulo = "`titulo`='"+titulo+"', " if titulo is not None else ""
-                descricao = "`descricao`='"+descricao+"', " if descricao is not None else ""
+                #titulo = "`titulo`='"+titulo+"', " if titulo is not None else ""
+                #descricao = "`descricao`='"+descricao+"', " if descricao is not None else ""
                 ano_inicio = "`ano_inicio`='"+ano_inicio + \
                     "', " if ano_inicio is not None else ""
-                ano_termino = "`ano_inicio`='"+ano_termino + \
+                ano_termino = "`ano_termino`='"+ano_termino + \
                     "', " if ano_termino is not None else ""
                 git = "`git`='"+git+"', " if git is not None else ""
                 idCategoria = "`idCategoria`='"+idCategoria + \
@@ -588,12 +587,13 @@ class Database:
 
                 cond_where = "`idPublicacao`='"+idPublicacao+"'"
 
-                update_publicacao = "UPDATE `Publicacoes` SET " + titulo+descricao+ano_inicio + \
+                update_publicacao = "UPDATE `Publicacoes` SET " + ano_inicio + \
                     ano_termino+git+idCategoria+idTag_1+idTag_2+idTag_3+"WHERE "+cond_where+";"
                 update_publicacao = update_publicacao.split(', WHERE')
                 update_publicacao = update_publicacao[0]+" WHERE"+update_publicacao[1] if len(
                     update_publicacao) > 1 else update_publicacao[0]
-            update_autores = ""
+            
+            '''update_autores = ""
             delete_autores = ""
 
             if autores is not None:
@@ -601,9 +601,9 @@ class Database:
                     cond_where+");"
                 for i in range(len(autores)):
                     update_autores += "INSERT INTO `Autores` (`idUsuario`, `idPublicacao`, `nome`) VALUES ((SELECT `idUsuario` from `Usuario` WHERE `nome`='" + \
-                        autores[i]+"'), '"+idPublicacao+"', '"+autores[i]+"');"
+                        autores[i]+"'), '"+idPublicacao+"', '"+autores[i]+"');"'''
 
-            query = update_publicacao + delete_autores + update_autores
+            query = update_publicacao
 
             cursor.execute(query)
             db_connection.connection.commit()
