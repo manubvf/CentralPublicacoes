@@ -27,7 +27,8 @@ def login():
 def deleteUser():
     email = request.json['email']
     password = request.json['password']
-
+    token = request.json['token']
+    central.Central.logout(token)
     return central.Central.deleteUser(email, password)
 
 
