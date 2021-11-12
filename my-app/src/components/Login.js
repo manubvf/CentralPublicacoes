@@ -3,7 +3,6 @@ import google from '../images/google.png';
 import '../Theme.css';
 import Modal from './Modal';
 import Input from '../components/Input';
-import LoaderComponent from './LoaderComponent';
 
 const styles = {
     input: {
@@ -34,7 +33,7 @@ export default class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { email: '', password: '', loading: false }
+        this.state = { email: '', password: '' }
     }
 
     handleSubmit = async () => {
@@ -45,8 +44,7 @@ export default class Login extends React.Component {
             console.log('Faltam dados!')
             return null;
         }
-
-        this.setState({ loading: true });
+        this.props.context.handleLoading()
 
         return fetch(`http://127.0.0.1:5000/backend`, {
             'method':'POST',
@@ -60,19 +58,19 @@ export default class Login extends React.Component {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response.token)
             if (response.error) {
                 console.log(response.error)
-                this.setState({ loading: false });
+                this.props.context.handleLoading()
             } else {
                 localStorage.setItem('token', response.token);
-                this.setState({ loading: false });
+                this.props.context.handleLoading()
                 this.props.handleClose();
+                window.location.reload();
             }
         })
         .catch(error => {
             console.log(error); 
-            this.setState({ loading: false });
+            this.props.context.handleLoading()
         })
     }
 
@@ -80,10 +78,9 @@ export default class Login extends React.Component {
     handlePasswordChange = (e) => this.setState({ password: e.target.value })
   
     render() {
-        const { email, password, loading } = this.state;
-
+        const { email, password } = this.state;
+        
         return (<>
-            {loading && <LoaderComponent/>}
             <Modal closeButtonRight handleClose={this.props.handleClose}>
                 <p style={styles.title}> Login </p>
                 <Input title="Email" type="text" name="email" value={email} width="100%" eventChange={this.handleEmailChange}/>
@@ -99,7 +96,7 @@ export default class Login extends React.Component {
                 </button>
                 <div>
                     É novo por aqui ?
-                    <a href="/#" onClick={() => {this.props.handleClose(); this.props.openSignUp();}} style={styles.link}> Faça seu cadastro </a>
+                    <a onClick={() => {this.props.handleClose(); this.props.openSignUp();}} style={styles.link}> Faça seu cadastro </a>
                 </div>
             </Modal>
         </>);

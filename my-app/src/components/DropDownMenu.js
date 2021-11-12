@@ -24,12 +24,12 @@ const styles = {
 export default class DropDownMenu extends React.Component {
     logOff = () => {
         localStorage.removeItem('token');
-        console.log('Deslogado')
+        window.location.href = '/';
     }
 
     render() {
         return (
-            <div style={styles.out}>
+            <div style={styles.out} onMouseLeave={this.props.onMouseLeave}>
                 <a href='/notification' style={styles.item}>Notificações</a>
                 <a href='/newProject' style={styles.item}>Novo projeto de pesquisa</a>
                 <a href='/myProfile' style={styles.item}>Meu perfil</a>
