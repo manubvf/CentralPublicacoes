@@ -118,7 +118,7 @@ class Database:
             db_connection.close_all()
 
     @staticmethod
-    def insert_search(titulo, descricao, idCategoria, ano_inicio, git=None, tag_1=None, tag_2=None, tag_3=None):
+    def insert_search(titulo, descricao, idCategoria, ano_inicio, estimativa_fim=None, git=None, tag_1=None, tag_2=None, tag_3=None):
         '''
         *** Performs a write (INSERT) operation on the Search Table.
         *** Expects: an title, description, idCategory, start year, git, tag_1, tag_2, tag_3
@@ -129,7 +129,9 @@ class Database:
             db_connection = DatabaseConnection()
             cursor = db_connection.connection.cursor()
 
-            query = "INSERT INTO `Pesquisas` (`titulo` , `descricao`, `idCategoria`, `ano_inicio`, `numero_likes`, `ultima_atualizacao` "
+            query = "INSERT INTO `Pesquisas` (`titulo` , `descricao`, `idCategoria`, `ano_inicio`, `ultima_atualizacao` "
+            if(not estimativa_fim is None):
+                query += ", `estimativa_fim`"
             if(not git is None):
                 query += ", `git`"
             if(not tag_1 is None):
@@ -140,7 +142,9 @@ class Database:
                 query += ", `idTag_3`"
             query += ") VALUES ('" + titulo + "', '" + descricao + \
                 "', '" + idCategoria + "', '" + ano_inicio + \
-                "', '0', '" + date.today().strftime('%Y-%m-%d')
+                "', '" + date.today().strftime('%Y-%m-%d')
+            if(not estimativa_fim is None):
+                query += "', '" + estimativa_fim
             if(not git is None):
                 query += "', '" + git
             if(not tag_1 is None):
@@ -242,7 +246,7 @@ class Database:
             first = 0
 
             query = "SELECT Pesquisas.idPesquisa, Pesquisas.titulo, Pesquisas.descricao, Pesquisas.idCategoria, "
-            query += "Pesquisas.ano_inicio, Pesquisas.estimativa_fim, Pesquisas.numero_likes, Pesquisas.idTag_1, Pesquisas.idTag_2, "
+            query += "Pesquisas.ano_inicio, Pesquisas.estimativa_fim, Pesquisas.idTag_1, Pesquisas.idTag_2, "
             query += "Pesquisas.idTag_3, Pesquisas.ultima_atualizacao, Pesquisas.git FROM Pesquisas\n"
             if(titulo is None) and (idTag is None) and (idCategoria is None) and (idAutor is None):
                 query += "INNER JOIN Autores ON Pesquisas.idPesquisa = Autores.idPesquisa"
@@ -282,6 +286,7 @@ class Database:
                         query += "\n\t OR Pesquisas.idTag_3 = '" + _t + "'"
                     query += ")\n"
                 query += ")"
+            query += " GROUP BY idPesquisa\n"
             if (ord is None) or (ORDER(ord).value == ORDER.autor.value):
                 query += " ORDER BY Autores.nome ASC,\n"
             else:
@@ -604,6 +609,121 @@ class Database:
             db_connection.connection.commit()
         except Exception as e:
             db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def insert_publication(titulo, descricao, idCategoria, ano_inicio, ano_termino, git=None, tag_1=None, tag_2=None, tag_3=None):
+        '''
+        *** Performs a write (INSERT) operation on the Search Table.
+        *** Expects: an title, description, idCategory, start year, end_year git, tag_1, tag_2, tag_3
+        *** The optionals are:  git, tag_1, tag_2, tag_3
+        *** Return: the search id
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "INSERT INTO `Publicacoes` (`titulo` , `descricao`, `idCategoria`, `ano_inicio`, `ano_termino`"
+            if(not git is None):
+                query += ", `git`"
+            if(not tag_1 is None):
+                query += ", `idTag_1`"
+            if(not tag_2 is None):
+                query += ", `idTag_2`"
+            if(not tag_3 is None):
+                query += ", `idTag_3`"
+            query += ") VALUES ('" + titulo + "', '" + descricao + \
+                "', '" + idCategoria + "', '" + ano_inicio + \
+                "', '" + ano_termino
+            if(not git is None):
+                query += "', '" + git
+            if(not tag_1 is None):
+                query += "', '" + tag_1
+            if(not tag_2 is None):
+                query += "', '" + tag_2
+            if(not tag_3 is None):
+                query += "', '" + tag_3
+            query += "');"
+            cursor.execute(query)
+            db_connection.connection.commit()
+            query = "SELECT MAX(idPublicacao) FROM Publicacoes;"
+            cursor.execute(query)
+            return cursor.fetchall()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+    @staticmethod
+    def read_publication(ord=None, titulo=None, idCategoria=None, idAutor=None, idTag=None):
+        '''
+        *** Performs a search (SELECT) operation on the Search Table.
+        *** Expects: ord: one of the enums values
+                     all other fields are optionals, none null filds should be lists
+        *** Return: all fields
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+            first = 0
+
+            query = "SELECT Publicacoes.idPublicacao, Publicacoes.titulo, Publicacoes.descricao, Publicacoes.idCategoria, "
+            query += "Publicacoes.ano_inicio, Publicacoes.ano_termino, Publicacoes.idTag_1, Publicacoes.idTag_2, "
+            query += "Publicacoes.idTag_3, Publicacoes.git FROM Publicacoes\n"
+            if(titulo is None) and (idTag is None) and (idCategoria is None) and (idAutor is None):
+                query += "INNER JOIN Autores ON Publicacoes.idPublicacao = Autores.idPublicacao"
+            else:
+                query += "INNER JOIN Autores ON Publicacoes.idPublicacao = Autores.idPublicacao WHERE ("
+                if(not titulo is None):
+                    first = 1
+                    query += "\n\t(Publicacoes.titulo LIKE '%" + \
+                        titulo[0] + "%'"
+                    for _t in titulo[1:]:
+                        query += "\n\t OR Publicacoes.titulo LIKE '%" + _t + "%'"
+                    query += ")\n "
+                if(not idAutor is None):
+                    if(first == 1):
+                        query += "\tAND "
+                    first = 1
+                    query += "\n\t(Autores.idAutores = '" + idAutor[0] + "'"
+                    for _a in idAutor[1:]:
+                        query += "\n\t OR Autores.idAutores = '" + _a + "'"
+                    query += ")\n"
+                if(not idCategoria is None):
+                    if(first == 1):
+                        query += "\tAND "
+                    first = 1
+                    query += "\n\t(Publicacoes.idCategoria is NULL "
+                    for _c in idCategoria:
+                        query += "\n\t OR Publicacoes.idCategoria = '" + _c + "'"
+                    query += ")\n"
+                if(not idTag is None):
+                    if(first == 1):
+                        query += "\tAND "
+                    query += "\n\t(Publicacoes.idTag_1 is NULL "
+                    query += "\n\t OR Publicacoes.idTag_2 is NULL "
+                    query += "\n\t OR Publicacoes.idTag_3 is NULL "
+                    for _t in idTag:
+                        query += "\n\t OR Publicacoes.idTag_1 = '" + _t + "'"
+                        query += "\n\t OR Publicacoes.idTag_2 = '" + _t + "'"
+                        query += "\n\t OR Publicacoes.idTag_3 = '" + _t + "'"
+                    query += ")\n"
+                query += ")"
+            query += " GROUP BY idPublicacao\n"
+            if (ord is None) or (ORDER(ord).value == ORDER.autor.value):
+                query += " ORDER BY Autores.nome ASC,\n"
+            else:
+                query += " ORDER BY Publicacoes." + ORDER(ord).name + " ASC,\n"
+            query += "\t case when idCategoria is null then 1 else 0 end, idCategoria,\n"
+            query += "\t case when idTag_1 is null then 1 else 0 end, idTag_1,\n"
+            query += "\t case when idTag_2 is null then 1 else 0 end, idTag_2,\n"
+            query += "\t case when idTag_3 is null then 1 else 0 end, idTag_3;\n"
+            cursor.execute(query)
+            return cursor.fetchall()
+        except Exception as e:
             raise(e)
         finally:
             db_connection.close_all()
