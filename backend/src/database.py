@@ -560,8 +560,8 @@ class Database:
     def update_publication(idPublicacao, idCategoria=None, ano_inicio=None, ano_termino=None, idTag_1=None, idTag_2=None, idTag_3=None, git=None):
         '''
         *** Performs a update the Publicacoes Table.
-        *** Expects: idPublicacao, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3, authors
-        *** The optionals are: an title, description, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3
+        *** Expects: idPublicacao, idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3
+        *** The optionals are: idCategory, start year, end year, git, idTag_1, idTag_2, idTag_3
         *** Return: none
         '''
 
