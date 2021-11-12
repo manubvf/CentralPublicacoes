@@ -5,17 +5,14 @@ import {
   Link,
 } from 'react-router-dom'
 
-var title = "Título";
-
-var numInterested = "0";
-
 const styles = {
     card: {
-        width: '70.5vh',
-        height: '230px',
+        width: '100%',
+        minHeight: '230px',
         backgroundColor: '#ffffff',
         boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)',
         borderRadius: '5px',
+        minWidth: '300px',
     },
     category: {
       float: 'right',
@@ -42,11 +39,11 @@ const styles = {
       paddingTop: '10px',
       marginLeft: '4.5vh',
       textAlign: 'left',
-      width: '42vh',
       color: '#333D42',
-      inlineSize: '390px',
+      inlineSize: '55%',
       overflow: 'hidden',
-      maxHeight: '72px',
+      maxHeight: '70px',
+      fontSize: '21px',
     },
     interested:{
       color: '#586973',
@@ -164,33 +161,23 @@ function AuthorLink(props) {
     return(code);
  };
 
+//handling the format of number of interested string
+ function InterestedNumber(props){
+   let value = props.interested;
+   if(props.interested > 1000 && props.interested < 1000000){
+     value = value / 1000;
+     value = value + " mil";
+   } else{
+     if(props.interested > 1000000){
+       value = value / 1000000;
+       value = value + " M";
+     }
+   }
+   const numInterested = value + " interessados";
+   return (<div style={styles.interested}>{numInterested}<Icon style={{paddingLeft: '7px'}} name='star outline' /></div>);
+ }
+
 export default class ProjectSummary extends React.Component {
-    constructor(props) {
-      super(props);
-
-      //this.state = {title1: this.props.title.length > 50 ? this.props.title.substr(0,50) : this.props.title, numInterested1: ""};
-
-      //handling title's length
-      title = this.props.title;
-      if (props.title.length > 50) {
-        let t = title.substr(0,50);
-        title = t.concat("...");
-      }
-
-      //handling the format of number of interested string
-      let value = this.props.interested;
-      if(this.props.interested > 1000 && this.props.interested < 1000000){
-        value = value / 1000;
-        value = value + " mil";
-      } else{
-        if(this.props.interested > 1000000){
-          value = value / 1000000;
-          value = value + " M";
-        }
-      }
-      numInterested = value + " interessados";
-    }
-
     render() {
       return (
           <div style={styles.card}>
@@ -198,10 +185,8 @@ export default class ProjectSummary extends React.Component {
               <p style={styles.categoryTitle}>{this.props.category}</p>
               <img style={styles.categoryImage} src={categoryFlag} alt=""/>
             </div>
-            <div style={styles.interested}>{numInterested}
-              <Icon style={{paddingLeft: '7px'}} name='star outline' />
-            </div>
-            <h2 style={styles.title}>{this.props.title}</h2>
+            <InterestedNumber interested={this.props.interested}/>
+            <h2 style={styles.title}>{this.props.title.length > 45 ? this.props.title.substr(0,45) : this.props.title}{this.props.title.length > 45 ? "..." : ""}</h2>
             <div style={styles.authorsContainer}>
               <AuthorLink authors={this.props.authors}/>
             </div>

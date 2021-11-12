@@ -10,10 +10,10 @@ const styles = {
       marginBottom: 30,
     },
     topBanner: {
-      width: '97%',
+      width: '96%',
       height: '120px',
       marginBottom: '56px',
-      marginLeft: '4%',
+      marginLeft: '2%',
       borderRadius: '7px',
       overflow: 'hidden',
     },
@@ -25,12 +25,12 @@ const styles = {
     },
     cardsContainer: {
       display: 'grid',
-      gridGap: '62px',
-      gridTemplateColumns: '70.5vh 70.5vh',
-      marginRight: '8.5%',
-      width: '150vh',
-      marginLeft: '8.5%',
-      marginTop: '40px',
+      gridGap: '70px',
+      gridTemplateColumns: '46% 46%',
+      marginRight: '6%',
+      width: '88%',
+      marginLeft: '6%',
+      marginTop: 40,
     },
   };
 
