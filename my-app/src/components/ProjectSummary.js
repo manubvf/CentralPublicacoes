@@ -40,7 +40,7 @@ const styles = {
       marginLeft: '4.5vh',
       textAlign: 'left',
       color: '#333D42',
-      inlineSize: '55%',
+      inlineSize: '49%',
       overflow: 'hidden',
       maxHeight: '70px',
       fontSize: '21px',
@@ -186,7 +186,7 @@ export default class ProjectSummary extends React.Component {
               <img style={styles.categoryImage} src={categoryFlag} alt=""/>
             </div>
             <InterestedNumber interested={this.props.interested}/>
-            <h2 style={styles.title}>{this.props.title.length > 45 ? this.props.title.substr(0,45) : this.props.title}{this.props.title.length > 45 ? "..." : ""}</h2>
+            <h2 style={styles.title}>{this.props.title.length > 35 ? this.props.title.substr(0,35) : this.props.title}{this.props.title.length > 35 ? "..." : ""}</h2>
             <div style={styles.authorsContainer}>
               <AuthorLink authors={this.props.authors}/>
             </div>
