@@ -1,3 +1,5 @@
+from datetime import date
+from flask.json import tag
 import requests
 # from usuario import Usuario, UsuarioCadastrado
 # import pandas as pd
@@ -26,10 +28,16 @@ class Central:
         data = Database.read_user(login_info)
         # Checks if there is an entry on the table
         if len(data) > 0:
-            token = Central.get_new_token()
+            # token = Central.get_new_token()
             name = data[0][1]
-            Database.insert_token(data[0][0], token)
-            ret = {'fullname': name, 'token': token}
+            id = data[0][0]
+            try:
+                token = Database.read_token_from_id(id)[0][0]
+            except Exception("Couldn't find user's token") as e:
+                raise(e)
+
+            # Database.insert_token(data[0][0], token)
+            ret = {'fullname': name, 'token': token, 'id': id}
         else:
             ret = {'error': 'user not found'}
 
@@ -59,7 +67,7 @@ class Central:
             # Generate token
             token = Central.get_new_token()
             Database.insert_token(userId, token)
-            ret = {'fullname': name, 'token': token}
+            ret = {'fullname': name, 'token': token, 'id': userId}
         else:
             ret = {'error': 'email and password not belonging to any DAC student'}
 
@@ -106,3 +114,107 @@ class Central:
             return True
         else:
             return False
+
+    @staticmethod
+    def search(params):
+        # order by year
+        ord = 2
+        titulos = []
+        idCategorias = []
+        idAutores = []
+        idTags = []
+
+        for _param in params:
+            if _param['category'] == 'titulo':
+                titulos.append(_param['value'])
+            elif _param['category'] == 'autor':
+                idAutores = idAutores + Database.get_author_id(_param['value'])
+            elif _param['category'] == 'categoria':
+                cat = Database.get_category_id(_param['value'])
+                if cat is not None:
+                    idCategorias.append(cat)
+            elif _param['category'] == 'tag':
+                t = Database.get_tag_id(_param['value'])
+                if t is not None:
+                    idTags.append(t)
+
+        if len(titulos) == 0:
+            titulos = None
+        if len(idCategorias) == 0:
+            idCategorias = None
+        if len(idAutores) == 0:
+            idAutores = None
+        if len(idTags) == 0:
+            idTags = None
+
+        data = Database.read_searches(
+            ord, titulo=titulos, idCategoria=idCategorias, idAutor=idAutores, idTag=idTags)
+
+        research_list = []
+
+        for _r in data:
+            # Research id
+            rid = _r[0]
+            # Research title
+            rtitle = _r[1]
+            # Category
+            if _r[3] is not None:
+                rcat = Database.get_category_name(_r[3])
+            else:
+                rcat = '-'
+            # Get authors
+            authors = Database.read_authors(rid)
+            rauthors = []
+            for _aut in authors:
+                _raut = {'fullname': _aut[1],
+                         'email': _aut[4], 'lattes': _aut[7]}
+                rauthors.append(_raut)
+            # Get tags
+            rtags = []
+            if _r[6] is not None:
+                rtags.append(Database.read_tag(_r[6])[0][0])
+            if _r[7] is not None:
+                rtags.append(Database.read_tag(_r[7])[0][0])
+            if _r[8] is not None:
+                rtags.append(Database.read_tag(_r[8])[0][0])
+            # Get start date
+            rstart = _r[5]
+            # Get end date
+            if _r[6] is not None:
+                rend = _r[6]
+            else:
+                rend = '-'
+            # Get number of interested people
+            rfav = len(Database.read_favoritados(_r[0]))
+            # Get description
+            rdesc = _r[2]
+            # Get attachments
+            ranex = []
+            anex = Database.read_anexos(_r[0])
+            for _anex in anex:
+                _ranex = {'type': 'file',
+                          'name': 'Documento', 'file': _anex[0]}
+                ranex.append(_ranex)
+            # Get last update
+            if _r[9] is not None:
+                rlast = str(_r[9].isoformat())
+            else:
+                rlast = '-'
+            # Get finished status
+            rfinished = 'false'
+            # Get outdated info
+            routdated = 'false'
+
+            # Build JSON
+            research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
+                        'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated}
+
+            research_list.append(research)
+
+        print({'searchResult': research_list})
+
+        return {'searchResult': research_list}
+
+
+# data = date(2021, 8, 9)
+# print(str(data.isoformat()))
