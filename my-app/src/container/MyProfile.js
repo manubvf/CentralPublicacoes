@@ -10,12 +10,13 @@ import ProjectSummary from '../components/ProjectSummary';
 
 const styles = {
     profileColumn: {
-        height: '100%',
+        height: '86%',
         width: '27%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         borderRight: '1px solid #B5BBBF',
+        position: 'fixed',
     },
     profileImage: {
         height: 145,
@@ -93,21 +94,21 @@ export default class MyProfile extends React.Component {
                   <div style={styles.secItem}>(19) 99999-9999</div>
                 </section>
             </div>
-            <div style={{position: 'relative', marginLeft: '34%'}}>
+            <div style={{position: 'relative', marginLeft: '32%'}}>
               {this.state.seeMore === false ? <div>
-                <CardCarousel title="Baseados em projetos que você desmonstrou interesse" seeMoreClick={this.toggleMore}>
+                <CardCarousel title="Projetos de pesquisa desatualizados" numberVisible={1} seeMoreClick={this.toggleMore}>
                     <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Inteligência Artificial" authors={["Sandra Avila","Luiz Sérgio Carvalho","Andrei Sposito"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
                     <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Deep Learning" authors={["Anderson de Rezende Rocha"]} interested={150000} tags={["Tag 1"]}/>
                     <ProjectSummary title="Análise de Mídias Sensíveis" category="Inteligência Artificial" authors={["Sandra Avila","Eduardo Valle","Anderson Rocha"]} interested={150} tags={["Tag 1","Tag2"]}/>
                     <ProjectSummary title="Medical Image Classification for Computer-Aided Diagnosis with Deep Learning and Jumbo Vectors" category="Teoria de Grafos" authors={["Michel Fornaciali","Micael Carvalho","Sandra Avila","Zanoni Dias","Mauricio Perez","Daniel Moraes"]} interested={1500} tags={["Tag 1","Tag2","Tag3"]}/>
                 </CardCarousel>
-                <CardCarousel title="Baseados nos seus projetos de pesquisa" seeMoreClick={this.toggleMore}>
+                <CardCarousel title="Projetos de pesquisa em andamento" numberVisible={1} seeMoreClick={this.toggleMore}>
                     <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Inteligência Artificial" authors={["Sandra Avila","Luiz Sérgio Carvalho","Andrei Sposito"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
                     <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Deep Learning" authors={["Anderson de Rezende Rocha"]} interested={150000} tags={["Tag 1"]}/>
                     <ProjectSummary title="Análise de Mídias Sensíveis" category="Inteligência Artificial" authors={["Sandra Avila","Eduardo Valle","Anderson Rocha"]} interested={150} tags={["Tag 1","Tag2"]}/>
                     <ProjectSummary title="Medical Image Classification for Computer-Aided Diagnosis with Deep Learning and Jumbo Vectors" category="Teoria de Grafos" authors={["Michel Fornaciali","Micael Carvalho","Sandra Avila","Zanoni Dias","Mauricio Perez","Daniel Moraes"]} interested={1500} tags={["Tag 1","Tag2","Tag3"]}/>
                 </CardCarousel>
-                <CardCarousel title="Baseados no que você visualizou" seeMoreClick={this.toggleMore}>
+                <CardCarousel title="Projetos de pesquisa concluídos" numberVisible={1} seeMoreClick={this.toggleMore}>
                     <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Inteligência Artificial" authors={["Sandra Avila","Luiz Sérgio Carvalho","Andrei Sposito"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
                     <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Deep Learning" authors={["Anderson de Rezende Rocha"]} interested={150000} tags={["Tag 1"]}/>
                     <ProjectSummary title="Análise de Mídias Sensíveis" category="Inteligência Artificial" authors={["Sandra Avila","Eduardo Valle","Anderson Rocha"]} interested={150} tags={["Tag 1","Tag2"]}/>
