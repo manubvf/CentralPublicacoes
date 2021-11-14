@@ -46,7 +46,7 @@ const styles = {
       color: '#586973',
       marginTop: 4,
       position: 'absolute',
-      right: '7%',
+      right: '10%',
     },
     button:{
       cursor: 'pointer',
