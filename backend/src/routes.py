@@ -36,10 +36,19 @@ def login():
 # Define a route to fetch the available articles
 
 
-def search():
+def search_project():
     params = request.json['parameters']
 
-    return Central.search(params)
+    return Central.search_project(params)
+
+
+def view_project():
+    proj_id = request.json['id']
+    return Central.view_project(proj_id)
+
+
+def register():
+    pass
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -64,7 +73,17 @@ def backend_signUp():
 
 @app.route("/backend/search", methods=["POST"], strict_slashes=False)
 def backend_search():
-    return search()
+    return search_project()
+
+
+@app.route("/backend/view", methods=["POST"], strict_slashes=False)
+def backend_view():
+    return view_project()
+
+
+@app.route("/backend/register", methods=["POST"], strict_slashes=False)
+def backend_register():
+    return register()
 
 
 if __name__ == "__main__":

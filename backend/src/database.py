@@ -1123,6 +1123,28 @@ class Database:
 
         return ret
 
+    def read_search_from_id(idPesquisa):
+        '''
+        *** Reads tabela Pesquisas and returns the data of a research for a given id
+        *** Expects: research id
+        *** Return: all files related to that research
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM `Pesquisas` WHERE `idPesquisa`='" + \
+            str(idPesquisa) + "';"
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        db_connection.close_all()
+
+        if len(data) > 0:
+            return data[0]
+        else:
+            raise(Exception("Search with given id not found"))
+
 
 # print(Database.read_anexos(100))
 
@@ -1134,3 +1156,5 @@ class Database:
 # db_connection = DatabaseConnection()
 # cursor = db_connection.connection.cursor()
 # db_connection.close_all()
+
+# print(Database.read_search_from_id(20))

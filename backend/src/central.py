@@ -116,7 +116,7 @@ class Central:
             return False
 
     @staticmethod
-    def search(params):
+    def search_project(params):
         # order by year
         ord = 2
         titulos = []
@@ -177,44 +177,103 @@ class Central:
                 rtags.append(Database.read_tag(_r[7])[0][0])
             if _r[8] is not None:
                 rtags.append(Database.read_tag(_r[8])[0][0])
-            # Get start date
-            rstart = _r[5]
-            # Get end date
-            if _r[6] is not None:
-                rend = _r[6]
-            else:
-                rend = '-'
             # Get number of interested people
             rfav = len(Database.read_favoritados(_r[0]))
-            # Get description
-            rdesc = _r[2]
-            # Get attachments
-            ranex = []
-            anex = Database.read_anexos(_r[0])
-            for _anex in anex:
-                _ranex = {'type': 'file',
-                          'name': 'Documento', 'file': _anex[0]}
-                ranex.append(_ranex)
-            # Get last update
-            if _r[9] is not None:
-                rlast = str(_r[9].isoformat())
-            else:
-                rlast = '-'
-            # Get finished status
-            rfinished = 'false'
-            # Get outdated info
-            routdated = 'false'
 
             # Build JSON
-            research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
-                        'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated}
+            research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors,
+                        'tags': rtags, 'interested': rfav, 'isInterested': 'false'}
 
             research_list.append(research)
 
-        print({'searchResult': research_list})
-
         return {'searchResult': research_list}
+
+    @staticmethod
+    def view_project(idPesquisa):
+
+        _r = Database.read_search_from_id(idPesquisa)
+
+        # Research id
+        rid = _r[0]
+        # Research title
+        rtitle = _r[1]
+        # Category
+        if _r[3] is not None:
+            rcat = Database.get_category_name(_r[3])
+        else:
+            rcat = '-'
+        # Get authors
+        authors = Database.read_authors(rid)
+        rauthors = []
+        for _aut in authors:
+            _raut = {'fullname': _aut[1],
+                     'email': _aut[4], 'lattes': _aut[7]}
+            rauthors.append(_raut)
+        # Get tags
+        rtags = []
+        if _r[6] is not None:
+            rtags.append(Database.read_tag(_r[6])[0][0])
+        if _r[7] is not None:
+            rtags.append(Database.read_tag(_r[7])[0][0])
+        if _r[8] is not None:
+            rtags.append(Database.read_tag(_r[8])[0][0])
+        # Get start date
+        rstart = _r[5]
+        # Get end date
+        if _r[6] is not None:
+            rend = _r[6]
+        else:
+            rend = '-'
+        # Get number of interested people
+        rfav = len(Database.read_favoritados(_r[0]))
+        # Get description
+        rdesc = _r[2]
+        # Get attachments
+        ranex = []
+        anex = Database.read_anexos(_r[0])
+        for _anex in anex:
+            _ranex = {'type': 'file',
+                      'name': 'Documento', 'file': _anex[0]}
+            ranex.append(_ranex)
+        # Get last update
+        if _r[9] is not None:
+            rlast = str(_r[9].isoformat())
+        else:
+            rlast = '-'
+        # Get finished status
+        rfinished = 'false'
+        # Get outdated info
+        routdated = 'false'
+
+        # Build JSON
+        research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
+                    'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated}
+
+        # print({'searchResult': research_list})
+
+        return research
 
 
 # data = date(2021, 8, 9)
 # print(str(data.isoformat()))
+
+# {
+#     "title": "Titulo",
+#     "category": "Processamento de Imagens",
+#     "authors": [
+#         {"fullname": "Manulenis",
+#          "email": "ra183219@students.ic.unicamp.br",
+#          "lattes": null},
+#         {"fullname": "Duzao da Massa",
+#          "email": "duzeradamassa@gmail.com",
+#          "lattes": null}
+#     ],
+#     "tags": [
+#         "Python",
+#         "C"
+#     ],
+#     "startDate": "2018",
+#     "endDate": "2022",
+#     "description": "blablabla",
+#     "attachments": []
+# }
