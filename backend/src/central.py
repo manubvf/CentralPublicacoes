@@ -111,9 +111,9 @@ class Central:
     def validate_token(token):
         data = Database.read_token(token)
         if (len(data) > 0):
-            return True
+            return data[0][1]
         else:
-            return False
+            return 0
 
     @staticmethod
     def search_project(params):
@@ -305,6 +305,16 @@ class Central:
             else:
                 Database.insert_autors(_author, idPesquisa=idPesquisa)
 
+    @staticmethod
+    def show_interest(token, idPesquisa):
+        idUsuario = Central.validate_token(token)
+        if not idUsuario:
+            return {'error': 'invalid token'}
+
+        Database.insert_favoritados(idUsuario, idPesquisa=idPesquisa)
+
+        return {'ok': 'ok'}
+
 
 # data = date(2021, 8, 9)
 # print(str(data.isoformat()))
@@ -313,3 +323,4 @@ class Central:
 #                          "Manulenis", "Duzao da Massa"], ["C", "Tagzao"], "2008", None, None)
 
 # print(date.today().strftime("%Y-%m-%d"))
+Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)

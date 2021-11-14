@@ -65,6 +65,13 @@ def register_project():
     return Central.register_project(title, category, description, authors, tags, startDate, endDate, attachments)
 
 
+def show_interest():
+    token = request.json['token']
+    idPesquisa = request.json['idPesquisa']
+
+    return Central.show_interest(token, idPesquisa)
+
+
 @app.route("/", methods=["GET"], strict_slashes=False)
 def articles():
 
@@ -98,6 +105,11 @@ def backend_view():
 @app.route("/backend/register", methods=["POST"], strict_slashes=False)
 def backend_register():
     return register_project()
+
+
+@app.route("/backend/interest", methods=["POST"], strict_slashes=False)
+def backend_interest():
+    return show_interest()
 
 
 if __name__ == "__main__":
