@@ -10,13 +10,11 @@ import ProjectSummary from '../components/ProjectSummary';
 
 const styles = {
     profileColumn: {
-        height: '86%',
+        height: '100%',
         width: '27%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        borderRight: '1px solid #B5BBBF',
-        position: 'fixed',
     },
     profileImage: {
         height: 145,
@@ -43,6 +41,7 @@ const styles = {
     section: {
         marginTop: 20,
         color: '#022B59',
+        width: '70%',
     },
     secTitle: {
         marginTop: 20,
@@ -60,13 +59,33 @@ const styles = {
         color: '#586973',
         fontSize: '16px',
     },
+    backLink:{
+      cursor: 'pointer',
+      color: '#586973',
+      borderBottom: '1px solid #586973',
+      width: '149px',
+    },
+    cardsContainer: {
+      marginRight: '6%',
+      width: '88%',
+      marginLeft: '6%',
+      marginTop: 40,
+      display: 'grid',
+      gridRowGap: 56,
+      alignItems: 'center',
+    },
   };
 
 export default class MyProfile extends React.Component {
     constructor(props) {
       super(props);
       this.state = {seeMore: false}
-      //arrumar a qtd de pontinhos da section e o height da foto - 79 width
+      //arrumar a qtd de pontinhos da section e o height da foto
+      this.toggleMore = this.toggleMore.bind(this);
+    }
+
+    toggleMore(event){
+      this.setState({seeMore: !this.state.seeMore});
     }
 
     render() {
@@ -94,7 +113,7 @@ export default class MyProfile extends React.Component {
                   <div style={styles.secItem}>(19) 99999-9999</div>
                 </section>
             </div>
-            <div style={{position: 'relative', marginLeft: '32%'}}>
+            <div style={{position: 'relative', width: '71%', paddingLeft:'2%', borderLeft: '1px solid #B5BBBF'}}>
               {this.state.seeMore === false ? <div>
                 <CardCarousel title="Projetos de pesquisa desatualizados" numberVisible={1} seeMoreClick={this.toggleMore}>
                     <ProjectSummary title="Gerenciamento de Saúde Populacional Baseada em Inteligência Artificial" category="Inteligência Artificial" authors={["Sandra Avila","Luiz Sérgio Carvalho","Andrei Sposito"]} interested={2390000} tags={["Tag 1","Tag2","Tag3"]}/>
