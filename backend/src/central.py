@@ -109,28 +109,16 @@ class Central:
 
     @staticmethod
     def updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores):
-        #data = Database.read_publication(titulo)           function to be implemented
-        data = idPublicacao
+        data = Database.read_publication(1, titulo, None, None, None)
         if len(data) <= 0:
             return {'error': 'publication doesn´t exist'}
         else:
-            #old_idPublicacao = data[0][0]
-            #old_titulo = data[0][1]
-            #old_descricao = data[0][2]
-            #old_idCategoria = data[0][3]
-            #old_ano_inicio = data[0][4]
-            #old_ano_termino = data[0][5]
-            #old_idTag_1 = data[0][6]
-            #old_idTag_2 = data[0][7]
-            #old_idTag_3 = data[0][8]
-            #old_git = data[0][9]
-            #old_autores = data[0][10]
-            Database.update_publication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
-            #data = Database.read_publication(titulo)       function to be implemented
-            if len(data) > 0:
+            #Database.delete_publication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
+            #Database.insert_search(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
+            data = Database.read_searches(1, titulo, None, None, None)
+            if len(data) < 0:
                 #see if changes happened
-                #if (old_idPublicacao != data[0][0] or old_titulo != data[0][1] or old_descricao != data[0][2] or old_idCategoria != data[0][3] or old_ano_inicio != data[0][4] or old_ano_termino != data[0][5] or old_idTag_1 != data[0][6] or old_idTag_2 != data[0][7] or old_idTag_3 != data[0][8] or old_git != data[0][9] or old_autores != data[0][10]):
-                return  {"sucess" : "oi"}
-            else:
                 return {'error': 'failed to update publication information on database'}
+            else:
+                return  {"sucess" : "succes"}
 
