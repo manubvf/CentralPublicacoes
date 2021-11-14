@@ -189,7 +189,12 @@ class Central:
         return {'searchResult': research_list}
 
     @staticmethod
-    def view_project(idPesquisa):
+    def view_project(idPesquisa, token):
+
+        # Check if token is valid
+        data = Database.read_token(token)
+        if len(data) < 1:
+            return {'error': 'invalid token'}
 
         _r = Database.read_search_from_id(idPesquisa)
 
@@ -253,27 +258,58 @@ class Central:
 
         return research
 
+    @staticmethod
+    def register_project(title, category, description, authors, tags, startDate, endDate, attachments):
+        # Get tags ids
+        idTags = []
+        if len(tags) > 0:
+            for _tag in tags:
+                data = Database.read_tag(palavra_chave=_tag)
+                if len(data) > 0:
+                    idTags.append(data[0][0])
+                else:
+                    data = Database.insert_tag(_tag)
+                    idTags.append(data[0])
+
+        if len(idTags) == 3:
+            tag_1 = idTags[0]
+            tag_2 = idTags[1]
+            tag_3 = idTags[2]
+        elif len(idTags) == 2:
+            tag_1 = idTags[0]
+            tag_2 = idTags[1]
+            tag_3 = None
+        elif len(idTags) == 1:
+            tag_1 = idTags[0]
+            tag_2 = None
+            tag_3 = None
+        elif len(idTags) == 0:
+            tag_1 = None
+            tag_2 = None
+            tag_3 = None
+        else:
+            raise(Exception("invalid number of tags"))
+
+        # Get category id
+        idCat = Database.read_category(category)[0][0]
+
+        # Insert project into table
+        idPesquisa = Database.insert_search(
+            title, description, idCat, startDate, endDate, None, tag_1, tag_2, tag_3)[0][0]
+
+        # Insert authors in Autores table
+        for _author in authors:
+            autid = Database.read_user_by_name(_author)
+            if autid is not None:
+                Database.insert_autors(_author, autid, idPesquisa)
+            else:
+                Database.insert_autors(_author, idPesquisa=idPesquisa)
+
 
 # data = date(2021, 8, 9)
 # print(str(data.isoformat()))
 
-# {
-#     "title": "Titulo",
-#     "category": "Processamento de Imagens",
-#     "authors": [
-#         {"fullname": "Manulenis",
-#          "email": "ra183219@students.ic.unicamp.br",
-#          "lattes": null},
-#         {"fullname": "Duzao da Massa",
-#          "email": "duzeradamassa@gmail.com",
-#          "lattes": null}
-#     ],
-#     "tags": [
-#         "Python",
-#         "C"
-#     ],
-#     "startDate": "2018",
-#     "endDate": "2022",
-#     "description": "blablabla",
-#     "attachments": []
-# }
+# Central.register_project("Pesquisao Brabo", "Análise de algoritmos", "pesquisa braba demais", [
+#                          "Manulenis", "Duzao da Massa"], ["C", "Tagzao"], "2008", None, None)
+
+# print(date.today().strftime("%Y-%m-%d"))

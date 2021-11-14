@@ -1,4 +1,6 @@
 from re import search
+
+import requests
 from app import create_app, db
 from models import Articles, article_schema, articles_schema
 from flask import current_app, jsonify, request
@@ -44,11 +46,23 @@ def search_project():
 
 def view_project():
     proj_id = request.json['id']
-    return Central.view_project(proj_id)
+    token = request.json['token']
+    if token is None:
+        return {'error': 'authentication token not found'}
+    return Central.view_project(proj_id, token)
 
 
-def register():
-    pass
+def register_project():
+    title = request.json['title']
+    category = request.json['category']
+    description = request.json['description']
+    authors = request.json['authors']
+    tags = request.json['tags']
+    startDate = request.json['startDate']
+    endDate = request.json['endDate']
+    attachments = request.json['attachments']
+
+    return Central.register_project(title, category, description, authors, tags, startDate, endDate, attachments)
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -83,7 +97,7 @@ def backend_view():
 
 @app.route("/backend/register", methods=["POST"], strict_slashes=False)
 def backend_register():
-    return register()
+    return register_project()
 
 
 if __name__ == "__main__":
