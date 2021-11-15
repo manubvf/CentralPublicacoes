@@ -315,6 +315,25 @@ class Central:
 
         return {'ok': 'ok'}
 
+    @staticmethod
+    def update_research(token, idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores):
+        idUsuario = Central.validate_token(token)
+        if not idUsuario:
+            return {'error': 'invalid token'}
+
+        data = Database.read_search_from_id(idPesquisa)
+        if (len(data) > 0):
+            data = Database.read_authors(idPesquisa)
+            if(len(data) == 1):
+                Database.update_research(idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores)
+                return {'success': 'research updated'}
+            else:
+                #mais de um autor
+                Database.insert_request_research_update(1, str(idPesquisa), str(idUsuario), titulo, descricao)
+                return {'success': 'request to update research sended'}
+        else:
+            return {'error', 'research doesn´t exist'}
+
 
 # data = date(2021, 8, 9)
 # print(str(data.isoformat()))
@@ -323,4 +342,4 @@ class Central:
 #                          "Manulenis", "Duzao da Massa"], ["C", "Tagzao"], "2008", None, None)
 
 # print(date.today().strftime("%Y-%m-%d"))
-Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
+#Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
