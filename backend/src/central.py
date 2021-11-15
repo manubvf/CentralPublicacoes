@@ -325,7 +325,6 @@ class Central:
         if (len(data) > 0):
             idPesquisa = data[0][0]
             data = Database.read_authors(idPesquisa)
-            print(type(idPesquisa))
             if (len(data) == 1):
                 Database.delete_research(titulo, descricao)
                 data = Database.read_searches(1, [titulo], None, None, None)
