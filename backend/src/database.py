@@ -19,8 +19,8 @@ class Database:
         if(nome is None):
             query = "SELECT idCategoria, nome FROM Categoria ;"
         else:
-            query = "SELECT idCategoria FROM Categoria WHERE nome =" + \
-                nome + ";"
+            query = "SELECT idCategoria FROM Categoria WHERE nome ='" + \
+                nome + "';"
 
         cursor.execute(query)
         ret = cursor.fetchall()
@@ -43,7 +43,7 @@ class Database:
             query = "SELECT idTag , palavra_chave FROM Tag ;"
         elif(not id_tag is None):
             query = "SELECT palavra_chave FROM Tag WHERE idTag ='" + \
-                id_tag + "';"
+                str(id_tag) + "';"
         else:
             query = "SELECT idTag FROM Tag WHERE palavra_chave = '" + \
                 palavra_chave + "';"
@@ -141,18 +141,18 @@ class Database:
             if(not tag_3 is None):
                 query += ", `idTag_3`"
             query += ") VALUES ('" + titulo + "', '" + descricao + \
-                "', '" + idCategoria + "', '" + ano_inicio + \
-                "', '" + date.today().strftime('%Y-%m-%d')
+                "', '" + str(idCategoria) + "', '" + str(ano_inicio) + \
+                "', '" + date.today().strftime("%Y-%m-%d")
             if(not estimativa_fim is None):
                 query += "', '" + estimativa_fim
             if(not git is None):
                 query += "', '" + git
             if(not tag_1 is None):
-                query += "', '" + tag_1
+                query += "', '" + str(tag_1)
             if(not tag_2 is None):
-                query += "', '" + tag_2
+                query += "', '" + str(tag_2)
             if(not tag_3 is None):
-                query += "', '" + tag_3
+                query += "', '" + str(tag_3)
             query += "');"
             cursor.execute(query)
             db_connection.connection.commit()
@@ -187,11 +187,11 @@ class Database:
                 query += ", `idUsuario`"
             query += ") VALUES ('" + nome
             if(not idPesquisa is None):
-                query += "', '" + idPesquisa
+                query += "', '" + str(idPesquisa)
             if(not idPublicacao is None):
-                query += "', '" + idPublicacao
+                query += "', '" + str(idPublicacao)
             if(not idUsuario is None):
-                query += "', '" + idUsuario
+                query += "', '" + str(idUsuario)
             query += "');"
             cursor.execute(query)
             db_connection.connection.commit()
@@ -237,7 +237,7 @@ class Database:
         '''
         *** Performs a search (SELECT) operation on the Search Table.
         *** Expects: ord: one of the enums values
-                     all other fields are optionals, none null filds should be lists
+                     all other fields are optionals, non null filds should be lists
         *** Return: all fields
         '''
         try:
@@ -343,6 +343,20 @@ class Database:
         cursor = db_connection.connection.cursor()
 
         query = "SELECT * FROM Tokens WHERE tokenString='" + token + "';"
+        cursor.execute(query)
+        ret = cursor.fetchall()
+
+        db_connection.close_all()
+
+        return ret
+
+    @staticmethod
+    def read_token_from_id(idUsuario):
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM Tokens WHERE idUsuario='" + \
+            str(idUsuario) + "';"
         cursor.execute(query)
         ret = cursor.fetchall()
 
@@ -592,7 +606,7 @@ class Database:
                 update_publicacao = update_publicacao.split(', WHERE')
                 update_publicacao = update_publicacao[0]+" WHERE"+update_publicacao[1] if len(
                     update_publicacao) > 1 else update_publicacao[0]
-            
+
             '''update_autores = ""
             delete_autores = ""
 
@@ -958,3 +972,241 @@ class Database:
 
         finally:
             db_connection.close_all()
+
+    @staticmethod
+    def get_author_id(name):
+        '''
+        *** Reads table Autores and returns ids for a given name.
+        *** Expects: author name
+        *** Return: list of ids of authors with that name
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM Autores;"
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        ids = []
+
+        # Add ids of all authors who contain 'name' as a substring of their names
+        for _autor in data:
+            if name in _autor[4]:
+                ids.append(str(_autor[0]))
+
+        db_connection.close_all()
+
+        return ids
+
+    @staticmethod
+    def get_category_id(name):
+        '''
+        *** Reads tabela Categoria and returns id for a given name.
+        *** Expects: category name
+        *** Return: category id
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT idCategoria FROM Categoria WHERE `nome`='" + name + "';"
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        db_connection.close_all()
+
+        if len(data) > 0:
+            return str(data[0][0])
+        else:
+            return None
+
+    @staticmethod
+    def get_category_name(idCategoria):
+        '''
+        *** Reads tabela Categoria and returns name for a given id.
+        *** Expects: category id
+        *** Return: category name
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT `nome` FROM `Categoria` WHERE `idCategoria`='" + \
+            str(idCategoria) + "';"
+        cursor.execute(query)
+
+        print(cursor.fetchall()[0][0])
+
+        db_connection.close_all()
+
+    @staticmethod
+    def get_tag_id(name):
+        '''
+        *** Reads tabela Tag and returns id for a given name.
+        *** Expects: tag name
+        *** Return: tag id
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT idTag FROM Tag WHERE `palavra_chave`='" + name + "';"
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        db_connection.close_all()
+
+        if len(data) > 0:
+            return str(data[0][0])
+        else:
+            return None
+
+    @staticmethod
+    def read_user_by_id(idUsuario):
+        '''
+        *** Reads tabela Usuario and return user related to given id
+        *** Expects: user id
+        *** Return: all user fields
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM `Usuario` WHERE `idUsuario`='" + \
+            str(idUsuario) + "';"
+        cursor.execute(query)
+        data = cursor.fetchall()[0]
+
+        db_connection.close_all()
+
+        return data
+
+    @staticmethod
+    def read_user_by_name(name):
+        '''
+        *** Reads tabela Usuario and return user id related to given name
+        *** Expects: user name
+        *** Return: user id or None
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT `idUsuario` FROM `Usuario` WHERE `nome`='" + name + "';"
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        db_connection.close_all()
+
+        if len(data) > 0:
+            return data[0][0]
+        else:
+            return None
+
+    @staticmethod
+    def read_authors(idPesquisa):
+        '''
+        *** Reads tabela Autores and return all authors for a given research id
+        *** Expects: research id
+        *** Return: all authors related to that research
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT `idUsuario` FROM `Autores` WHERE `idPesquisa`='" + \
+            str(idPesquisa) + "';"
+        cursor.execute(query)
+        data = cursor.fetchall()
+
+        authors = []
+
+        for _aut in data:
+            if _aut[0] is not None:
+                authors.append(Database.read_user_by_id(_aut[0]))
+
+        db_connection.close_all()
+
+        return authors
+
+    def read_anexos(idPesquisa):
+        '''
+        *** Reads tabela Anexos and returns all attachments for a given research id
+        *** Expects: research id
+        *** Return: all files related to that research
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT `caminho` FROM `Anexos` WHERE `idPesquisa`='" + \
+            str(idPesquisa) + "';"
+        cursor.execute(query)
+        ret = cursor.fetchall()
+
+        db_connection.close_all()
+
+        return ret
+
+    def read_search_from_id(idPesquisa):
+        '''
+        *** Reads tabela Pesquisas and returns the data of a research for a given id
+        *** Expects: research id
+        *** Return: all files related to that research
+        '''
+        db_connection = DatabaseConnection()
+        cursor = db_connection.connection.cursor()
+
+        query = "SELECT * FROM `Pesquisas` WHERE `idPesquisa`='" + \
+            str(idPesquisa) + "';"
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        db_connection.close_all()
+
+        if len(data) > 0:
+            return data[0]
+        else:
+            raise(Exception("Search with given id not found"))
+
+    @staticmethod
+    def insert_tag(nome):
+        '''
+        *** Insert an entry on the Tag table
+        *** Expects: research id
+        *** Return: tag id
+        '''
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "INSERT INTO `Tag` (`palavra_chave`) VALUES ('" + \
+                nome + "');"
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+
+            query = "SELECT `idTag` FROM `Tag` WHERE `palavra_chave`='" + nome + "';"
+            cursor.execute(query)
+            ret = cursor.fetchall()[0]
+
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
+
+            return ret
+
+
+# print(Database.read_anexos(100))
+
+# print(Database.read_tag(id_tag=1))
+# print(Database.read_category())
+
+# Database.get_category_name(2)
+
+# db_connection = DatabaseConnection()
+# cursor = db_connection.connection.cursor()
+# db_connection.close_all()
+
+# print(Database.read_search_from_id(20))
+
+# print(Database.read_user_by_name("Duzao da Massa"))
