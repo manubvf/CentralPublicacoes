@@ -71,6 +71,13 @@ def show_interest():
 
     return Central.show_interest(token, idPesquisa)
 
+def delete_research():
+    titulo = request.json['titulo']
+    descricao = request.json['descricao']
+    token = request.json['token']
+
+    return Central.delete_research(titulo, descricao, token)
+
 
 @app.route("/", methods=["GET"], strict_slashes=False)
 def articles():
@@ -110,6 +117,10 @@ def backend_register():
 @app.route("/backend/interest", methods=["POST"], strict_slashes=False)
 def backend_interest():
     return show_interest()
+
+@app.route("/backend/deleteresearch", methods=["POST"], strict_slashes=False)
+def backend_delete_research():
+    return delete_research()
 
 
 if __name__ == "__main__":

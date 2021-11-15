@@ -1,4 +1,5 @@
 from datetime import date
+import ntpath
 from flask.json import tag
 import requests
 # from usuario import Usuario, UsuarioCadastrado
@@ -315,6 +316,31 @@ class Central:
 
         return {'ok': 'ok'}
 
+    def delete_research(titulo, descricao, token):
+        idUsuario = Central.validate_token(token)
+        if not idUsuario:
+            return {'error': 'invalid token'}
+
+        data = Database.read_searches(1, [titulo], None, None, None)
+        if (len(data) > 0):
+            idPesquisa = data[0][0]
+            data = Database.read_authors(idPesquisa)
+            print(type(idPesquisa))
+            if (len(data) == 1):
+                Database.delete_research(titulo, descricao)
+                data = Database.read_searches(1, [titulo], None, None, None)
+                if (len(data) <= 0):
+                    return {'success': 'research deleted'}
+                else:
+                    return {'error': 'failed to delete research information on database'}
+            else:
+                #mais de um autor
+                Database.insert_request_research_update(2, str(idPesquisa), str(idUsuario), titulo, descricao)
+                return {'success': 'request to delete research sended'}
+        else:
+            return {'error': 'research doesn´t exist'}
+       
+
 
 # data = date(2021, 8, 9)
 # print(str(data.isoformat()))
@@ -323,4 +349,4 @@ class Central:
 #                          "Manulenis", "Duzao da Massa"], ["C", "Tagzao"], "2008", None, None)
 
 # print(date.today().strftime("%Y-%m-%d"))
-Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
+#Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
