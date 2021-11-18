@@ -50,7 +50,7 @@ def updatePublication():
     git = request.json['git']
     autores = request.json['autores']
 
-    return central.Central.updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
+    return Central.updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
 
 
 def search_project():

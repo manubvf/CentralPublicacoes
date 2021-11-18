@@ -323,7 +323,7 @@ class Central:
 #                          "Manulenis", "Duzao da Massa"], ["C", "Tagzao"], "2008", None, None)
 
 # print(date.today().strftime("%Y-%m-%d"))
-Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
+#Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
 
     @staticmethod
     def updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores):
@@ -331,8 +331,18 @@ Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
         if len(data) <= 0:
             return {'error': 'publication doesn´t exist'}
         else:
-            #Database.delete_publication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
-            #Database.insert_search(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
+            Database.delete_publication(idPublicacao)
+            # Insert project into table
+            idPesquisa = Database.insert_search(titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git)[0][0]
+
+            # Insert authors in Autores table
+            for _author in autores:
+                autid = Database.read_user_by_name(_author)
+                if autid is not None:
+                    Database.insert_autors(_author, autid, idPesquisa)
+                else:
+                    Database.insert_autors(_author, idPesquisa=idPesquisa)
+                    
             data = Database.read_searches(1, titulo, None, None, None)
             if len(data) < 0:
                 #see if changes happened
