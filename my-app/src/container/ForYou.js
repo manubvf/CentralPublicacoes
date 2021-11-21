@@ -47,7 +47,7 @@ export default class ForYou extends React.Component {
 
     render() {
       return (
-        <Container currentPage='foryou'>
+        <Container currentPage='foryou' {...this.props}>
             <div style={styles.topBanner}><img src={banner}/></div>
             {this.state.seeMore === false ? <div>
               <CardCarousel title="Baseados em projetos que você desmonstrou interesse" seeMoreClick={this.toggleMore}>
