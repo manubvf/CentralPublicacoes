@@ -52,7 +52,7 @@ const styles = {
 export default class AboutUs extends React.Component {
     render() {
       return (
-        <Container>
+        <Container {...this.props}>
             <p style={{ fontSize:30 }}>Sobre nós</p>
             <div style={styles.div1}>
                 <Player autoplay={true} loop={true} controls={false} src="https://assets7.lottiefiles.com/packages/lf20_bpqri9y8.json" style={styles.img}/>

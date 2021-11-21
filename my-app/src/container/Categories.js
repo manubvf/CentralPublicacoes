@@ -62,7 +62,7 @@ export default class Categories extends React.Component {
 
     render() {
       return (
-        <Container currentPage='categories'>
+        <Container currentPage='categories' {...this.props}>
           <div style={styles.topBanner}><img src={banner}/></div>
           {this.state.seeMore === false ? <div>
             <section style={{display: 'flex', justifyContent: 'space-between', marginRight: '3.5%' }}>
