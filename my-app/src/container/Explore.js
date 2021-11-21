@@ -7,15 +7,15 @@ import SearchBar from '../components/SearchBar';
 const styles = {
     cardsContainer: {
         display: 'grid',
-        gridGap: '62px',
-        gridTemplateColumns: '70.5vh 70.5vh',
-        marginRight: '8.5%',
-        width: '150vh',
-        marginLeft: '8.5%',
+        gridGap: '70px',
+        gridTemplateColumns: '46% 46%',
+        marginRight: '6%',
+        width: '88%',
+        marginLeft: '6%',
     },
     pageTitle:{
       textAlign: 'left',
-      fontSize: 30,
+      fontSize: 28,
       color: '#333D42',
       paddingLeft: '8.5%',
       marginTop: '64px'
@@ -31,7 +31,7 @@ export default class Explore extends React.Component {
 
     render() {
       return (
-          <Container currentPage='explore'>
+          <Container currentPage='explore' {...this.props}>
             <div style={styles.searchBarContainer}>
               <SearchBar/>
             </div>
@@ -41,7 +41,7 @@ export default class Explore extends React.Component {
                 <ProjectSummary title="Sensitive Media Analysis through Deep Learning Architectures" category="Deep Learning" authors={["Anderson de Rezende Rocha"]} interested={150000} tags={["Tag 1"]}/>
                 <ProjectSummary title="Análise de Mídias Sensíveis" category="Inteligência Artificial" authors={["Sandra Avila","Eduardo Valle","Anderson Rocha"]} interested={150} tags={["Tag 1","Tag2"]}/>
                 <ProjectSummary title="Medical Image Classification for Computer-Aided Diagnosis with Deep Learning and Jumbo Vectors" category="Teoria de Grafos" authors={["Michel Fornaciali","Micael Carvalho","Sandra Avila","Zanoni Dias","Mauricio Perez","Daniel Moraes"]} interested={1500} tags={["Tag 1","Tag2","Tag3"]}/>
-              </div>
+            </div>
           </Container>
       );
     }

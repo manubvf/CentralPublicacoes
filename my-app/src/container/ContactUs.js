@@ -55,7 +55,7 @@ export default class ContactUs extends React.Component {
 
     return (<>
         {loading && <LoaderComponent/>}
-        <Container>
+        <Container {...this.props}>
         <div style={{ marginLeft:250, marginRight:250, flexDirection: 'column', display: 'flex' }}>
           <p style={{ fontSize:30 }}> Contacte-nos </p>
           <p style={{ fontSize:14 }}> Os campos assinalados com (*) são obrigatórios </p>

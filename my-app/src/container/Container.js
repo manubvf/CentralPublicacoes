@@ -1,40 +1,27 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import React from 'react';
-import Login from '../components/Login';
-import SignUp from '../components/SignUp';
 
 const styles = {
+  out: { width: '100%', height: '100%', position: 'absolute', display: 'flex', flexDirection: 'column' },
   content: {
-    marginLeft: 70,
-    marginRight: 70,
-    marginTop: 30,
     marginBottom: 30,
-    minHeight: '74vh'
+    marginTop: 30,
+    marginLeft: '10%', 
+    marginRight: '10%',
+    flex: 1,
   }
 }
 
 export default class Container extends React.Component {
     constructor(props) {
       super(props);
-      
-      this.state = {login: false, signup: false};
     }
 
-    handleLogin = () => this.setState({login: !this.state.login});
-    handleSignUp = () => this.setState({signup: !this.state.signup});
-    onLogin = () => this.setState({login: true});
-
     render() {
-      const { login, signup } = this.state;
-      const { currentPage } = this.props;
-
       return (
-        <div>
-          {login && <Login handleClose={this.handleLogin} openSignUp={this.handleSignUp}/>}
-          {signup && <SignUp handleClose={this.handleSignUp} openLogin={this.handleLogin}/>}
-
-          <Header currentPage={currentPage} onLogin={this.onLogin}/>
+        <div style={styles.out}>
+          <Header {...this.props}/>
 
           <div style={styles.content}>
             {this.props.children}

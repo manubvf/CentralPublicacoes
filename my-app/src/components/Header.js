@@ -82,9 +82,10 @@ export default class Header extends React.Component {
     changeHoverCategories = () => this.setState({hoverCategories: !this.state.hoverCategories});
     changeHoverForYou = () => this.setState({hoverForYou: !this.state.hoverForYou});
     changeHoverAnalitics = () => this.setState({hoverAnalitics: !this.state.hoverAnalitics});
+    handleSubmenu = () => this.setState({ showSubmenu: !this.state.showSubmenu });
 
     render() {
-        const { currentPage, onLogin } = this.props;
+        const { currentPage, context } = this.props;
         const { hoverExplore, hoverCategories, hoverForYou, hoverAnalitics, showSubmenu } = this.state;
         const exploreStyle = currentPage === 'explore' ? styles.itemHeaderSelected : hoverExplore ? styles.itemHeaderHover : styles.itemHeader;
         const categoriesStyle = currentPage === 'categories' ? styles.itemHeaderSelected : hoverCategories ? styles.itemHeaderHover : styles.itemHeader;
@@ -122,14 +123,14 @@ export default class Header extends React.Component {
                     {
                         token ?
                         <div>
-                            <a href="/#" onClick={() => this.setState({ showSubmenu: !showSubmenu })} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
+                            <a onClick={this.handleSubmenu} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
                                 <img alt="Imagem de perfil" style={{ width: 20, height: 20, borderRadius: 25, marginRight: 10 }} src={google}></img>
                                 <p style={{ fontSize: '18px' }}> Professor </p>
                             </a>
-                            { showSubmenu && <DropDownMenu/> }
+                            { showSubmenu && <DropDownMenu onMouseLeave={this.handleSubmenu}/> }
                         </div>
                         : 
-                        <button onClick={onLogin} style={styles.loginButton}>
+                        <button onClick={context().handleLogin} style={styles.loginButton}>
                             <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, marginTop: '-3px'}}/>
                             Login
                         </button>

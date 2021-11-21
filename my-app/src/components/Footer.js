@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const styles = {
     outside: {
-        height: '7vh',
+        height: 70,
         backgroundColor: '#F1F1F1',
         justifyContent: 'space-between',
         display: 'flex',
@@ -11,6 +11,7 @@ const styles = {
         alignItems: 'center',
         paddingLeft: 20,
         paddingRight: 20,
+        flexShrink: 0,
     },
     link: {
         color: 'gray',

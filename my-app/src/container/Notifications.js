@@ -5,7 +5,7 @@ import Container from './Container';
 export default class Notifications extends React.Component {
     render() {
       return (
-        <Container>
+        <Container {...this.props}>
             <p style={{ fontSize:30 }}>Notifications</p>
         </Container>
       );
