@@ -3,7 +3,7 @@ import React from 'react';
 const styles = {
     out: { 
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        position: 'absolute', 
+        position: 'fixed', 
         height: '100%', 
         width: '100%', 
         display: 'flex',

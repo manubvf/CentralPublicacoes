@@ -293,7 +293,7 @@ export default class NewProject extends React.Component {
       {loading && <LoaderComponent/>}
       {showNewLink && this.renderLinkModal()}
       {showNewFile && this.renderDocModal()}
-      <Container>
+      <Container {...this.props}>
         <div style={{ marginLeft: '10%', marginRight: '10%', flexDirection: 'column', display: 'flex' }}>
           <p style={{ fontSize:30 }}> Novo projeto de pesquisa </p>
 

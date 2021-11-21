@@ -57,10 +57,26 @@ export default class Report extends React.Component {
     handleTextAreaChange = (event) => this.setState({ reason: event.target.value });
 
     submit = () => {
-        if (this.state.information.length === 0) { console.log('Escolha um motivo e o adicione'); return null; }
-        if (this.state.reason === '') { console.log('Descreva o motivo da denúncia'); return null; }
+        const { information, reason } = this.state;
+        if (information.length === 0) { console.log('Escolha um motivo e o adicione'); return null; }
+        if (reason === '') { console.log('Descreva o motivo da denúncia'); return null; }
 
-        console.log('Tudo certo');
+        // TODO: SEND REPORT GIVEN
+        // fetch('http://127.0.0.1:5000/sendReport' , {
+        //     'methods':'POST',
+        //     headers : {
+        //     'Content-Type':'application/json'
+        //     },
+        //     body: JSON.stringify({ 
+        //         token, idProject: id, information, reason
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(response => {
+        //     if (response.error) console.log(response.error)
+        //     else console.log('Projeto denunciado');
+        // })
+        // .catch(error => console.log(error))
     }
 
     renderInfo = (info) => {
