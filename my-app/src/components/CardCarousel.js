@@ -29,6 +29,7 @@ const styles = {
       border: '1px solid #586973',
       borderRadius: '8px',
       color: '#586973',
+      cursor: 'pointer',
     },
     arrowDisable: {
       minWidth: '46px',
