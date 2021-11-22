@@ -72,6 +72,22 @@ def show_interest():
 
     return Central.show_interest(token, idPesquisa)
 
+
+def update_research():
+    token = request.json['token']
+    idPesquisa = request.json['idPesquisa']
+    titulo = request.json['titulo']
+    descricao = request.json['descricao']
+    idCategoria = request.json['idCategoria']
+    ano_inicio = request.json['ano_inicio']
+    idTag_1 = request.json['idTag_1']
+    idTag_2 = request.json['idTag_2']
+    idTag_3 = request.json['idTag_3']
+    git = request.json['git']
+    autores = request.json['autores']
+    
+    return Central.update_research(token, idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores)
+
 def delete_research():
     titulo = request.json['titulo']
     descricao = request.json['descricao']
@@ -122,6 +138,10 @@ def backend_register():
 @app.route("/backend/interest", methods=["POST"], strict_slashes=False)
 def backend_interest():
     return show_interest()
+
+@app.route("/backend/updateresearch", methods=["POST"], strict_slashes=False)
+def backend_update_research():
+    return update_research()
 
 @app.route("/backend/deleteresearch", methods=["POST"], strict_slashes=False)
 def backend_delete_research():
