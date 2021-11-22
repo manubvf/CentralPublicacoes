@@ -1,7 +1,10 @@
+from re import search
+
+import requests
 from app import create_app, db
 from models import Articles, article_schema, articles_schema
 from flask import current_app, jsonify, request
-import central
+from central import Central
 # Create an application instance
 app = create_app()
 
@@ -15,14 +18,14 @@ def signUp():
     # newUser = {'fullname': fullname, 'email': email, 'password': password, 'passwordConfirmation': passwordConfirmation}
     # return {'token': 'LKJHGFDSA'}
 
-    return central.Central.cadastro(fullname, password, email)
+    return Central.signup(fullname, password, email)
 
 
 def login():
     email = request.json['email']
     password = request.json['password']
 
-    return central.Central.login(email, password)
+    return Central.login(email, password)
 
     # user = {'email': email, 'password': password}
     # correct = {'email': 'rebecapstroh@gmail.com', 'password': '12345'}
@@ -35,6 +38,40 @@ def login():
 # Define a route to fetch the available articles
 
 
+def search_project():
+    params = request.json['parameters']
+
+    return Central.search_project(params)
+
+
+def view_project():
+    proj_id = request.json['id']
+    token = request.json['token']
+    if token is None:
+        return {'error': 'authentication token not found'}
+    return Central.view_project(proj_id, token)
+
+
+def register_project():
+    title = request.json['title']
+    category = request.json['category']
+    description = request.json['description']
+    authors = request.json['authors']
+    tags = request.json['tags']
+    startDate = request.json['startDate']
+    endDate = request.json['endDate']
+    attachments = request.json['attachments']
+
+    return Central.register_project(title, category, description, authors, tags, startDate, endDate, attachments)
+
+
+def show_interest():
+    token = request.json['token']
+    idPesquisa = request.json['idPesquisa']
+
+    return Central.show_interest(token, idPesquisa)
+
+
 @app.route("/", methods=["GET"], strict_slashes=False)
 def articles():
 
@@ -45,16 +82,34 @@ def articles():
     return {'fullname': 'Rebeca Stroh', 'email': 'rebecapstroh@gmail.com', 'password': '12345'}
 
 
-@app.route("/backend", methods=["POST"], strict_slashes=False)
+@app.route("/backend/login", methods=["POST"], strict_slashes=False)
 def add_articles():
-    function = request.json['function']
+    return login()
 
-    if (function == 'signup'):
-        return signUp()
-    elif (function == 'login'):
-        return login()
 
-    return {'error': 'no function found'}
+@app.route("/backend/signup", methods=["POST"], strict_slashes=False)
+def backend_signUp():
+    return signUp()
+
+
+@app.route("/backend/search", methods=["POST"], strict_slashes=False)
+def backend_search():
+    return search_project()
+
+
+@app.route("/backend/view", methods=["POST"], strict_slashes=False)
+def backend_view():
+    return view_project()
+
+
+@app.route("/backend/register", methods=["POST"], strict_slashes=False)
+def backend_register():
+    return register_project()
+
+
+@app.route("/backend/interest", methods=["POST"], strict_slashes=False)
+def backend_interest():
+    return show_interest()
 
 
 if __name__ == "__main__":
