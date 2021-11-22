@@ -27,13 +27,14 @@ def login():
 
     return Central.login(email, password)
 
-    # user = {'email': email, 'password': password}
-    # correct = {'email': 'rebecapstroh@gmail.com', 'password': '12345'}
+def deleteUser():
+    email = request.json['email']
+    password = request.json['password']
+    token = request.json['token']
+    central.Central.logout(token)
+    return central.Central.deleteUser(email, password)
 
-    # if user == correct:
-    # return {'token': 'LKJHGFDSA'}
 
-    # return {'error': 'user not found'}
 
 # Define a route to fetch the available articles
 
@@ -71,6 +72,13 @@ def show_interest():
 
     return Central.show_interest(token, idPesquisa)
 
+def delete_research():
+    titulo = request.json['titulo']
+    descricao = request.json['descricao']
+    token = request.json['token']
+
+    return Central.delete_research(titulo, descricao, token)
+
 
 @app.route("/", methods=["GET"], strict_slashes=False)
 def articles():
@@ -91,6 +99,10 @@ def add_articles():
 def backend_signUp():
     return signUp()
 
+@app.route("/backend/deleteuser", methods=["POST"], strict_slashes=False)
+def backend_deleteUser():
+    return deleteUser()
+
 
 @app.route("/backend/search", methods=["POST"], strict_slashes=False)
 def backend_search():
@@ -110,6 +122,10 @@ def backend_register():
 @app.route("/backend/interest", methods=["POST"], strict_slashes=False)
 def backend_interest():
     return show_interest()
+
+@app.route("/backend/deleteresearch", methods=["POST"], strict_slashes=False)
+def backend_delete_research():
+    return delete_research()
 
 
 if __name__ == "__main__":
