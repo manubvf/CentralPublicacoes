@@ -114,6 +114,22 @@ class Central:
             return data[0][1]
         else:
             return 0
+          
+    @staticmethod
+    def deleteUser(email_institucional, senha):
+        data = Database.read_user([email_institucional, senha])
+        if len(data) <= 0:
+            return {'error': 'user doesn´t exist'}
+        else:
+            # dar Logout senao a tabela de token reclama
+            delete_info = [email_institucional]
+            Database.delete_user(delete_info)
+            data = Database.read_user([email_institucional, senha])
+            if len(data) > 0:
+                return {'error': 'failed to delete user information on database'}
+            else:
+                return {'success': 'deleted user information on database'}
+            
 
     @staticmethod
     def search_project(params):
