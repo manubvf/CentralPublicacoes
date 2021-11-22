@@ -31,7 +31,7 @@ export default class Explore extends React.Component {
 
     render() {
       return (
-          <Container currentPage='explore'>
+          <Container currentPage='explore' {...this.props}>
             <div style={styles.searchBarContainer}>
               <SearchBar/>
             </div>

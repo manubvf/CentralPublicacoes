@@ -91,7 +91,7 @@ export default class SignUp extends React.Component {
                 </div>
                 <div>
                     Já tem uma conta ?
-                    <a href="/#" onClick={() => {this.props.handleClose(); this.props.openLogin();}} style={styles.link}> Faça seu login </a>
+                    <a onClick={() => {this.props.handleClose(); this.props.openLogin();}} style={styles.link}> Faça seu login </a>
                 </div>
             </Modal>
       );

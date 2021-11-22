@@ -15,7 +15,7 @@ export default class Notifications extends React.Component {
 
     render() {
       return (
-        <Container>
+        <Container {...this.props}>
           <p style={{ fontSize:30, paddingLeft: '4%' }}>Notificações</p>
           <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '4%', marginRight: '4%'}}>
             <NotificationItem type="like" userName="Hilda" projectTitle="Título do projeto" date="15 Fev 2021"/>

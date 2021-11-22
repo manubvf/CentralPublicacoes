@@ -84,7 +84,7 @@ export default class EditProfile extends React.Component {
         const { fullname, course, lattes } = this.state;
 
         return (
-            <Container>
+            <Container {...this.props}>
                 <p style={{ fontSize:30, paddingLeft: '8%' }}>Editar perfil</p>
                 <div style={styles.outside}>
                     <div style={styles.principalInfos}>

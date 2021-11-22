@@ -10,7 +10,7 @@ export default class Categories extends React.Component {
 
     render() {
       return (
-        <Container currentPage='categories'>
+        <Container currentPage='categories' {...this.props}>
             <p style={{ fontSize:30 }}> Categorias </p>
         </Container>
       );
