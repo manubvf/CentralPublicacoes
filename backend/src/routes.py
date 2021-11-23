@@ -46,21 +46,6 @@ def deleteUser():
 
 # Define a route to fetch the available articles
 
-def updatePublication():
-    idPublicacao = request.json['idPublicacao']
-    titulo = request.json['titulo']
-    descricao = request.json['descricao']
-    idCategoria = request.json['idCategoria']
-    ano_inicio = request.json['ano_inicio']
-    ano_termino = request.json['ano_termino']
-    idTag_1 = request.json['idTag_1']
-    idTag_2 = request.json['idTag_2']
-    idTag_3 = request.json['idTag_3']
-    git = request.json['git']
-    autores = request.json['autores']
-
-    return Central.updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
-
 
 def search_project():
     '''Search for projects in the system
@@ -123,6 +108,12 @@ def show_interest():
 
 
 def update_research():
+    '''Update a research
+    Expects: JSON {token, idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git,
+                    autores [] }
+        * autores: list of strings (authors' names)
+    Returns: JSON {success}
+    '''
     token = request.json['token']
     idPesquisa = request.json['idPesquisa']
     titulo = request.json['titulo']
@@ -140,7 +131,7 @@ def update_research():
 
 def delete_research():
     '''Delete a research
-    Expects: JSON {title, description, user_token}
+    Expects: JSON {titulo, descricao, token}
     Returns: JSON {success}
     '''
     titulo = request.json['titulo']
@@ -148,6 +139,28 @@ def delete_research():
     token = request.json['token']
 
     return Central.delete_research(titulo, descricao, token)
+
+def update_publication():
+    '''Update a publication
+    Expects: JSON {idPublicacao, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git,
+                    autores [] }
+        * autores: list of strings (authors' names)
+    Returns: JSON {success}
+    '''
+    idPublicacao = request.json['idPublicacao']
+    titulo = request.json['titulo']
+    descricao = request.json['descricao']
+    idCategoria = request.json['idCategoria']
+    ano_inicio = request.json['ano_inicio']
+    idTag_1 = request.json['idTag_1']
+    idTag_2 = request.json['idTag_2']
+    idTag_3 = request.json['idTag_3']
+    git = request.json['git']
+    autores = request.json['autores']
+
+    return Central.updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores)
+
+
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -168,10 +181,6 @@ def add_articles():
 @app.route("/backend/signup", methods=["POST"], strict_slashes=False)
 def backend_signUp():
     return signUp()
-
-@app.route("/backend/updatePublication", methods=["POST"], strict_slashes=False)
-def backend_updatePublication():
-    return updatePublication()
 
 
 @app.route("/backend/deleteuser", methods=["POST"], strict_slashes=False)
@@ -207,6 +216,10 @@ def backend_update_research():
 @app.route("/backend/deleteresearch", methods=["POST"], strict_slashes=False)
 def backend_delete_research():
     return delete_research()
+
+@app.route("/backend/updatepublication", methods=["POST"], strict_slashes=False)
+def backend_update_publication():
+    return update_publication()
 
 
 if __name__ == "__main__":
