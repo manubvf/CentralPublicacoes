@@ -117,6 +117,37 @@ class Central:
             return 0
 
     @staticmethod
+    def readuser(token):
+        userId = Central.validate_token(token)
+        if userId == 0:
+            return {'error': 'invalid token'}
+
+        data = Database.read_user_by_id(userId)
+
+        fullname = data[1]
+        email_pessoal = data[3]
+        email_institucional = data[4]
+        telefone = data[5]
+        curso = data[6]
+        lattes = data[7]
+        research_gate = data[8]
+        img_path = data[9]
+
+        return {'fullname': fullname, 'email_pessoal': email_pessoal, 'email_institucional': email_institucional,
+                'telefone': telefone, 'curso': curso, 'lattes': lattes, 'research_gate': research_gate, 'img_path': img_path}
+
+    @staticmethod
+    def edituser(token, name, email, tel, curso, lattes, research_gate, img_path):
+        userId = Central.validate_token(token)
+        if userId == 0:
+            return {'error': 'invalid token'}
+
+        Database.update_user(idUsuario=userId, nome=name, email_pessoal=email, telefone=tel,
+                             curso=curso, lattes=lattes, research_gate=research_gate, img_path=img_path)
+
+        return {'success': 'user info updated'}
+
+    @staticmethod
     def deleteUser(email_institucional, senha):
         data = Database.read_user([email_institucional, senha])
         if len(data) <= 0:
@@ -388,6 +419,7 @@ class Central:
 # print(date.today().strftime("%Y-%m-%d"))
 #Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
 
+
     @staticmethod
     def updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores):
         data = Database.read_publication(1, titulo, None, None, None)
@@ -396,7 +428,8 @@ class Central:
         else:
             Database.delete_publication(idPublicacao)
             # Insert project into table
-            idPesquisa = Database.insert_search(titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git)[0][0]
+            idPesquisa = Database.insert_search(
+                titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git)[0][0]
 
             # Insert authors in Autores table
             for _author in autores:
@@ -405,11 +438,13 @@ class Central:
                     Database.insert_autors(_author, autid, idPesquisa)
                 else:
                     Database.insert_autors(_author, idPesquisa=idPesquisa)
-                    
+
             data = Database.read_searches(1, titulo, None, None, None)
             if len(data) < 0:
-                #see if changes happened
+                # see if changes happened
                 return {'error': 'failed to update publication information on database'}
             else:
-                return  {"sucess" : "succes"}
+                return {"sucess": "succes"}
 
+
+Central.readuser('5bycoadAEyJ4WUxiH0fc')
