@@ -44,7 +44,58 @@ def deleteUser():
     return Central.deleteUser(email, password)
 
 
+def getUser():
+    '''Returns all info about an user
+    Expects: JSON {token}
+    Returns: JSON {fullname, email_pessoal, email_institucional,
+                    telefone, curso, lattes, research_gate, git} or
+                  {error}
+    '''
+    token = request.json['token']
+    return Central.getuser(token)
+
+
+def edituser():
+    '''Edits an existing user
+    Expects: JSON {token, fullname, email_pessoal, telefone, curso, lattes,
+                    research_gate, img_path}
+    Returns: JSON {success} or {error}
+    '''
+    token = request.json['token']
+    name = request.json['fullname']
+    email = request.json['email_pessoal']
+    tel = request.json['telefone']
+    curso = request.json['curso']
+    lattes = request.json['lattes']
+    research_gate = request.json['research_gate']
+    img_path = request.json['img_path']
+
+    return Central.edituser(token, name, email, tel, curso, lattes, research_gate, img_path)
+
+
 # Define a route to fetch the available articles
+
+def updatePublication():
+    '''Update a publication
+    Expects: JSON {idPublicacao, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, 
+                    autores []}
+        * autores: list of strings (authors' names)
+    Returns: JSON {success}
+    '''
+
+    idPublicacao = request.json['idPublicacao']
+    titulo = request.json['titulo']
+    descricao = request.json['descricao']
+    idCategoria = request.json['idCategoria']
+    ano_inicio = request.json['ano_inicio']
+    ano_termino = request.json['ano_termino']
+    idTag_1 = request.json['idTag_1']
+    idTag_2 = request.json['idTag_2']
+    idTag_3 = request.json['idTag_3']
+    git = request.json['git']
+    autores = request.json['autores']
+
+    return Central.updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
 
 
 def search_project():
@@ -108,6 +159,12 @@ def show_interest():
 
 
 def update_research():
+    '''Update a researh
+    Expects: JSON {token, idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, 
+                    autores []}
+        * autores: list of strings (authors' names)
+    Returns: JSON {success}
+    '''
     token = request.json['token']
     idPesquisa = request.json['idPesquisa']
     titulo = request.json['titulo']
@@ -124,6 +181,10 @@ def update_research():
 
 
 def delete_research():
+    '''Delete a research
+    Expects: JSON {titulo, descricao, token}
+    Returns: JSON {success}
+    '''
     titulo = request.json['titulo']
     descricao = request.json['descricao']
     token = request.json['token']
@@ -151,9 +212,24 @@ def backend_signUp():
     return signUp()
 
 
+@app.route("/backend/updatePublication", methods=["POST"], strict_slashes=False)
+def backend_updatePublication():
+    return updatePublication()
+
+
 @app.route("/backend/deleteuser", methods=["POST"], strict_slashes=False)
 def backend_deleteUser():
     return deleteUser()
+
+
+@app.route("/backend/getuser", methods=["POST"], strict_slashes=False)
+def backend_getUser():
+    return getUser()
+
+
+@app.route("/backend/edituser", methods=["POST"], strict_slashes=False)
+def backend_edituser():
+    return edituser()
 
 
 @app.route("/backend/search", methods=["POST"], strict_slashes=False)
