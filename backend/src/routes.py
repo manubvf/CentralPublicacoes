@@ -44,6 +44,35 @@ def deleteUser():
     return Central.deleteUser(email, password)
 
 
+def getUser():
+    '''Returns all info about an user
+    Expects: JSON {token}
+    Returns: JSON {fullname, email_pessoal, email_institucional,
+                    telefone, curso, lattes, research_gate, git} or
+                  {error}
+    '''
+    token = request.json['token']
+    return Central.getuser(token)
+
+
+def edituser():
+    '''Edits an existing user
+    Expects: JSON {token, fullname, email_pessoal, telefone, curso, lattes,
+                    research_gate, img_path}
+    Returns: JSON {success} or {error}
+    '''
+    token = request.json['token']
+    name = request.json['fullname']
+    email = request.json['email_pessoal']
+    tel = request.json['telefone']
+    curso = request.json['curso']
+    lattes = request.json['lattes']
+    research_gate = request.json['research_gate']
+    img_path = request.json['img_path']
+
+    return Central.edituser(token, name, email, tel, curso, lattes, research_gate, img_path)
+
+
 # Define a route to fetch the available articles
 
 def updatePublication():
@@ -182,6 +211,7 @@ def add_articles():
 def backend_signUp():
     return signUp()
 
+
 @app.route("/backend/updatePublication", methods=["POST"], strict_slashes=False)
 def backend_updatePublication():
     return updatePublication()
@@ -190,6 +220,16 @@ def backend_updatePublication():
 @app.route("/backend/deleteuser", methods=["POST"], strict_slashes=False)
 def backend_deleteUser():
     return deleteUser()
+
+
+@app.route("/backend/getuser", methods=["POST"], strict_slashes=False)
+def backend_getUser():
+    return getUser()
+
+
+@app.route("/backend/edituser", methods=["POST"], strict_slashes=False)
+def backend_edituser():
+    return edituser()
 
 
 @app.route("/backend/search", methods=["POST"], strict_slashes=False)
