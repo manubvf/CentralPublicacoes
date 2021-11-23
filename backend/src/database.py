@@ -1195,6 +1195,33 @@ class Database:
 
             return ret
 
+    def delete_publication(idPublicacao):
+        '''
+        *** Performs a delete in the Publicacoes Table.
+        *** Expects: idPublicacao.
+        *** Return: none
+        '''
+
+        try:
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            delete_autor = "DELETE from `Autores` WHERE (`idPublicacao` = '" + \
+                idPublicacao + "');"
+            delete_favoritos = "DELETE from `Favoritados` WHERE (`idPublicacao` = '" + \
+                idPublicacao + "');"
+            delete_publicacao = "DELETE from `Publicacoes` WHERE (`idPublicacao` = '" + \
+                idPublicacao + "');"
+
+            query = delete_autor + delete_favoritos + delete_publicacao
+
+            cursor.execute(query)
+            db_connection.connection.commit()
+        except Exception as e:
+            db_connection.connection.rollback()
+            raise(e)
+        finally:
+            db_connection.close_all()
 
 # print(Database.read_anexos(100))
 
