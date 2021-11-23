@@ -46,6 +46,21 @@ def deleteUser():
 
 # Define a route to fetch the available articles
 
+def updatePublication():
+    idPublicacao = request.json['idPublicacao']
+    titulo = request.json['titulo']
+    descricao = request.json['descricao']
+    idCategoria = request.json['idCategoria']
+    ano_inicio = request.json['ano_inicio']
+    ano_termino = request.json['ano_termino']
+    idTag_1 = request.json['idTag_1']
+    idTag_2 = request.json['idTag_2']
+    idTag_3 = request.json['idTag_3']
+    git = request.json['git']
+    autores = request.json['autores']
+
+    return Central.updatePublication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, idTag_1, idTag_2, idTag_3, git, autores)
+
 
 def search_project():
     '''Search for projects in the system
@@ -153,6 +168,10 @@ def add_articles():
 @app.route("/backend/signup", methods=["POST"], strict_slashes=False)
 def backend_signUp():
     return signUp()
+
+@app.route("/backend/updatePublication", methods=["POST"], strict_slashes=False)
+def backend_updatePublication():
+    return updatePublication()
 
 
 @app.route("/backend/deleteuser", methods=["POST"], strict_slashes=False)
