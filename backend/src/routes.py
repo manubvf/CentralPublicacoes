@@ -124,6 +124,10 @@ def update_research():
 
 
 def delete_research():
+    '''Delete a research
+    Expects: JSON {title, description, user_token}
+    Returns: JSON {success}
+    '''
     titulo = request.json['titulo']
     descricao = request.json['descricao']
     token = request.json['token']
