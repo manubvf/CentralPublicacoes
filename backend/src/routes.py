@@ -47,6 +47,13 @@ def deleteUser():
 # Define a route to fetch the available articles
 
 def updatePublication():
+    '''Update a publication
+    Expects: JSON {idPublicacao, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, 
+                    autores []}
+        * autores: list of strings (authors' names)
+    Returns: JSON {success}
+    '''
+
     idPublicacao = request.json['idPublicacao']
     titulo = request.json['titulo']
     descricao = request.json['descricao']
@@ -123,6 +130,12 @@ def show_interest():
 
 
 def update_research():
+    '''Update a researh
+    Expects: JSON {token, idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, 
+                    autores []}
+        * autores: list of strings (authors' names)
+    Returns: JSON {success}
+    '''
     token = request.json['token']
     idPesquisa = request.json['idPesquisa']
     titulo = request.json['titulo']
@@ -140,7 +153,7 @@ def update_research():
 
 def delete_research():
     '''Delete a research
-    Expects: JSON {title, description, user_token}
+    Expects: JSON {titulo, descricao, token}
     Returns: JSON {success}
     '''
     titulo = request.json['titulo']
