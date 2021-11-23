@@ -115,7 +115,7 @@ class Central:
             return data[0][1]
         else:
             return 0
-          
+
     @staticmethod
     def deleteUser(email_institucional, senha):
         data = Database.read_user([email_institucional, senha])
@@ -130,7 +130,6 @@ class Central:
                 return {'error': 'failed to delete user information on database'}
             else:
                 return {'success': 'deleted user information on database'}
-            
 
     @staticmethod
     def search_project(params):
@@ -322,6 +321,8 @@ class Central:
             else:
                 Database.insert_autors(_author, idPesquisa=idPesquisa)
 
+        return {'success': 'project inserted'}
+
     @staticmethod
     def show_interest(token, idPesquisa):
         idUsuario = Central.validate_token(token)
@@ -330,32 +331,34 @@ class Central:
 
         Database.insert_favoritados(idUsuario, idPesquisa=idPesquisa)
 
-        return {'ok': 'ok'}
+        return {'success': 'ok'}
 
     @staticmethod
     def update_research(token, idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores):
         idUsuario = Central.validate_token(token)
         if not idUsuario:
             return {'error': 'invalid token'}
-          
+
         data = Database.read_search_from_id(idPesquisa)
         if (len(data) > 0):
             data = Database.read_authors(idPesquisa)
             if(len(data) == 1):
-                Database.update_research(idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores)
+                Database.update_research(
+                    idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores)
                 return {'success': 'research updated'}
             else:
-                #mais de um autor
-                Database.insert_request_research_update(1, str(idPesquisa), str(idUsuario), titulo, descricao)
+                # mais de um autor
+                Database.insert_request_research_update(
+                    1, str(idPesquisa), str(idUsuario), titulo, descricao)
                 return {'success': 'request to update research sended'}
         else:
             return {'error', 'research doesn´t exist'}
-          
+
     def delete_research(titulo, descricao, token):
         idUsuario = Central.validate_token(token)
         if not idUsuario:
             return {'error': 'invalid token'}
-          
+
         data = Database.read_searches(1, [titulo], None, None, None)
         if (len(data) > 0):
             idPesquisa = data[0][0]
@@ -368,12 +371,12 @@ class Central:
                 else:
                     return {'error': 'failed to delete research information on database'}
             else:
-                #mais de um autor
-                Database.insert_request_research_update(2, str(idPesquisa), str(idUsuario), titulo, descricao)
+                # mais de um autor
+                Database.insert_request_research_update(
+                    2, str(idPesquisa), str(idUsuario), titulo, descricao)
                 return {'success': 'request to delete research sended'}
         else:
             return {'error': 'research doesn´t exist'}
-       
 
 
 # data = date(2021, 8, 9)
