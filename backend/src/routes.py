@@ -119,7 +119,7 @@ def view_project():
     Expects: JSON {id (search id), token}
     Returns: JSON {id, title, category, authors [fullname, email, lattes], tags [],
                     startDate, endDate, interested, description,
-                    attachments [{type, name, file}, ...], lastUpdate, finished, isInterested}
+                    attachments [{type, name, file}, ...], lastUpdate, finished, isInterested, isAuthor}
     '''
     proj_id = request.json['id']
     token = request.json['token']

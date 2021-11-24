@@ -210,7 +210,7 @@ class Central:
             else:
                 rcat = '-'
             # Get authors
-            authors = Database.read_authors(rid)
+            authors, isAuthor = Database.read_authors(rid)
             rauthors = []
             for _aut in authors:
                 _raut = {'fullname': _aut[1],
@@ -242,6 +242,8 @@ class Central:
         data = Database.read_token(token)
         if len(data) < 1:
             return {'error': 'invalid token'}
+        else:
+            userId = data[0][1]
 
         _r = Database.read_search_from_id(idPesquisa)
 
@@ -255,7 +257,7 @@ class Central:
         else:
             rcat = '-'
         # Get authors
-        authors = Database.read_authors(rid)
+        authors, isAuthor = Database.read_authors(rid, userId)
         rauthors = []
         for _aut in authors:
             _raut = {'fullname': _aut[1],
@@ -299,7 +301,7 @@ class Central:
 
         # Build JSON
         research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
-                    'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated}
+                    'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated, 'isAuthor': isAuthor}
 
         # print({'searchResult': research_list})
 
@@ -372,7 +374,7 @@ class Central:
 
         data = Database.read_search_from_id(idPesquisa)
         if (len(data) > 0):
-            data = Database.read_authors(idPesquisa)
+            data, isAuthor = Database.read_authors(idPesquisa)
             if(len(data) == 1):
                 Database.update_research(
                     idPesquisa, titulo, descricao, idCategoria, ano_inicio, idTag_1, idTag_2, idTag_3, git, autores)
@@ -393,7 +395,7 @@ class Central:
         data = Database.read_searches(1, [titulo], None, None, None)
         if (len(data) > 0):
             idPesquisa = data[0][0]
-            data = Database.read_authors(idPesquisa)
+            data, isAuthor = Database.read_authors(idPesquisa)
             if (len(data) == 1):
                 Database.delete_research(titulo, descricao)
                 data = Database.read_searches(1, [titulo], None, None, None)
@@ -417,7 +419,7 @@ class Central:
 #                          "Manulenis", "Duzao da Massa"], ["C", "Tagzao"], "2008", None, None)
 
 # print(date.today().strftime("%Y-%m-%d"))
-#Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
+# Central.show_interest('gUolBeTGFpcFEbCpEra9', 176)
 
 
     @staticmethod
@@ -447,4 +449,4 @@ class Central:
                 return {"sucess": "succes"}
 
 
-Central.readuser('5bycoadAEyJ4WUxiH0fc')
+print(Central.view_project(70, '5bycoadAEyJ4WUxiH0fc'))
