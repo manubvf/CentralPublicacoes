@@ -46,12 +46,12 @@ export default class Login extends React.Component {
         }
         this.props.context.handleLoading()
 
-        return fetch(`http://127.0.0.1:5000/backend`, {
+        return fetch(`http://143.106.73.33:5000/`, {
             'method':'POST',
             headers : {
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 function: 'login',
                 email, password
             })
@@ -69,17 +69,17 @@ export default class Login extends React.Component {
             }
         })
         .catch(error => {
-            console.log(error); 
+            console.log(error);
             this.props.context.handleLoading()
         })
     }
 
     handleEmailChange = (e) => this.setState({ email: e.target.value })
     handlePasswordChange = (e) => this.setState({ password: e.target.value })
-  
+
     render() {
         const { email, password } = this.state;
-        
+
         return (<>
             <Modal closeButtonRight handleClose={this.props.handleClose}>
                 <p style={styles.title}> Login </p>

@@ -3,6 +3,7 @@ import React from 'react';
 import Container from './Container';
 import ProjectSummary from '../components/ProjectSummary';
 import SearchBar from '../components/SearchBar';
+import axios from "axios";
 
 const styles = {
     cardsContainer: {
@@ -25,14 +26,90 @@ const styles = {
       marginLeft: '8.5%',
       marginTop: '60px',
     }
+};
+
+const gitHubUrl = "https://api.github.com/users/deekshasharma";
+
+
+/*const getGitHubUserWithFetch = async () => {
+/*  const response = await fetch(gitHubUrl);
+  const jsonData = await response.json();
+  return jsonData;
+  const response = await axios.get(gitHubUrl);
+  return (response.data);
+};*/
+
+const jesusCristo = async () => {
+    const { email, password } = this.state;
+
+    if (email === '' || password === '') {
+        console.log(this.state)
+        console.log('Faltam dados!')
+        return null;
+    }
+    this.props.context.handleLoading()
+
+    return fetch(`http://143.106.73.33:5000/`, {
+        'method':'POST',
+        headers : {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+            function: 'view_project',
+            email, password
+        })
+    })
+    .then(response => response.json())
+    .then(response => {
+        if (response.error) {
+            console.log(response.error)
+            this.props.context.handleLoading()
+        } else {
+            localStorage.setItem('token', response.token);
+            this.props.context.handleLoading()
+            this.props.handleClose();
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        this.props.context.handleLoading()
+    })
 }
 
+
 export default class Explore extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {data: {}}
+    this.toggleMore = this.toggleMore.bind(this);
+    //this.getGitHubUserWithFetch = this.getGitHubUserWithFetch.bind(this);
+  }
+
+  componentDidMount() {
+    const teste = jesusCristo();
+    this.setState({data: teste});
+    console.log('Você clicou  vezes', teste);
+  }
+  /*componentDidUpdate() {
+  //  getGitHubUserWithFetch();
+    const teste = getGitHubUserWithFetch();
+    this.setState({data: teste});
+    console.log('Você clicou vezes', teste);
+  }*/
+
+//  async getGitHubUserWithFetch(){
+//    console.log("teste");
+  //}
+
+  toggleMore(event){
+    console.log(this.state.data);
+  }
 
     render() {
       return (
           <Container currentPage='explore' {...this.props}>
-            <div style={styles.searchBarContainer}>
+            <div style={styles.searchBarContainer} onClick={this.toggleMore}>
               <SearchBar/>
             </div>
             <p style={styles.pageTitle}>Trends</p>
