@@ -1102,11 +1102,13 @@ class Database:
             return None
 
     @staticmethod
-    def read_authors(idPesquisa):
+    def read_authors(idPesquisa, idAutor=None):
         '''
-        *** Reads tabela Autores and return all authors for a given research id
-        *** Expects: research id
-        *** Return: all authors related to that research
+        *** Reads tabela Autores and return all authors for a given research id.
+        *** If idAuthor is not None, also tells if that user is an author of that research
+        *** Expects: research id and author id (optional)
+        *** Return: all authors related to that research and a boolean that tells if user is
+        *** the author or not
         '''
         db_connection = DatabaseConnection()
         cursor = db_connection.connection.cursor()
@@ -1117,14 +1119,18 @@ class Database:
         data = cursor.fetchall()
 
         authors = []
+        isAuthor = False
 
         for _aut in data:
+            if idAutor is not None:
+                if str(idAutor) == str(_aut[0]):
+                    isAuthor = True
             if _aut[0] is not None:
                 authors.append(Database.read_user_by_id(_aut[0]))
 
         db_connection.close_all()
 
-        return authors
+        return authors, isAuthor
 
     def read_anexos(idPesquisa):
         '''
