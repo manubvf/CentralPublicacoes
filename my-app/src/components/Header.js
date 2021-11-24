@@ -131,7 +131,7 @@ export default class Header extends React.Component {
                             { showSubmenu && <DropDownMenu onMouseLeave={this.handleSubmenu}/> }
                         </div>
                         : 
-                        <button onClick={context().handleLogin} style={styles.loginButton}>
+                        <button onClick={context.handleLogin} style={styles.loginButton}>
                             <Icon name='user circle' size='large' style={{ marginLeft:10, marginRight: 5, marginTop: '-3px'}}/>
                             Login
                         </button>
