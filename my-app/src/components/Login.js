@@ -46,13 +46,12 @@ export default class Login extends React.Component {
         }
         this.props.context.handleLoading()
 
-        return fetch(`http://127.0.0.1:5000/backend`, {
+        return fetch(`http://127.0.0.1:5000/backend/login`, {
             'method':'POST',
             headers : {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({ 
-                function: 'login',
                 email, password
             })
         })
@@ -63,7 +62,8 @@ export default class Login extends React.Component {
                 this.props.context.handleLoading()
             } else {
                 localStorage.setItem('token', response.token);
-                this.props.context.handleLoading()
+                localStorage.setItem('fullname', response.fullname);
+                this.props.context.handleLoading();
                 this.props.handleClose();
                 window.location.reload();
             }

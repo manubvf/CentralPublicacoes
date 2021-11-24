@@ -37,14 +37,13 @@ export default class SignUp extends React.Component {
     handleSubmit = async () => {
         const { fullname, email, password, passwordConfirmation } = this.state;
 
-        return fetch(`http://127.0.0.1:5000/backend`, {
+        return fetch(`http://127.0.0.1:5000/backend/signup`, {
             'method':'POST',
             headers : {
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify({ 
-                function: 'signup',
-                fullname, email, password, passwordConfirmation 
+            body: JSON.stringify({
+                fullname, email, password 
             })
         })
         .then(response => response.json())

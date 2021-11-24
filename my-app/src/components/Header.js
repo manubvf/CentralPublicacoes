@@ -92,6 +92,7 @@ export default class Header extends React.Component {
         const forYouStyle = currentPage === 'foryou' ? styles.itemHeaderSelected : hoverForYou ? styles.itemHeaderHover : styles.itemHeader;
         const analiticsStyle = currentPage === 'analitics' ? styles.itemHeaderSelected : hoverAnalitics ? styles.itemHeaderHover : styles.itemHeader;
         const token = localStorage.getItem('token');
+        const fullname = localStorage.getItem('fullname');
 
         return (
             <div style={styles.outside}>
@@ -125,7 +126,7 @@ export default class Header extends React.Component {
                         <div>
                             <a onClick={this.handleSubmenu} style={{ display: 'flex', color: '#5F5F5F', cursor:'pointer' }}>
                                 <img alt="Imagem de perfil" style={{ width: 20, height: 20, borderRadius: 25, marginRight: 10 }} src={google}></img>
-                                <p style={{ fontSize: '18px' }}> Professor </p>
+                                <p style={{ fontSize: '18px' }}> {fullname} </p>
                             </a>
                             { showSubmenu && <DropDownMenu onMouseLeave={this.handleSubmenu}/> }
                         </div>

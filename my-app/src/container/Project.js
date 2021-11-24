@@ -59,7 +59,6 @@ export default class Project extends React.Component {
     }
 
     componentDidMount(){
-        // www.loc/project/3
         if (window.location.pathname.split('/').length < 3 || window.location.pathname.split('/')[2] === '') {
             console.log('Necessário indicar o identificador do projeto de pesquisa')
             window.location.href = '/404';
@@ -86,31 +85,40 @@ export default class Project extends React.Component {
             interested: 400,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit pharetra facilisis. Maecenas vulputate turpis nec mauris iaculis, efficitur pellentesque lectus semper. Sed aliquet lorem vitae pharetra mollis. In cursus nibh neque, a porttitor elit commodo a. Aliquam convallis cursus leo, at interdum massa sodales nec. Quisque consectetur leo non sapien pharetra iaculis. ',
             attachments: [
-                { type: 'file', name: 'Documento qualquer', file: 'definir como vai ser salvo file' },
+                { type: 'file', name: 'Documento qualquer', file: 'to be defined' },
                 { type: 'link', name: 'Link qualquer', link: 'http://google.com' },
             ],
             lastUpdate: '2019-03-11',
             finished: false,
             isInterested: false,
-            isAuthor: true,
+            isAuthor: false,
             outdated: false,
         });
-        // TODO: GET INFOS FROM BACK
-    //   fetch('http://127.0.0.1:5000/project',{
-    //     'methods':'GET',
-    //     headers : {
-    //       'Content-Type':'application/json'
-    //       },
-    //       body: JSON.stringify({ 
-    //           token, idProject: id
-    //       })
-    //   })
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     if (response.error) console.log(response.error)
-    //     else  this.setState(response)
-    //   })
-    //   .catch(error => console.log(error))
+
+        this.props.context.handleLoading();
+
+        fetch(`http://127.0.0.1:5000/backend/view`, {
+            'method':'POST',
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({ 
+                token, id
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) {
+                console.log(response.error)
+            } else {
+                this.setState(response)
+            }
+            this.props.context.handleLoading();
+        })
+        .catch(error => {
+            console.log(error); 
+            this.props.context.handleLoading();
+        })
     }
 
     handleInfoHover = () => this.setState({showInfoHover: !this.state.showInfoHover});
@@ -240,7 +248,11 @@ export default class Project extends React.Component {
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <h1> {title} </h1>
-                            {isAuthor && <div style={{ background: '#F1F1F1', marginLeft: 15, borderRadius: 10, padding: 5, paddingLeft: 10, paddingRight: 10, cursor: 'pointer' }}>
+                            {finished
+                            ? <div style={{ borderRadius: 15, border: '2px solid #008550', marginLeft: 15, paddingTop: 5, paddingBottom: 5, paddingLeft: 10, paddingRight: 10, height: 35, color: '#008550', fontSize: 12 }}> Concluído </div>
+                            : outdated && <div style={{ borderRadius: 15, border: '2px solid #E46117', marginLeft: 15, paddingTop: 5, paddingBottom: 5, paddingLeft: 10, paddingRight: 10, height: 35, color: '#E46117', fontSize: 12 }}> Desatualizado </div>
+                            }
+                            {isAuthor && <div style={{ background: '#F1F1F1', marginLeft: 10, borderRadius: 10, padding: 5, paddingLeft: 10, paddingRight: 10, cursor: 'pointer' }}>
                                 <Icon name='cog'/> {showAuthorMenu ? <Icon name='chevron up' onClick={this.handleAuthorMenu}/> : <Icon name='chevron down' onClick={this.handleAuthorMenu}/>}
                                 {showAuthorMenu && <div style={{ position: 'absolute', background: '#F1F1F1', marginTop: 5, marginLeft: -5, padding: 10, paddingLeft: 10, paddingRight: 10, borderRadius: 10, display: 'flex', flexDirection: 'column' }}>
                                     <a href={'/newProject/'+id} style={{ borderBottom: '1px solid #B5BBBF', marginBottom: 10, paddingBottom: 10, color: '#333D42', textAlign: 'center' }}>
@@ -254,15 +266,13 @@ export default class Project extends React.Component {
                                     </a>
                                 </div>}
                             </div>}
-                            {finished
-                            ? <div style={{ borderRadius: 15, border: '2px solid #008550', marginLeft: 15, paddingTop: 5, paddingBottom: 5, paddingLeft: 10, paddingRight: 10, height: 35, color: '#008550', fontSize: 12 }}> Concluído </div>
-                            : outdated && <div style={{ borderRadius: 15, border: '2px solid #E46117', marginLeft: 15, paddingTop: 5, paddingBottom: 5, paddingLeft: 10, paddingRight: 10, height: 35, color: '#E46117', fontSize: 12 }}> Desatualizado </div>
-                            }
                         </div>
-                        <div style={styles.category}>
-                            <p style={styles.categoryTitle}>{category}</p>
-                            <img style={styles.categoryImage} src={categoryFlag} alt=""/>
-                        </div>
+                        { category !== '-' && 
+                            <div style={styles.category}>
+                                <p style={styles.categoryTitle}>{category}</p>
+                                <img style={styles.categoryImage} src={categoryFlag} alt=""/>
+                            </div> 
+                        }
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 15 }}>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -317,9 +327,9 @@ export default class Project extends React.Component {
                                 <p style={{ fontSize: 20 }}> Documentos </p>
                                 <p style={{ fontSize: 13, color: '#022B59' }}> Última atualização: {lastUpdate} </p>
                             </div>
-                            <div>
-                                {attachments.map((item, index) => this.renderAttachments(item, index))}
-                            </div>
+                            { attachments.length !== 0
+                            ? attachments.map((item, index) => this.renderAttachments(item, index))
+                            : <p style={{ textAlign: 'center', fontSize: 20, color: '#586073', margin: 50  }}> Nenhum documento relacionado </p>}
                         </div>
                     }
                 </div>

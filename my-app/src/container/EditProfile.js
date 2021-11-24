@@ -25,19 +25,41 @@ export default class EditProfile extends React.Component {
         this.state = {information: [], infoText: '', fileSelected: null, fullname: '', course: '', lattes: ''};
     }
 
-    componentDidMount(){
-      fetch('http://127.0.0.1:5000/',{
-        'methods':'GET',
-        headers : {
-          'Content-Type':'application/json'
-          }
-      })
-      .then(response => response.json())
-      .then(response => {
-        if (response.error) console.log(response.error)
-        else  this.setState(response)
-      })
-      .catch(error => console.log(error))
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+
+        if (!token)  {
+            console.log('Nenhum usuário relacionado');
+            window.location.href = '/404';
+        }
+
+        fetch('http://127.0.0.1:5000/backend/getuser',{
+            'methods':'POST',
+            headers : {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({ 
+                token
+            })
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) console.log(response.error)
+            else  {
+                this.setState({
+                    fullname: response.fullname,
+                    information: [
+                        response.email_pessoal,
+                        response.email_institucional,
+                        response.telefone,
+                    ],
+                    course: response.curso,
+                    lattes: response.lattes,
+                })
+            }
+            // { research_gate, git}
+        })
+        .catch(error => console.log(error))
     }
 
     deleteInfo = (info) => {

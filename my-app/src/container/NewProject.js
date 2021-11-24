@@ -65,7 +65,7 @@ export default class NewProject extends React.Component {
       message: '', 
       email: '', 
       title: '', 
-      category: '', 
+      category: '-', 
       description: '', 
       beginDate: '', 
       endDate: '', 
@@ -79,6 +79,55 @@ export default class NewProject extends React.Component {
       authors: ['Rebeca Stroh'],
       attachments: [],
     }
+
+    this.editing = false;
+  }
+
+  componentDidMount() {
+    if (window.location.pathname.split('/').length < 3 || window.location.pathname.split('/')[2] === '') {
+      return null;
+    }
+
+    this.editing = true;
+
+    const id = window.location.pathname.split('/')[2];
+    const token = localStorage.getItem('token');
+
+    this.props.context.handleLoading();
+
+    fetch(`http://127.0.0.1:5000/backend/view`, {
+      'method':'POST',
+      headers : {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({ 
+        token, id
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response.error) {
+          console.log(response.error)
+      } else {
+          console.log(response)
+          console.log(response.authors.map(item => item.email))
+          this.setState({
+            title: response.title,
+            authors: response.authors.map(item => item.email),
+            description: response.description,
+            startDate: response.startDate,
+            endDate: response.endDate,
+            attachments: response.attachments,
+            tags: response.tags,
+            category: response.category,
+          })
+      }
+      this.props.context.handleLoading();
+    })
+    .catch(error => {
+      console.log(error); 
+      this.props.context.handleLoading();
+    })
   }
 
   deleteTag = (tag) => {
@@ -147,7 +196,7 @@ export default class NewProject extends React.Component {
   handleNewFile = () => this.setState({ subMenuAttachment: false, showNewFile: true });
   handleSubmit = async () => {
     const { title, category, description, beginDate, endDate, tags, authors, attachments } = this.state;
-    if (title === '' || category === '' || description === '') {
+    if (title === '' || category === '-' || description === '') {
       console.log('Faltam dados!')
       return null;
     }
@@ -228,7 +277,7 @@ export default class NewProject extends React.Component {
 
   renderAuthor = (author, index) => {
     return(
-      index === 0
+      index === 0 && !this.editing
       ? <div key={index} style={{ borderRadius: 15, fontSize:12, marginBottom: 10, paddingLeft: 10, paddingRight: 10, border: '1px solid #049DBF', marginLeft:10, color: '#049DBF'}}>
         VOCÊ
       </div>
@@ -301,7 +350,7 @@ export default class NewProject extends React.Component {
             <Input title='Título *:' type="input" name="title" value={title} width="70%" eventChange={this.handleTitleChange}/>
             <div style={{ marginLeft: 40, width:'30%' }}>
               <Input title='Categoria *:' type="select" name="category" value={category} eventChange={this.handleCategoryChange}>
-                <option value="">-</option>
+                <option value="-">-</option>
                 <option value="reclamacao">Reclamação</option>
                 <option value="conselho">Conselho</option>
               </Input>
