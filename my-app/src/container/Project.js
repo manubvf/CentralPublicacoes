@@ -297,7 +297,7 @@ export default class Project extends React.Component {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', borderTop: '1px solid #B5BBBF', marginTop: 15 }}>
                         <p style={{ margin: 15, color: '#5F5F5F' }}> {description} </p>
-                        <a onClick={() => {this.props.context().handleReport(id)}} style={{ alignSelf: 'end', color: '#B70000', textDecoration: 'underline', cursor: 'pointer' }}> 
+                        <a onClick={() => {this.props.context.handleReport(id)}} style={{ alignSelf: 'end', color: '#B70000', textDecoration: 'underline', cursor: 'pointer' }}> 
                             <Icon name='warning sign' style={{ marginRight: 10 }}/>
                             Denunciar projeto 
                         </a>
@@ -308,7 +308,7 @@ export default class Project extends React.Component {
                             <div style={{ display: 'flex', padding: 10, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'absolute', width: '100%', height: '100%' }}>
                                 <Icon name='lock' style={{ marginBottom: 20 }} size='massive' color='blue'/>
                                 <p style={{ color: '#022B59', fontSize: 20}}>Esta informação esta disponível apenas para usuários cadastrados</p>
-                                <a onClick={() => this.props.context().handleLogin()} style={{ fontSize: 18, cursor: 'pointer', textDecoration: 'underline' }}>Faça seu login</a>
+                                <a onClick={() => this.props.context.handleLogin()} style={{ fontSize: 18, cursor: 'pointer', textDecoration: 'underline' }}>Faça seu login</a>
                             </div>
                         </div>
                     :
