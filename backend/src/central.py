@@ -236,11 +236,13 @@ class Central:
         return {'searchResult': research_list}
 
     @staticmethod
-    def view_project(idPesquisa, token):
+    def view_project(idPesquisa, token=None):
 
         # Check if token is valid
         userId = None
-        data = Database.read_token(token)
+        data = ""
+        if token is not None:
+            data = Database.read_token(token)
         if len(data) >= 1:
             #return {'error': 'invalid token'}
             userId = data[0][1]
