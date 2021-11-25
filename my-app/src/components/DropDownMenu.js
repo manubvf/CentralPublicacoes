@@ -10,7 +10,8 @@ const styles = {
         display: 'flex', 
         flexDirection: 'column', 
         background: '#FAFAFA',
-        border: '1px solid #E5E5E5'
+        border: '1px solid #E5E5E5',
+        zIndex: 1,
     },
     item: { 
         padding: 10, 

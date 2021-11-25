@@ -16,6 +16,7 @@ const styles = {
         paddingLeft: 70,
         paddingRight: 70,
         boxShadow: '0px 1px 6px 1px rgba(0, 0, 0, 0.2)',
+        flexShrink: 0,
     },
     items: {
         display: 'flex',
