@@ -15,17 +15,17 @@ const styles = {
     },
 }
 
-{/* <Feedback ok message="Projeto de pesquisa criado com sucesso!" linkText="Ver página do projeto" link="/"/> */}
+{/* <Feedback ok message="Projeto de pesquisa criado com sucesso!" linkText="Ver página do projeto" link="/" handleClose/> */}
 
 export default class Feedback extends React.Component {
     render() {
-        const { ok, notOk, message, link, linkText, handleClose } = this.props;
+        const { ok, message, link, linkText, handleClose } = this.props;
         return (
             <Modal closeButtonRight handleClose={handleClose}>
                 <div style={{ display: 'flex', flex: 1, alignItems: 'center', flexDirection: 'column', width: '250px' }}>
                     {message && <p style={styles.title}> {message} </p>}
                     {ok && <Player style={styles.img} autoplay={true} loop={true} controls={true} src="https://assets8.lottiefiles.com/packages/lf20_4qldwfx4.json"/>}
-                    {notOk && <Player style={styles.img} autoplay={true} loop={true} controls={false} src="https://assets4.lottiefiles.com/packages/lf20_j3UXNf.json"/>}
+                    {!ok && <Player style={styles.img} autoplay={true} loop={true} controls={false} src="https://assets4.lottiefiles.com/packages/lf20_j3UXNf.json"/>}
                     {linkText && link && <a href={link}> {linkText} </a>}
                 </div>
             </Modal>

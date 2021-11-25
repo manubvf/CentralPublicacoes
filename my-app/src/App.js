@@ -18,6 +18,7 @@ import Report from './components/Report';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import LoaderComponent from './components/LoaderComponent';
+import Feedback from './components/Feedback';
 
 // External
 import 'semantic-ui-css/semantic.min.css';
@@ -37,6 +38,7 @@ class App extends React.Component {
           showReport: false, 
           showLogin: false, 
           showSignup: false,
+          showFeedback: false,
           loading: false,
       }
   }
@@ -45,15 +47,21 @@ class App extends React.Component {
   handleLogin = () => this.setState({ showLogin: !this.state.showLogin });
   handleSignup = () => this.setState({ showSignup: !this.state.showSignup });
   handleLoading = () => this.setState({ loading: !this.state.loading });
+  handleFeedback = ( ok, message, linkText, link ) => this.setState({ 
+    showFeedback: !this.state.showFeedback,  
+    ok, message, linkText, link
+  });
 
   render() {
-    const { id, showReport, showLogin, showSignup, loading } = this.state;
+    const { id, showReport, showLogin, showSignup, showFeedback, loading,
+            ok, message, linkText, link } = this.state;
     return (
       <div>
         {loading && <LoaderComponent/>}
         {showLogin && <Login handleClose={this.handleLogin} openSignUp={this.handleSignup} context={this}/>}
         {showSignup && <SignUp handleClose={this.handleSignup} openLogin={this.handleLogin}/>}
         {showReport && <Report handleClose={this.handleReport} projectId={id}/>}
+        {showFeedback && <Feedback handleClose={this.handleFeedback} ok={ok} message={message} linkText={linkText} link={link}/>}
 
         <Router>
           <Switch>
