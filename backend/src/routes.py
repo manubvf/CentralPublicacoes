@@ -123,8 +123,8 @@ def view_project():
     '''
     proj_id = request.json['id']
     token = request.json['token']
-    if token is None:
-        return {'error': 'authentication token not found'}
+    #if token is None:
+        #return {'error': 'authentication token not found'}
     return Central.view_project(proj_id, token)
 
 
