@@ -58,7 +58,6 @@ export default class EditProfile extends React.Component {
             if (response.error) {
                 console.log(response.error); 
             } else {
-                console.log(response); 
                 this.setState(response, () => this.init = this.state);
             }
             this.props.context.handleLoading();
@@ -75,7 +74,7 @@ export default class EditProfile extends React.Component {
     }
 
     handleFullnameChange = e => this.setState({fullname: e.target.value});
-    handleCourseChange = e => this.setState({course: e.target.value});
+    handleCourseChange = e => this.setState({curso: e.target.value});
     handleLattesChange = e => this.setState({lattes: e.target.value});
     handleEmailPessoalChange = e => this.setState({email_pessoal: e.target.value});
     handleTelefoneChange = e => this.setState({telefone: e.target.value});
@@ -100,20 +99,20 @@ export default class EditProfile extends React.Component {
             })
             .then(response => response.json())
             .then(response => {
-                if (response.error) {
-                    console.log(response.error); 
-                } else {
-                    console.log(response); 
-                }
                 this.props.context.handleLoading();
+                if (response.error) {
+                    this.props.context.handleFeedback(false, 'Ocorreu o seguinte erro ao atualizar os seus dados: '+response.error, );
+                } else {
+                    localStorage.setItem('fullname', fullname);
+                    this.props.context.handleFeedback(true, 'Dados editados');
+                }
             })
             .catch(error => { 
                 console.log(error); 
                 this.props.context.handleLoading();
+                this.props.context.handleFeedback(false, 'Ocorreu um erro ao atualizar os seus dados');
             });
-        }
-
-        window.location.href = '/myProfile';
+        } else this.props.context.handleLoading();
     }
 
     render() {
