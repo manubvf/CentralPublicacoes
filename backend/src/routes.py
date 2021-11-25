@@ -52,7 +52,7 @@ def getUser():
                   {error}
     '''
     token = request.json['token']
-    return Central.getuser(token)
+    return Central.readuser(token)
 
 
 def edituser():
