@@ -469,5 +469,22 @@ class Central:
             else:
                 return {"sucess": "succes"}
 
+    @staticmethod
+    def get_all_categories():
+        data = Database.read_category()
+        print(data)
+        #return {"data":"oi"}
+        categories = Database.read_category()
+        ret = []
+        for _category in categories:
+            _ret = {'id': _category[0],
+                    'nome': _category[1]}
+            ret.append(_ret)
 
-print(Central.view_project(70, '5bycoadAEyJ4WUxiH0fc'))
+        return {"categories": ret}
+            
+
+            
+
+
+#print(Central.view_project(70, '5bycoadAEyJ4WUxiH0fc'))

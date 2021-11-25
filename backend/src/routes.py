@@ -24,7 +24,7 @@ def signUp():
 def login():
     '''Login
     Expects: JSON {email, password}
-    Returns: JSON {fullname, token, id, email} or {error}
+    Returns: JSON {fullname, token, id, email_institucional} or {error}
     '''
     email = request.json['email']
     password = request.json['password']
@@ -191,6 +191,16 @@ def delete_research():
 
     return Central.delete_research(titulo, descricao, token)
 
+def get_all_categories():
+    '''Get all categories
+    Expects: JSON {}
+    Returns: JSON {categories[id, nome]}
+    '''
+
+    return Central.get_all_categories()
+
+
+
 
 @app.route("/", methods=["GET"], strict_slashes=False)
 def articles():
@@ -260,6 +270,10 @@ def backend_update_research():
 @app.route("/backend/deleteresearch", methods=["POST"], strict_slashes=False)
 def backend_delete_research():
     return delete_research()
+
+@app.route("/backend/category", methods=["GET"], strict_slashes=False)
+def backend_get_all_categories():
+    return get_all_categories()
 
 
 if __name__ == "__main__":
