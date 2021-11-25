@@ -53,6 +53,7 @@ Central de Projetos de Pesquisas é um lugar onde os pesquisadores do Instituto 
 
 
 #### Como acessar, quem pode se cadastrar(regras de acessos), etc.
-
+- O sistema pode ser acessado através do link: http://143.106.73.33/.
+- Pode se cadastrar no sistema Pesquisadores, Professores e Alunos (graduação, mestrado e doutorado) do Instituto de Computação da UNICAMP. 
 
 #### Repositório da Professora Juliana no Gitlab do IC ou Zip com o projeto e todos artefatos para futuras evoluções dos projetos por outros alunos das turmas seguintes
