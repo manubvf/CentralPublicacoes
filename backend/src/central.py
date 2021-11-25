@@ -239,11 +239,13 @@ class Central:
     def view_project(idPesquisa, token):
 
         # Check if token is valid
+        userId = None
         data = Database.read_token(token)
-        if len(data) < 1:
-            return {'error': 'invalid token'}
-        else:
+        if len(data) >= 1:
+            #return {'error': 'invalid token'}
             userId = data[0][1]
+        #else:
+            #userId = data[0][1]
 
         _r = Database.read_search_from_id(idPesquisa)
 
@@ -260,8 +262,12 @@ class Central:
         authors, isAuthor = Database.read_authors(rid, userId)
         rauthors = []
         for _aut in authors:
-            _raut = {'fullname': _aut[1],
-                     'email': _aut[4], 'lattes': _aut[7]}
+            if len(data) >= 1:
+                _raut = {'fullname': _aut[1],
+                        'email': _aut[4], 'lattes': _aut[7]}
+            else:
+                _raut = {'fullname': _aut[1]}
+            
             rauthors.append(_raut)
         # Get tags
         rtags = []
@@ -300,9 +306,13 @@ class Central:
         routdated = 'false'
 
         # Build JSON
-        research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
-                    'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated, 'isAuthor': isAuthor}
-
+        if len(data) >= 1:
+            research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
+                        'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated, 'isAuthor': isAuthor}
+        else:
+            research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
+                        'description': rdesc, 'lastUpdate': rlast, 'finished': rfinished, 'outdated': routdated,}
+        
         # print({'searchResult': research_list})
 
         return research
