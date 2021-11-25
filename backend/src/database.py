@@ -1170,7 +1170,8 @@ class Database:
         if len(data) > 0:
             return data[0]
         else:
-            raise(Exception("Search with given id not found"))
+            #raise(Exception("Search with given id not found"))
+            return data
 
     @staticmethod
     def insert_tag(nome):
@@ -1243,3 +1244,25 @@ class Database:
 # print(Database.read_search_from_id(20))
 
 # print(Database.read_user_by_name("Duzao da Massa"))
+
+    def read_publication_from_id(idPublicacao):
+            '''
+            *** Reads tabela Publicacoes and returns the data of a research for a given id
+            *** Expects: publication id
+            *** Return: all files related to that publication
+            '''
+            db_connection = DatabaseConnection()
+            cursor = db_connection.connection.cursor()
+
+            query = "SELECT * FROM `Publicacoes` WHERE `idPublicacao`='" + \
+                str(idPublicacao) + "';"
+            cursor.execute(query)
+
+            data = cursor.fetchall()
+
+            db_connection.close_all()
+
+            if len(data) > 0:
+                return data[0]
+            else:
+                raise(Exception("Publication with given id not found"))

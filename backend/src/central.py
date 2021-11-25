@@ -241,6 +241,7 @@ class Central:
         # Check if token is valid
         userId = None
         data = ""
+        isPublication = False
         if token is not None:
             data = Database.read_token(token)
         if len(data) >= 1:
@@ -250,6 +251,9 @@ class Central:
             #userId = data[0][1]
 
         _r = Database.read_search_from_id(idPesquisa)
+        if (len(_r) <= 0):
+            isPublication = True
+            _r = Database.read_publication_from_id(idPesquisa)
 
         # Research id
         rid = _r[0]
@@ -287,7 +291,10 @@ class Central:
         else:
             rend = '-'
         # Get number of interested people
-        rfav = len(Database.read_favoritados(_r[0]))
+        if isPublication:
+            rfav = len(Database.read_favoritados(None, rid, None))
+        else:
+            rfav = len(Database.read_favoritados(None, None, rid))
         # Get description
         rdesc = _r[2]
         # Get attachments
@@ -308,6 +315,7 @@ class Central:
         routdated = 'false'
 
         # Build JSON
+        #Esta logado ou não
         if len(data) >= 1:
             research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
                         'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated, 'isAuthor': isAuthor}
