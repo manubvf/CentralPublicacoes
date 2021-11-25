@@ -25,11 +25,11 @@
 ### Descrição do projeto:
 Central de Projetos de Pesquisas é um lugar onde os pesquisadores do Instituto de Computação da UNICAMP podem se conectar com outros projetos para ajudar uns aos outros. Aqui, você pode registrar novas pesquisas, verificar tópicos quentes e permitir que outros estejam interessados em ajudá-lo dentro de seus projetos.
 
- _Como usuários não cadastrados do sistema é possível:_
+*Como usuário não cadastrado do sistema é possível:*
 - Pesquisar projetos de pesquisa e filtrar de acordo com o autor, categoria, título ou número de interessados; e
 - Visualizar de forma resumida as informações de um projetos de pesquisa.
 
- _Como usuário cadastrados do sistema é possível: _
+*Como usuário cadastrado do sistema é possível:*
 - Cadastrar um projeto de pesquisa;
 - Alterar informações de um projeto de pesquisa cadastrado no sistema;
 - Excluir um projeto de pesquisa cadastrado no sistema;
