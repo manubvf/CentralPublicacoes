@@ -270,7 +270,8 @@ class Central:
         rauthors = []
         for _aut in authors:
             if len(data) >= 1:
-                _raut = {'fullname': _aut[1],
+                _raut = {'id': _aut[0],
+                        'fullname': _aut[1],
                         'email': _aut[4], 'lattes': _aut[7]}
             else:
                 _raut = {'fullname': _aut[1]}

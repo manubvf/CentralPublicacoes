@@ -117,7 +117,7 @@ def search_project():
 def view_project():
     '''View a specific project after a search
     Expects: JSON {id (search id), token}
-    Returns: JSON {id, title, category, authors [fullname, email, lattes], tags [],
+    Returns: JSON {id, title, category, authors [id, fullname, email, lattes], tags [],
                     startDate, endDate, interested, description,
                     attachments [{type, name, file}, ...], lastUpdate, finished, isInterested, isAuthor}
     '''
