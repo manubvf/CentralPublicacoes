@@ -24,7 +24,7 @@ def signUp():
 def login():
     '''Login
     Expects: JSON {email, password}
-    Returns: JSON {fullname, token, id} or {error}
+    Returns: JSON {fullname, token, id, email} or {error}
     '''
     email = request.json['email']
     password = request.json['password']

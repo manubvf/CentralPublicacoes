@@ -32,13 +32,14 @@ class Central:
             # token = Central.get_new_token()
             name = data[0][1]
             id = data[0][0]
+            email_institucional = data[0][2]
             try:
                 token = Database.read_token_from_id(id)[0][0]
             except Exception("Couldn't find user's token") as e:
                 raise(e)
 
             # Database.insert_token(data[0][0], token)
-            ret = {'fullname': name, 'token': token, 'id': id}
+            ret = {'fullname': name, 'token': token, 'id': id, 'email_institucional': email_institucional}
         else:
             ret = {'error': 'user not found'}
 
