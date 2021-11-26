@@ -110,13 +110,17 @@ export default class Project extends React.Component {
     showInterest = () => {
         const token = localStorage.getItem('token');
         const { id } = this.state;
+        let url;
 
-        if (this.state.isInterested === 'false')
+        if (this.state.isInterested === 'false') {
             this.setState({ isInterested: 'true', interested: this.state.interested+1 });
-        else
+            url = `http://127.0.0.1:5000/backend/interest`;
+        } else {
             this.setState({ isInterested: 'false', interested: this.state.interested-1 });
+            url = `http://127.0.0.1:5000/backend/removeinterest`;
+        }
 
-        fetch(`http://127.0.0.1:5000/backend/interest`, {
+        fetch(url, {
             'method':'POST',
             headers : {
                 'Content-Type':'application/json'
