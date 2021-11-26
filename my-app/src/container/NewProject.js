@@ -63,8 +63,7 @@ export default class NewProject extends React.Component {
       subMenuAttachment: false, 
       showNewLink: false,
       showNewFile: false,
-      reason: '', 
-      message: '', 
+      categories: [],
       email: '', 
       title: '', 
       category: '-', 
@@ -86,6 +85,26 @@ export default class NewProject extends React.Component {
   }
 
   componentDidMount() {
+    // get all the categories
+    fetch(`http://127.0.0.1:5000/backend/category`, {
+      'method':'GET',
+      headers : {
+        'Content-Type':'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response.error) {
+          console.log(response.error)
+      } else {
+        this.setState(response)
+      }
+    })
+    .catch(error => {
+      console.log(error); 
+    })
+
+    // check if is a role new project or if its editing one
     if (window.location.pathname.split('/').length < 3 || window.location.pathname.split('/')[2] === '') {
       return null;
     }
@@ -224,13 +243,13 @@ export default class NewProject extends React.Component {
 
     console.log(json)
 
-    fetch(`http://127.0.0.1:5000/backend`, {
+    fetch(`http://127.0.0.1:5000/backend/`, {
       'method':'POST',
       headers : {
         'Content-Type':'application/json'
       },
       body: JSON.stringify({ 
-        function: 'newProject', json
+        json
       })
     })
     .then(response => response.json())
@@ -309,6 +328,12 @@ export default class NewProject extends React.Component {
     )
   }
 
+  renderCategory = (category, index) => {
+    return(
+      <option key={index} value={category.nome}>{category.nome}</option>
+    );
+  }
+
   renderLinkModal = () => {
     const { linkText, linkNameText } = this.state;
     return (
@@ -345,7 +370,7 @@ export default class NewProject extends React.Component {
 
   render() {
     const { loading, title, category, description, tagText, authorText, beginDate, endDate,
-            subMenuAttachment, showNewLink, showNewFile, tags, authors, attachments } = this.state;
+            subMenuAttachment, showNewLink, showNewFile, tags, authors, attachments, categories } = this.state;
 
     return (<>
       {loading && <LoaderComponent/>}
@@ -360,8 +385,7 @@ export default class NewProject extends React.Component {
             <div style={{ marginLeft: 40, width:'30%' }}>
               <Input title='Categoria *:' type="select" name="category" value={category} eventChange={this.handleCategoryChange}>
                 <option value="-">-</option>
-                <option value="reclamacao">Reclamação</option>
-                <option value="conselho">Conselho</option>
+                {categories.map((item, index) => this.renderCategory(item, index))}
               </Input>
             </div>
             <div style={{ marginLeft: 40, fontSize: 12, marginTop: 10 }}>
