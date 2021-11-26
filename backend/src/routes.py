@@ -123,8 +123,8 @@ def view_project():
     '''
     proj_id = request.json['id']
     token = request.json['token']
-    #if token is None:
-        #return {'error': 'authentication token not found'}
+    # if token is None:
+    # return {'error': 'authentication token not found'}
     return Central.view_project(proj_id, token)
 
 
@@ -156,6 +156,17 @@ def show_interest():
     idPesquisa = request.json['idPesquisa']
 
     return Central.show_interest(token, idPesquisa)
+
+
+def remove_interest():
+    '''Removes interest in project
+    Expects: JSON {token, idPesquisa}
+    Returns: JSON {success} or {error}
+    '''
+    token = request.json['token']
+    idPesquisa = request.json['idPesquisa']
+
+    return Central.remove_interest(token, idPesquisa)
 
 
 def update_research():
@@ -191,6 +202,7 @@ def delete_research():
 
     return Central.delete_research(titulo, descricao, token)
 
+
 def get_all_categories():
     '''Get all categories
     Expects: JSON {}
@@ -198,8 +210,6 @@ def get_all_categories():
     '''
 
     return Central.get_all_categories()
-
-
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -262,6 +272,11 @@ def backend_interest():
     return show_interest()
 
 
+@app.route("/backend/removeinterest", methods=["POST"], strict_slashes=False)
+def backend_remove_interest():
+    return remove_interest()
+
+
 @app.route("/backend/updateresearch", methods=["POST"], strict_slashes=False)
 def backend_update_research():
     return update_research()
@@ -270,6 +285,7 @@ def backend_update_research():
 @app.route("/backend/deleteresearch", methods=["POST"], strict_slashes=False)
 def backend_delete_research():
     return delete_research()
+
 
 @app.route("/backend/category", methods=["GET"], strict_slashes=False)
 def backend_get_all_categories():

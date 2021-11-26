@@ -39,7 +39,8 @@ class Central:
                 raise(e)
 
             # Database.insert_token(data[0][0], token)
-            ret = {'fullname': name, 'token': token, 'id': id, 'email_institucional': email_institucional}
+            ret = {'fullname': name, 'token': token, 'id': id,
+                   'email_institucional': email_institucional}
         else:
             ret = {'error': 'user not found'}
 
@@ -246,9 +247,9 @@ class Central:
         if token is not None:
             data = Database.read_token(token)
         if len(data) >= 1:
-            #return {'error': 'invalid token'}
+            # return {'error': 'invalid token'}
             userId = data[0][1]
-        #else:
+        # else:
             #userId = data[0][1]
 
         _r = Database.read_search_from_id(idPesquisa)
@@ -271,11 +272,11 @@ class Central:
         for _aut in authors:
             if len(data) >= 1:
                 _raut = {'id': _aut[0],
-                        'fullname': _aut[1],
-                        'email': _aut[4], 'lattes': _aut[7]}
+                         'fullname': _aut[1],
+                         'email': _aut[4], 'lattes': _aut[7]}
             else:
                 _raut = {'fullname': _aut[1]}
-            
+
             rauthors.append(_raut)
         # Get tags
         rtags = []
@@ -317,14 +318,14 @@ class Central:
         routdated = 'false'
 
         # Build JSON
-        #Esta logado ou não
+        # Esta logado ou não
         if len(data) >= 1:
             research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
                         'description': rdesc, 'attachments': ranex, 'lastUpdate': rlast, 'finished': rfinished, 'isInterested': 'false', 'outdated': routdated, 'isAuthor': isAuthor}
         else:
             research = {'id': rid, 'title': rtitle, 'category': rcat, 'authors': rauthors, 'tags': rtags, 'startDate': rstart, 'endDate': rend, 'interested': rfav,
-                        'description': rdesc, 'lastUpdate': rlast, 'finished': rfinished, 'outdated': routdated,}
-        
+                        'description': rdesc, 'lastUpdate': rlast, 'finished': rfinished, 'outdated': routdated, }
+
         # print({'searchResult': research_list})
 
         return research
@@ -385,6 +386,16 @@ class Central:
             return {'error': 'invalid token'}
 
         Database.insert_favoritados(idUsuario, idPesquisa=idPesquisa)
+
+        return {'success': 'ok'}
+
+    @staticmethod
+    def remove_interest(token, idPesquisa):
+        idUsuario = Central.validate_token(token)
+        if not idUsuario:
+            return {'error': 'invalid token'}
+
+        Database.delete_favoritados(idUsuario, idPesquisa=idPesquisa)
 
         return {'success': 'ok'}
 
@@ -474,7 +485,7 @@ class Central:
     def get_all_categories():
         data = Database.read_category()
         print(data)
-        #return {"data":"oi"}
+        # return {"data":"oi"}
         categories = Database.read_category()
         ret = []
         for _category in categories:
@@ -483,9 +494,6 @@ class Central:
             ret.append(_ret)
 
         return {"categories": ret}
-            
-
-            
 
 
 #print(Central.view_project(70, '5bycoadAEyJ4WUxiH0fc'))
