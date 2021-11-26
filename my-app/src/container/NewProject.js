@@ -56,6 +56,8 @@ export default class NewProject extends React.Component {
   constructor (props) {
     super(props);
 
+    const email_institucional = localStorage.getItem('email_institucional');
+
     this.state = { 
       loading: false, 
       subMenuAttachment: false, 
@@ -76,7 +78,7 @@ export default class NewProject extends React.Component {
       docNameText: '',
       fileSelected: null,
       tags: [], 
-      authors: ['Rebeca Stroh'],
+      authors: [email_institucional],
       attachments: [],
     }
 
@@ -109,18 +111,24 @@ export default class NewProject extends React.Component {
       if (response.error) {
           console.log(response.error)
       } else {
-          console.log(response)
-          console.log(response.authors.map(item => item.email))
-          this.setState({
-            title: response.title,
-            authors: response.authors.map(item => item.email),
-            description: response.description,
-            startDate: response.startDate,
-            endDate: response.endDate,
-            attachments: response.attachments,
-            tags: response.tags,
-            category: response.category,
-          })
+        if (!response.isAuthor) {
+          this.props.context.handleFeedback(false, 'Você não é um autor desse projeto, por isso não pode edita-lo');
+          this.props.context.handleLoading();
+          return;
+        }
+        console.log(response)
+        console.log(response.authors.map(item => item.email))
+
+        this.setState({
+          title: response.title,
+          authors: response.authors.map(item => item.email),
+          description: response.description,
+          startDate: response.startDate,
+          endDate: response.endDate,
+          attachments: response.attachments,
+          tags: response.tags,
+          category: response.category,
+        })
       }
       this.props.context.handleLoading();
     })
@@ -276,8 +284,9 @@ export default class NewProject extends React.Component {
   }
 
   renderAuthor = (author, index) => {
+    const email_institucional = localStorage.getItem('email_institucional');
     return(
-      index === 0 && !this.editing
+      ((!this.editing && index === 0) || (this.editing && email_institucional === author))
       ? <div key={index} style={{ borderRadius: 15, fontSize:12, marginBottom: 10, paddingLeft: 10, paddingRight: 10, border: '1px solid #049DBF', marginLeft:10, color: '#049DBF'}}>
         VOCÊ
       </div>

@@ -63,6 +63,7 @@ export default class Login extends React.Component {
             } else {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('fullname', response.fullname);
+                localStorage.setItem('email_institucional', response.email_institucional);
                 this.props.context.handleLoading();
                 this.props.handleClose();
                 window.location.reload();

@@ -52,7 +52,7 @@ export default class Project extends React.Component {
             ],
             startDate: '2019',
             endDate: '2021',
-            interested: 400,
+            interested: 0,
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc hendrerit pharetra facilisis. Maecenas vulputate turpis nec mauris iaculis, efficitur pellentesque lectus semper. Sed aliquet lorem vitae pharetra mollis. In cursus nibh neque, a porttitor elit commodo a. Aliquam convallis cursus leo, at interdum massa sodales nec. Quisque consectetur leo non sapien pharetra iaculis. ',
             attachments: [
                 { type: 'file', name: 'Documento qualquer', file: 'to do' },
@@ -189,7 +189,7 @@ export default class Project extends React.Component {
         return (
             <div key={index} onMouseOver={() => this.setState({showAuthor: index})} onMouseLeave={() => this.setState({showAuthor: null})}>
                 {index !== 0 && ','}
-                <a style={{ marginLeft: index !== 0 ? 10 : 0, color: '#586973', cursor: 'pointer' }}>{item.fullname} </a>
+                <a style={{ marginLeft: index !== 0 ? 10 : 0, color: '#586973', cursor: 'pointer' }} onClick={() => window.location.href = '/myProfile/'+item.id}>{item.fullname} </a>
                 {token && this.state.showAuthor === index && <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', padding: 10, background: '#FAFAFA', borderRadius: 10, border: '1px solid #B5BBBF' }}>
                     { item.email && <a href={'mailto:'+item.email} style={{ borderBottom: '1px solid #B5BBBF', marginBottom: 10, paddingBottom: 10 }}>
                         <Icon name='mail' style={{ marginRight: 10 }}/> 
@@ -268,9 +268,9 @@ export default class Project extends React.Component {
                             {authors.map((item, index) => this.renderAuthor(item, index))}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
-                            <p style={{ marginRight: 5, color: finished === 'true' ? '#008550' : outdated && '#E46117' }}> {startDate} </p>
-                            <p style={{ color: finished === 'true' ? '#008550' : outdated && '#E46117' }}> - </p>
-                            {endDate ? <p style={{ marginLeft: 5, color: finished === 'true' ? '#008550' : outdated && '#E46117' }}> {endDate} </p> : '?'}
+                            <p style={{ marginRight: 5, color: finished === 'true' ? '#008550' : outdated === 'true' && '#E46117' }}> {startDate} </p>
+                            <p style={{ color: finished === 'true' ? '#008550' : outdated === 'true' && '#E46117' }}> - </p>
+                            {endDate ? <p style={{ marginLeft: 5, color: finished === 'true' ? '#008550' : outdated === 'true' && '#E46117' }}> {endDate} </p> : '?'}
                             <div>
                             { finished === 'true' 
                                 ? <Icon name='check circle outline' style={{ marginLeft: 10, cursor: 'pointer' }} color="green" onMouseOver={this.handleInfoHover} onMouseLeave={this.handleInfoHover}/>
