@@ -627,19 +627,19 @@ class Database:
         finally:
             db_connection.close_all()
 
+    
     @staticmethod
-    def insert_publication(titulo, descricao, idCategoria, ano_inicio, ano_termino, git=None, tag_1=None, tag_2=None, tag_3=None):
+    def insert_publication(idPublicacao, titulo, descricao, idCategoria, ano_inicio, ano_termino, git=None, tag_1=None, tag_2=None, tag_3=None):
         '''
         *** Performs a write (INSERT) operation on the Search Table.
-        *** Expects: an title, description, idCategory, start year, end_year git, tag_1, tag_2, tag_3
+        *** Expects: an idPublicacao, title, description, idCategory, start year, end_year git, tag_1, tag_2, tag_3
         *** The optionals are:  git, tag_1, tag_2, tag_3
-        *** Return: the search id
         '''
         try:
             db_connection = DatabaseConnection()
             cursor = db_connection.connection.cursor()
 
-            query = "INSERT INTO `Publicacoes` (`titulo` , `descricao`, `idCategoria`, `ano_inicio`, `ano_termino`"
+            query = "INSERT INTO `Publicacoes` (`idPublicacao`,`titulo` , `descricao`, `idCategoria`, `ano_inicio`, `ano_termino`"
             if(not git is None):
                 query += ", `git`"
             if(not tag_1 is None):
@@ -648,7 +648,7 @@ class Database:
                 query += ", `idTag_2`"
             if(not tag_3 is None):
                 query += ", `idTag_3`"
-            query += ") VALUES ('" + titulo + "', '" + descricao + \
+            query += ") VALUES ('" + idPublicacao + "','" + titulo + "', '" + descricao + \
                 "', '" + idCategoria + "', '" + ano_inicio + \
                 "', '" + ano_termino
             if(not git is None):
@@ -662,9 +662,6 @@ class Database:
             query += "');"
             cursor.execute(query)
             db_connection.connection.commit()
-            query = "SELECT MAX(idPublicacao) FROM Publicacoes;"
-            cursor.execute(query)
-            return cursor.fetchall()
         except Exception as e:
             db_connection.connection.rollback()
             raise(e)
